@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xpos.common.persistence.mybatis.ActivityMapper">
+  <resultMap id="ListMap" type="com.xpos.common.entity.Activity">
+    <result property="id"  column="id" />
+    <association property="pic" column="pic_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" /> 
+    <association property="thumb" column="thumb_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" /> 
+    <collection property="couponInfos"  column="id" select="com.xpos.common.persistence.mybatis.CouponInfoMapper.selectBindedByActivityId" />
+  </resultMap>
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Activity" extends="ListMap" >
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  
+    <select id="selectByPrimaryKey" resultMap="DetailMap">
+  	select * from Activity where id=#{id}
+  </select>
+</mapper>

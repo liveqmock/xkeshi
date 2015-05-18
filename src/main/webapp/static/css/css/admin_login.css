@@ -1,0 +1,58 @@
+body{
+background: url(img/admin_login_bg.png) repeat 0 0;
+overflow: hidden;
+}
+#Wrapper{
+background-size: cover;
+margin-top: 50px;
+}
+.Wrapper{
+	background: url(img/admin_login.png) no-repeat 0 0;
+}
+.admin_login_logo{
+width: 245px;
+height: 63px;
+background: url(img/admin_login_logo.png) no-repeat 0 0;
+margin: 0 auto;
+}
+.admin_login_wrap{
+background: url(img/admin_login_wrap.png) no-repeat 0 0;
+width: 830px;
+height: 142px;
+margin: 68px auto 0;
+}
+.admin_login_name, .admin_login_pwd{
+width: 680px;
+height: 48px;
+margin-left: 110px;
+margin-top: 16px;
+line-height: 48px;
+font-size: 28px;
+font-family: Microsoft JHenghei;
+border: none;
+}
+.admin_login_pwd{
+margin-top: 10px;
+}
+.admin_login_btn{
+background: url(img/admin_login_btn.png) no-repeat 0 0;
+width: 386px;
+height:60px;
+border: none;
+cursor: pointer;
+margin: 40px auto 0;
+display:block;
+}
+.admin_login_btn:hover{
+opacity:0.8;
+}
+.admin_login_main{
+overflow: hidden;
+}
+#Bottom{
+padding: 0;
+margin: 100px auto 0;
+text-align: center;
+color: #999;
+border: none;
+}

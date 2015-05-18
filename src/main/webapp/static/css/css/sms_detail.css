@@ -1,0 +1,218 @@
+.r_wrap{
+width: 800px;
+}
+.sms_a_wrap{
+overflow: hidden;
+float: left;
+height: 28px;
+}
+.sms_a_wrap a{
+display: inline-block;
+width: 28px;
+height: 28px;
+margin-right: 6px;
+}
+.sms_a_wrap a:hover{
+opacity: 0.7;
+}
+.sms_a_wrap .pen{
+background: url(img/pen.png) no-repeat 0 0;
+}
+.sms_a_wrap .pen:hover{
+background: url(img/pen_hover.png) no-repeat 0 0;
+}
+.sms_a_wrap .start{
+background: url(img/start.png) no-repeat 0 0;
+}
+.sms_a_wrap .start:hover{
+background: url(img/start_hover.png) no-repeat 0 0;
+}
+.sms_a_wrap .pause{
+background: url(img/pause.png) no-repeat 0 0;
+}
+.sms_a_wrap .pause:hover{
+background: url(img/pause_hover.png) no-repeat 0 0;
+}
+.sms_a_wrap .rm{
+background: url(img/rm.png) no-repeat 0 0;
+}
+.sms_a_wrap .rm:hover{
+background: url(img/rm_hover.png) no-repeat 0 0;
+}
+.main_text{
+padding: 0 0 54px 24px;
+}
+.main_text p{
+padding-top: 20px;
+}
+.main_text em{
+color: #0670f3;
+}
+.send_state{
+padding-left: 24px;
+}
+.send_state em{
+margin-left: 16px;
+font-size: 13px;
+color: #999;
+}
+.send_tb{
+margin: 16px 18px 0 24px;
+width: 758px;
+}
+.tr_head{
+background: #f8f8f8;
+}
+.send_tb tr td{
+padding: 8px 0;
+color: #999;
+}
+.send_tb .tr_head td{
+color: #000;
+}
+.send_tb tr .std_num{
+width: 40px;
+text-align: center;
+}
+.send_tb tr .std_name{
+text-align: center;
+width: 100px;
+padding-right: 30px;
+}
+.form_wrap{
+padding-left: 24px;
+}
+.f_p_wrap{
+margin-top: 24px;
+}
+.f_p_title{
+color: #000;
+font-weight: bold;
+}
+.f_p{
+padding: 6px 0;
+}
+.f_p span{
+margin-right: 12px;
+}
+.f_p span input{
+vertical-align: -1px;
+}
+.f_p_title{
+margin-bottom: 6px;
+}
+.f_p .blue{
+color: #0670f3;
+text-decoration: underline;
+}
+.f_p .blue:hover{
+text-decoration: underline;
+}
+.f_p .green{
+color: #63a004;
+}
+.f_p .hint{
+color: #999;
+font-size: 12px;
+}
+.text_hint{
+float: right;
+color: #999;
+font-size: 12px;
+margin-right: 80px;
+}
+.f_p textarea{
+resize:none;
+border:1px solid #ccc;
+width: 720px;
+height: 100px;
+padding: 4px;
+}
+.btn_wrap{
+overflow: hidden;
+text-align: center;
+padding-top: 32px;
+}
+.save_btn,.cancel_btn{
+border: none; 
+width: 177px;
+height: 41px;
+background: url(img/green_save_btn.png) no-repeat 0 0;
+cursor: pointer;
+margin-right: 32px;
+}
+.cancel_btn{
+background: url(img/gray_cancel_btn.png) no-repeat 0 0;
+}
+.save_btn:hover,.cancel_btn:hover{
+opacity: 0.8;
+}
+.sms_a_wrap .new_sms_btn{
+background: url(img/new_sms_btn.png) no-repeat 0 0;
+width: 101px;
+height: 28px;
+}
+.news_sms_btn:hover{
+background: url(img/new_sms_btn_hover.png) no-repeat 0 0;
+}
+.send_tb tr .stl_time{
+width: 140px;
+padding: 0 12px;
+}
+.send_tb tr .stl_state{
+width: 80px;
+text-align: center;
+}
+.send_tb tr .stl_num{
+width: 80px;
+padding: 0 12px;
+}
+.disabled{
+background: #e9e9e9;
+}
+.form_wrap{
+color: #666;
+}
+.f_p select, .f_p input{
+padding: 2px 4px;
+border: 1px solid #ccc;
+}
+.f_p select{
+padding: 1px 4px;
+}
+.r_head{
+text-align: left;
+}
+.head_back{
+display: inline-block;
+vertical-align: bottom;
+float:left;
+margin-right: 6px;
+}
+.head_back:hover{
+opacity: 0.8;
+}
+.page_wrap{
+margin: 6px 18px 14px 0;
+}
+.import_error_info{
+height: 300px;
+overflow: auto;
+}
+.ir_success, .ir_fail{
+font-size: 22px;
+color: #0b0;
+margin: 0 8px;
+}
+.ir_fail{
+color: #d20;
+}
+.import_err_item{
+padding-bottom: 6px;
+}
+.pop_ir_btn{
+display: none;
+}
+.import_error_title{
+margin: 32px 0 14px;
+}

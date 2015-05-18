@@ -1,0 +1,18 @@
+.msgtb{
+margin: 22px 0 0 22px;
+width: 778px;
+}
+.msgtb tr td{
+padding: 0 48px 16px 0;
+}
+.msgtb tr td img{
+margin-right: 12px;
+vertical-align: -3px;
+}
+.msgtb .read{
+color: #666;
+}
+.msgtb .unread{
+color: #000;
+font-weight: bold;
+}

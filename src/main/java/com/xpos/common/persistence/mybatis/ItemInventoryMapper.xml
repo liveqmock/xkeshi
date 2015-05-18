@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.ItemInventoryMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.itemInventory.ItemInventory" >
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.itemInventory.ItemInventory" extends="ListMap">
+  	<association property="item" column="item_id" select="com.xpos.common.persistence.mybatis.ItemMapper.selectByPrimaryKey" />
+   </resultMap>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from item_inventory where id=#{id}
+  </select>
+  
+  <update id="update">
+  		update item_inventory SET inventory = 
+  		(inventory 
+  		<if test="inventoryType">+</if>
+  		<if test="!inventoryType">-</if>
+  		#{quantity}) where  id = #{id} and deleted = false
+  </update>
+  
+  <update id="updateByItemId">
+	update item_inventory SET inventory = (inventory - #{quantity}) 
+	where  item_id = #{itemId} and deleted = false
+  </update>
+  
+  <update id="updateAddByItemId">
+	update item_inventory SET inventory = (inventory + #{quantity}) 
+	where  item_id = #{itemId} and deleted = false
+  </update>
+  
+  
+  
+</mapper>

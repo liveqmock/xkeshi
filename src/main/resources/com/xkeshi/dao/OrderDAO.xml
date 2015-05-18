@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.OrderDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.Order">
+        <id column="id" property="id"/>
+        <result column="orderNumber" property="orderNumber"/>
+        <result column="businessType" property="businessType"/>
+        <result column="businessId" property="businessId"/>
+        <result column="totalAmount" property="totalAmount"/>
+        <result column="actuallyPaid" property="actuallyPaid"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="operator_session_code" property="operatorSessionCode"/>
+        <result column="identifier" property="identifier"/>
+        <result column="peoples" property="peopleCount"/>
+        <result column="takeAway" property="takeAway"/>
+        <result column="discount" property="discount"/>
+        <result column="posTransaction_id" property="posTranscationId"/>
+        <result column="createDate" property="createdDate"/>
+        <result column="modifyDate" property="modifyDate"/>
+    </resultMap>
+    <update id="updateOrderStatus">
+        UPDATE orders
+        SET `status` = #{status}
+        WHERE
+            orderNumber = #{orderNumber}
+    </update>
+    <update id="updatePrepaidCardChargeOrderStatus">
+        UPDATE prepaid_card_charge_order
+        SET `charge_status_id` = #{status}
+        WHERE
+            code = #{orderNumber}
+    </update>
+    <update id="updateThirdOrderStatus">
+        UPDATE third_order
+        SET `third_order_payment_status_id` = #{status}
+        WHERE
+            third_order_code = #{orderNumber}
+    </update>
+    <select id="getByOrderNumber" resultMap="result">
+        SELECT
+            t.id,
+            t.orderNumber,
+            t.businessType,
+            t.businessId,
+            t.totalAmount,
+            t.actuallyPaid,
+            t.type,
+            t.`status`,
+            t.operator_id,
+            t.member_id,
+            t.operator_session_code,
+            t.identifier,
+            t.peoples,
+            t.takeAway,
+            t.discount,
+            t.posTransaction_id,
+            t.createDate,
+            t.modifyDate
+        FROM
+            orders t
+        WHERE
+	t.orderNumber = #{orderNumber}
+
+    </select>
+    <select id="getPaymentAmountByOrderNumber" resultType="java.math.BigDecimal">
+        SELECT
+        (
+            (
+                SELECT
+                    IFNULL(SUM(c.amount), 0)
+                FROM
+                    cash_transaction c
+                WHERE
+
+                <choose>
+                    <when test="orderType == 'XPOS_ORDER'">
+                        c.order_number = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'XPOS_PREPAID'">
+                        c.prepaid_card_charge_order_code = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'THIRD_ORDER'">
+                        c.third_order_code = #{orderNumber} AND
+                    </when>
+                </choose>
+                 c.cash_payment_status_id = 1
+                AND c.`status` = 1
+            ) + (
+                SELECT
+                    IFNULL(SUM(p.sum), 0)
+                FROM
+                    postransaction p
+                WHERE
+                <choose>
+                    <when test="orderType == 'XPOS_ORDER'">
+                        p.order_number = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'XPOS_PREPAID'">
+                        p.prepaid_card_charge_order_code = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'THIRD_ORDER'">
+                        p.third_order_code = #{orderNumber} AND
+                    </when>
+                </choose>
+                 p.`status` = 'PAID_SUCCESS'
+                and p.deleted is false
+            ) + (
+                SELECT
+                    IFNULL(SUM(a.amount), 0)
+                FROM
+                    alipay_transaction a
+                WHERE
+                <choose>
+                    <when test="orderType == 'XPOS_ORDER'">
+                        a.order_number = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'XPOS_PREPAID'">
+                        a.prepaid_card_charge_order_code = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'THIRD_ORDER'">
+                        a.third_order_code = #{orderNumber} AND
+                    </when>
+                </choose>
+                a.`alipay_payment_status_id` = 1 AND a.`status` = 1
+            ) + (
+                SELECT
+                    IFNULL(SUM(b.amount), 0)
+                FROM
+                    bank_nfc_transaction b
+                WHERE
+                <choose>
+                    <when test="orderType == 'XPOS_ORDER'">
+                        b.order_number = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'XPOS_PREPAID'">
+                        b.prepaid_card_charge_order_code = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'THIRD_ORDER'">
+                        b.third_order_code = #{orderNumber} AND
+                    </when>
+                </choose>
+                b.`nfc_payment_status_id` = 1 AND b.`status` = 1
+            )
+
+            <if test="orderType != 'XPOS_PREPAID'">
+                +
+                (
+                SELECT
+                IFNULL(SUM(pc.amount), 0)
+                FROM
+                prepaid_card_transaction pc
+                WHERE
+                <choose>
+                    <when test="orderType == 'XPOS_ORDER'">
+                        pc.order_number = #{orderNumber} AND
+                    </when>
+                    <when test="orderType == 'THIRD_ORDER'">
+                        pc.third_order_code = #{orderNumber} AND
+                    </when>
+                </choose>
+                pc.prepaid_card_payment_status_id = 1
+                AND pc.`status` = 1
+                )
+            </if>
+
+        )
+    </select>
+    <select id="hasPayingTransaction" resultType="java.lang.Boolean">
+		SELECT
+			sum(t.ct) > 0
+		FROM
+		(
+				SELECT COUNT(*) ct FROM postransaction p
+				WHERE
+					<choose>
+						<when test="orderType == 'XPOS_ORDER'">p.order_number = #{orderNumber}</when>
+						<when test="orderType == 'XPOS_PREPAID'">p.prepaid_card_charge_order_code = #{orderNumber}</when>
+						<when test="orderType == 'THIRD_ORDER'">p.third_order_code = #{orderNumber}</when>
+					</choose>
+					AND p.`status` = 'PAYING' AND p.deleted IS FALSE
+			UNION
+				SELECT COUNT(*) ct FROM alipay_transaction p
+				WHERE
+					<choose>
+						<when test="orderType == 'XPOS_ORDER'">p.order_number = #{orderNumber}</when>
+						<when test="orderType == 'XPOS_PREPAID'">p.prepaid_card_charge_order_code = #{orderNumber}</when>
+						<when test="orderType == 'THIRD_ORDER'">p.third_order_code = #{orderNumber}</when>
+					</choose>
+				AND p.alipay_payment_status_id = 8 AND p. STATUS = 1
+			UNION
+				SELECT COUNT(*) ct FROM bank_nfc_transaction p
+				WHERE
+					<choose>
+						<when test="orderType == 'XPOS_ORDER'">p.order_number = #{orderNumber}</when>
+						<when test="orderType == 'XPOS_PREPAID'">p.prepaid_card_charge_order_code = #{orderNumber}</when>
+						<when test="orderType == 'THIRD_ORDER'">p.third_order_code = #{orderNumber}</when>
+					</choose>
+				AND p.`nfc_payment_status_id` = 8 AND p. STATUS = 1
+		) t
+    </select>
+    <select id="hasPrepaidCardTransaction" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_transaction t
+        WHERE
+        <choose>
+            <when test="orderType == 'XPOS_ORDER'">
+                t.order_number = #{orderNumber} AND
+            </when>
+            <when test="orderType == 'THIRD_ORDER'">
+                t.third_order_code = #{orderNumber} AND
+            </when>
+        </choose>
+         t.prepaid_card_payment_status_id = 1
+        AND t.`status` = 1
+    </select>
+    <select id="getActuallyPaidAmount" resultType="java.math.BigDecimal">
+         SELECT
+            t.actuallyPaid
+        FROM
+            orders t
+        WHERE
+            t.orderNumber = #{orderNumber}
+    </select>
+     <select id="getTotalPaidAmount" resultType="java.math.BigDecimal">
+         SELECT
+            t.totalAmount
+        FROM
+            orders t
+        WHERE
+            t.orderNumber = #{orderNumber}
+    </select>
+
+    
+    <select id="getUnpaidOrderCountByOperatorSessionCode" resultType="java.lang.Integer">
+         SELECT
+            count(*)
+        FROM
+            orders t
+        WHERE
+            t.operator_session_code = #{operatorSessionCode}
+            and status = 'UNPAID'
+    </select>
+     <select id="getUnpaidOrderCountByOperatorId" resultType="java.lang.Integer">
+         SELECT
+            count(*)
+        FROM
+            orders t
+        WHERE
+            t.operator_id = #{operatorId}
+            and status = 'UNPAID'
+    </select>
+    <select id="getUnpaidOrderListByOperatorSessionCode" resultType="com.xkeshi.pojo.po.UnpaidOrderList">
+         SELECT
+			os.orderNumber AS orderNumber,
+			os.createDate AS createdTime,
+			sum(oi.quantity) AS itemCount,
+			os.totalAmount AS amount
+		FROM
+			orders os
+		LEFT JOIN orderitem oi ON os.id = oi.order_id
+		WHERE
+			os.`status` = 'UNPAID' AND os.operator_session_code = #{operatorSessionCode}
+		GROUP BY
+			os.orderNumber
+		ORDER BY
+			os.createDate DESC
+    </select>
+    <select id="getUnpaidOrderListByOperatorId" resultType="com.xkeshi.pojo.po.UnpaidOrderList">
+         SELECT
+			os.orderNumber AS orderNumber,
+			os.createDate AS createdTime,
+			sum(oi.quantity) AS itemCount,
+			os.totalAmount AS amount
+		FROM
+			orders os
+		LEFT JOIN orderitem oi ON os.id = oi.order_id
+		WHERE
+			os.`status` = 'UNPAID' AND os.operator_id = #{operatorId}
+		GROUP BY
+			os.orderNumber
+		ORDER BY
+			os.createDate DESC
+    </select>
+    <select id="getUnpaidOrderItemListByOrderNumber" resultType="com.xkeshi.pojo.vo.UnpaidItemListVO">
+       SELECT
+			oi.id as orderItemId,
+			i.category_id as categoryId,
+			oi.item_id as itemId,
+			oi.itemName as name,
+			oi.price as price,
+			oi.quantity as quantity
+		FROM
+			orderitem oi
+		LEFT JOIN orders o ON oi.order_id = o.id
+		LEFT JOIN item i on oi.item_id = i.id
+		WHERE
+			o.orderNumber = #{orderNumber}
+		AND o.`status` = 'UNPAID' ORDER BY oi.createDate DESC
+    </select>
+    
+    <update id="updateXPOSOrderPaymentChannel">
+	    UPDATE orders
+		SET type = #{type}
+		WHERE
+			orderNumber = #{orderNumber}
+    </update>
+    <select id="getTimeOutOrderList" resultType = "com.xkeshi.pojo.po.Order">
+    	SELECT
+			*
+		FROM
+			orders o 
+		WHERE
+			(
+				o.status = 'UNPAID'
+				OR o.status= 'FAILED'
+			)
+		AND o.businessType = 'SHOP'
+		AND o.businessId IN (
+			SELECT
+				shopId
+			FROM
+				ShopInfo s
+			WHERE
+				(
+					s.consumeType = 'PAY_FIRST_WITHOUT_SEAT'
+					OR s.consumeType = 'PAY_FIRST_WITH_SEAT'
+				)
+		)
+		AND UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(o.createDate) >= 3600
+    </select>
+    <select id="checkAvailableRefund" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            orders t
+        WHERE
+            t.orderNumber = #{orderNumber}
+        AND t.`status` IN (
+            'SUCCESS',
+            'PARTIAL_REFUND',
+            'PARTIAL_PAYMENT'
+        )
+    </select>
+    <select id="hasTransactionSuccessful" resultType="java.lang.Boolean">
+      SELECT
+        (
+            SELECT
+                COUNT(*)
+            FROM
+                cash_transaction ct
+            WHERE
+        <choose>
+            <when test="orderType == 'XPOS_ORDER'">ct.order_number = #{orderNumber}</when>
+            <when test="orderType == 'XPOS_PREPAID'">ct.prepaid_card_charge_order_code = #{orderNumber}</when>
+            <when test="orderType == 'THIRD_ORDER'">ct.third_order_code = #{orderNumber}</when>
+        </choose>
+            AND ct.cash_payment_status_id = 1
+            AND ct.`status` = 1
+        ) + (
+            SELECT
+                COUNT(*)
+            FROM
+                prepaid_card_transaction pct
+            WHERE
+        <choose>
+            <when test="orderType == 'XPOS_ORDER'">pct.order_number = #{orderNumber}</when>
+            <when test="orderType == 'THIRD_ORDER'">pct.third_order_code = #{orderNumber}</when>
+        </choose>
+            AND pct.prepaid_card_payment_status_id = 1
+            AND pct.`status` = 1
+        ) + (
+            SELECT
+                COUNT(*)
+            FROM
+                alipay_transaction a
+            WHERE
+        <choose>
+            <when test="orderType == 'XPOS_ORDER'">a.order_number = #{orderNumber}</when>
+            <when test="orderType == 'XPOS_PREPAID'">a.prepaid_card_charge_order_code = #{orderNumber}</when>
+            <when test="orderType == 'THIRD_ORDER'">a.third_order_code = #{orderNumber}</when>
+        </choose>
+            AND a.alipay_payment_status_id = 1
+            AND a.`status` = 1
+        ) + (
+            SELECT
+                COUNT(*)
+            FROM
+                wxpay_transaction wt
+            WHERE
+        <choose>
+            <when test="orderType == 'XPOS_ORDER'">wt.order_number = #{orderNumber}</when>
+            <when test="orderType == 'XPOS_PREPAID'">wt.prepaid_card_charge_order_code = #{orderNumber}</when>
+            <when test="orderType == 'THIRD_ORDER'">wt.third_order_code = #{orderNumber}</when>
+        </choose>
+            AND wt.wxpay_payment_status_id = 1
+            AND wt.`status` = 1
+        ) + (
+            SELECT
+                COUNT(*)
+            FROM
+                postransaction p
+            WHERE
+        <choose>
+            <when test="orderType == 'XPOS_ORDER'">p.order_number = #{orderNumber}</when>
+            <when test="orderType == 'XPOS_PREPAID'">p.prepaid_card_charge_order_code = #{orderNumber}</when>
+            <when test="orderType == 'THIRD_ORDER'">p.third_order_code = #{orderNumber}</when>
+        </choose>
+            AND p.`status` = 'PAID_SUCCESS'
+            AND p.deleted = 0
+        )
+    </select>
+    <select id="getShopNameByOrderNumber" resultType="java.lang.String">
+        SELECT
+            s. NAME
+        FROM
+            orders t
+        LEFT JOIN shop s ON s.id = t.businessId
+        AND t.businessType = 'SHOP'
+        WHERE
+            t.orderNumber = #{orderNumber}
+    </select>
+    <update id="updateOrderActualPaid">
+        UPDATE orders
+        SET actuallyPaid = IF(totalAmount * #{discount} - #{couponAmount} > 0, totalAmount *  #{discount} - #{couponAmount}, 0 )
+        WHERE
+            orderNumber = #{orderNumber}
+    </update>
+
+	<update id="resetOrderShopCounter">
+		update order_shop_counter set counter = 1
+	</update>
+    <update id="updateOrderRefundStatus">
+        UPDATE orders
+        SET `status` = #{refundStatus}
+        WHERE
+            orderNumber = #{orderNumber}
+    </update>
+    <update id="updateOrderManager">
+        UPDATE orders
+        SET manager_id = #{operatorId}
+        WHERE
+            orderNumber = #{orderNumber}
+    </update>
+    <update id="updateMemberIdInOrder">
+        UPDATE orders
+        SET member_id = #{memberId}
+        where orderNumber = #{orderNumber}
+    </update>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xkeshi.pojo.po.Order" >
+    	INSERT INTO orders (
+			orderNumber,
+			device_number,
+			businessType,
+			businessId,
+			totalAmount,
+			actuallyPaid,
+			type,
+			`status`,
+			operator_id,
+			manager_id,
+			operator_session_code,
+			createDate,
+			modifyDate
+		) VALUES
+		(
+			#{orderNumber},
+			#{deviceNumber},
+			#{businessType},
+			#{businessId},
+			#{totalAmount},
+			#{actuallyPaid},
+			#{type},
+			#{status},
+			#{operatorId},
+			#{managerId},
+			#{operatorSessionCode},
+			#{createdDate},
+			#{modifyDate}
+		)
+    </insert>
+
+	<update id="updateOfflineOrder" parameterType="com.xkeshi.pojo.po.Order">
+        UPDATE orders
+        SET 
+        	actuallyPaid = #{actuallyPaid},
+        	type = #{type},
+        	status = #{status},
+        	manager_id = #{operatorId},
+        	modifyDate = #{modifyDate}
+        WHERE
+            orderNumber = #{orderNumber}
+	</update>
+</mapper>

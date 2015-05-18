@@ -1,0 +1,166 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/chart_page.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/My97DatePicker/WdatePicker.js"></script>    
+<script src="js/highcharts.js"></script>
+<script src="js/back_base.js"></script>
+<script src="js/order_analyse.js"></script>
+
+</head>
+<script>
+	var CONTEXT = ''
+</script>
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<p class="r_title">点单分析</p>
+		<div class="top_sel_wrap">
+			<select class="top_sel">
+				<option>集团</option>
+				<option>阳澄湖</option>
+			</select>
+			<select class="top_sel">
+				<option>点单量</option>
+				<option>销售额</option>
+			</select>
+			<div class="clear"></div>
+		</div>
+		<div class="day_nav">
+			<div class="day_block today">
+				<div class="day_title">今天</div>
+				<div class="day_val">1,29000.40</div>
+				<div class="day_shadow"></div>
+			</div>
+			<div class="day_block yesterday">
+				<div class="day_title">昨天</div>
+				<div class="day_val">1,000</div>
+				<div class="day_shadow"></div>
+			</div>
+			<div class="day_block seven">
+				<div class="day_title">近7天</div>
+				<div class="day_val">7,700.25</div>
+				<div class="day_shadow"></div>
+			</div>
+			<div class="day_block thirty">
+				<div class="day_title">近30天</div>
+				<div class="day_val">33,700.25</div>
+				<div class="day_shadow"></div>
+			</div>
+			<div class="day_block set_day">
+				<div class="set_day1"></div>
+				<div class="set_day2">自定义时间段</div>
+				<div class="day_shadow"></div>
+			</div>
+		</div>
+		<div class="chart_wrap">
+			<div class="chart_nav">
+				<div class="chart_nav_line"></div>
+				<a class="chart_nav_a chart_nav_now" href="javascript:">点单分析</a><a class="chart_nav_a" href="javascript:">商户分析</a>
+			</div>
+			<div class="chart_main">
+				<div class="chart"></div>
+				<div class="chart_r">
+					<div class="chart_data chart_data1">
+						<p class="chart_key">2014.11.01-2014.11.05</p>
+						<p class="chart_val">点单量 30,000</p>
+					</div>
+					<div class="chart_data chart_data2">
+						<p class="chart_key">2014.11.06-2014.11.10</p>
+						<p class="chart_val">点单量 32,000</p>
+					</div>
+					<div class="chart_data chart_change">
+						<p class="chart_key">对比变化</p>
+						<p class="chart_val">点单增长量 2,000</p>
+					</div>
+				</div>
+			</div>
+
+			<table class="tb_main tb_list">
+				<tr class="th">
+					<td class="td_date">日期</td>
+					<td class="td_num">点单量</td>
+					<td class="td_rate1">与前一日环比（%）</td>
+					<td class="td_rate2">与上周同期对比（%）</td>
+				</tr>
+<!-- 				<tr class="tr tr_bg">
+					<td class="td_date">00:00 - 00:59</td>
+					<td class="td_num">0</td>
+					<td class="td_rate1">-8%</td>
+					<td class="td_rate2">+10.5%</td>
+				</tr>
+				<tr class="tr">
+					<td class="td_date">01:00 - 01:59</td>
+					<td class="td_num">0</td>
+					<td class="td_rate1">-8%</td>
+					<td class="td_rate2">+13%</td>
+				</tr>
+				<tr class="tr tr_bg">
+					<td class="td_date">00:00 - 00:59</td>
+					<td class="td_num">0</td>
+					<td class="td_rate1">-8%</td>
+					<td class="td_rate2">+10.5%</td>
+				</tr>
+				<tr class="tr">
+					<td class="td_date">01:00 - 01:59</td>
+					<td class="td_num">0</td>
+					<td class="td_rate1">-8%</td>
+					<td class="td_rate2">+13%</td>
+				</tr> -->
+			</table>
+		</div>
+	</div>
+	<div class="pb pop_check">
+		<div class="pb_title">自定义查询</div>
+		<div class="pb_main">
+			<div class="pb_item">
+				<label class="pb_lb">选择想查询的开始日期</label><input class="pb_input" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+			</div>
+			<div class="pb_item">
+				<label class="pb_lb">选择想查询的结束日期</label><input class="pb_input" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+			</div>
+			<div class="pb_add_time">
+				<a href="javascript:" class="add_time_a">我还想选个时间段来进行对比</a>
+			</div>
+		</div>
+		<div class="pb_btn_wrap">
+			<button class="pb_btn analyse_btn">开始分析</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

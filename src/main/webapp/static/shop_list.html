@@ -1,0 +1,159 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_info.css" type="text/css">
+<link rel="stylesheet" href="css/pos_info.css" type="text/css">
+<link rel="stylesheet" href="css/photo_list.css" type="text/css">
+<link rel="stylesheet" href="css/shop_list.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/photo_list.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>		
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<p class="r_title">商户账号</p>
+		<div class="nav_wrap">
+			<a href="javascript:" class="nav_a">商户基本信息</a><a href="javascript:" class="nav_a ">商户账号</a><a href="javascript:" class="nav_a">关于商户</a><a href="javascript:" class="nav_a ">POS相关</a>
+			<a href="javascript:" class="nav_a nav_now">相册列表</a>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">
+			<div class="div_top">
+				<b class="show_t">显示</b>
+				<input type="checkbox" class="check_lis check_li_c" id="selectAll" />全部
+				<input type="checkbox" class="check_li check_li_c" />菜
+				<input type="checkbox" class="check_li check_li_c" />环境
+				<input type="checkbox" class="check_li check_li_c" />其他
+			</div><a class="pop_a pop_account" href="javascript:">添加图片</a></div>
+			<div class="tb_main">
+				<div class="pic_list ">
+				<div class="pic_item">
+				<a href="javascript:;" target="_blank" style="margin-right:0;">
+					<img src="css/img/admin_frame/pic_item.png">
+				</a>
+					<div class="pic_opt">
+						<a href="javascript:" class="pic_edit">修改</a>
+						<a href="javascript:" class="pic_del">删除</a>
+					</div>
+					<p class="pic_name">图片名称</p>
+				</div>
+				<div class="pic_item">
+					<img src="css/img/admin_frame/pic_item.png">
+					<div class="pic_opt">
+						<a href="javascript:" class="pic_edit">修改</a>
+						<a href="javascript:" class="pic_del">删除</a>
+					</div>
+					<p class="pic_name">图片名称</p>
+				</div>
+				<div class="pic_item">
+					<img src="css/img/admin_frame/pic_item.png">
+					<div class="pic_opt">
+						<a href="javascript:" class="pic_edit">修改</a>
+						<a href="javascript:" class="pic_del">删除</a>
+					</div>
+					<p class="pic_name">图片名称</p>
+				</div>
+				<div class="pic_item">
+					<img src="css/img/admin_frame/pic_item.png">
+					<div class="pic_opt">
+						<a href="javascript:" class="pic_edit">修改</a>
+						<a href="javascript:" class="pic_del">删除</a>
+					</div>
+					<p class="pic_name">图片名称</p>
+				</div>
+				</div>
+				<div class="pic_list pic_list_bg">
+					<div class="pic_item">
+						<img src="css/img/admin_frame/pic_item.png">
+						<div class="pic_opt">
+							<a href="javascript:" class="pic_edit">修改</a>
+							<a href="javascript:" class="pic_del">删除</a>
+						</div>
+						<p class="pic_name">图片名称</p>
+					</div>
+					<div class="pic_item">
+						<img src="css/img/admin_frame/pic_item.png">
+						<div class="pic_opt">
+							<a href="javascript:" class="pic_edit">修改</a>
+							<a href="javascript:" class="pic_del">删除</a>
+						</div>
+						<p class="pic_name">图片名称</p>
+					</div>
+					<div class="pic_item">
+						<img src="css/img/admin_frame/pic_item.png">
+						<div class="pic_opt">
+							<a href="javascript:" class="pic_edit">修改</a>
+							<a href="javascript:" class="pic_del">删除</a>
+						</div>
+						<p class="pic_name">图片名称</p>
+					</div>
+					<div class="pic_item">
+						<img src="css/img/admin_frame/pic_item.png">
+						<div class="pic_opt">
+							<a href="javascript:" class="pic_edit">修改</a>
+							<a href="javascript:" class="pic_del">删除</a>
+						</div>
+						<p class="pic_name">图片名称</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="pb edit_account ">
+		<form>
+		<div class="pb_title">修改登录账号<a href="javascript:" class="pb_close"></a></div>
+		<div class="pb_main">
+			<div class="pb_item">
+				<p class="pb_item_title">账号</p>
+				<input type="text" class="pb_item_input" id="name_account">
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">登录密码</p>
+				<input type="password" class="pb_item_input">
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">确认密码</p>
+				<input type="password" class="pb_item_input">
+			</div>
+		</div>
+		<button class="pb_btn">保存</button>
+		</form>
+	</div>
+</div>
+</body>
+</html>

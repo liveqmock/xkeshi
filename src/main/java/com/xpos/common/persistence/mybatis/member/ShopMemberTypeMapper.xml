@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.member.ShopMemberTypeMapper" >
+  
+  <resultMap id="BasicMap" type="com.xpos.common.entity.member.ShopMemberType" >
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="discount" column="discount"/>
+    <result property="isDefault" column="default"/>
+    <result property="createdTime" column="created_time"/>
+    <result property="updatedTime" column="updated_time"/>
+    <association property="shop" column="shop_id" select="com.xpos.common.persistence.mybatis.ShopMapper.selectByPrimaryKey" />
+    <association property="coverPicture" column="cover_picture_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+   <resultMap id="DetailMap" type="com.xpos.common.entity.member.ShopMemberType" extends="BasicMap">
+    <association property="memberAttributeTemplate" column="member_attribute_template_id" select="com.xpos.common.persistence.mybatis.member.MemberAttributeTemplateMapper.selectById" />
+  </resultMap>
+  
+   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xpos.common.entity.member.ShopMemberType">
+	INSERT INTO shop_member_type (
+		shop_id,
+		name,
+		discount,
+		member_attribute_template_id,
+		`default`,
+		cover_picture_id
+	)
+	VALUES
+		(
+			#{shop.id},
+			#{name},
+			#{discount},
+			#{memberAttributeTemplate.id},
+			#{isDefault},
+			<choose>
+				<when test="coverPicture != null">#{coverPicture.id}</when>
+				<when test="coverPicture == null">null</when>
+			</choose>
+			
+		)
+  </insert>
+  
+  <update id="update" parameterType="com.xpos.common.entity.member.ShopMemberType">
+	UPDATE
+		shop_member_type
+	SET name = #{name}, discount = #{discount}, member_attribute_template_id = #{memberAttributeTemplate.id},
+	`default` = #{isDefault}
+	WHERE id = #{id}
+  </update>
+  
+  <update id="deletedById">
+	UPDATE
+		shop_member_type
+	SET status = 0
+	WHERE
+		id = #{id}
+  </update>
+  
+  <select id="selectBasicById" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		shop_member_type
+	WHERE
+		id = #{id} and status = 1
+  </select>
+
+  <select id="selectDetailById" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		shop_member_type
+	WHERE
+		id = #{id} and status = 1
+  </select>
+  
+  <select id="selectBasicByShopId" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		shop_member_type
+	WHERE
+		shop_id = #{shopId} and status = 1
+	ORDER BY
+		discount DESC
+  </select>
+  
+  <select id="selectDetailByShopId" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		shop_member_type
+	WHERE
+		shop_id = #{shopId} and status = 1
+	ORDER BY
+		discount DESC
+  </select>
+  
+  <update id="updateCoverPictureById">
+	UPDATE
+		shop_member_type
+	SET cover_picture_id = #{picture.id}
+	WHERE
+		id = #{id}
+  </update>
+  
+  <select id="selectBasicBySearcher" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		shop_member_type
+	WHERE
+		shop_id = #{shopId} and status = 1
+		<if test="searcher.key != null">
+			AND name LIKE CONCAT("%",replace(#{searcher.key},' ',''),"%")
+		</if>
+		<if test="pager !=null">
+			LIMIT #{pager.startNumber},#{pager.pageSize}
+		</if>
+  </select>
+  
+  <select id="countBasicByShopId" resultType="int">
+	SELECT
+		count(*)
+	FROM
+		shop_member_type
+	WHERE
+		shop_id = #{shopId} and status = 1
+		<if test="searcher.key != null">
+			AND name LIKE CONCAT("%",replace(#{searcher.key},' ',''),"%")
+		</if>
+  </select>
+  
+  
+</mapper>

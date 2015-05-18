@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.POSOperationLogMapper">
+	<resultMap id="ListMap" type="com.xpos.common.entity.pos.POSOperationLog">
+		<result column="id" property="id" jdbcType="BIGINT" />
+	</resultMap>
+
+	<resultMap id="DetailMap" type="com.xpos.common.entity.pos.POSOperationLog"
+		extends="ListMap">
+	</resultMap>
+
+	<select id="selectByPrimaryKey" resultMap="ListMap">
+		select * from POSTransaction where id=#{id}
+	</select>
+
+
+	<insert id="insertPOSOperationLog" useGeneratedKeys="true"
+		keyColumn="id">
+		INSERT INTO POSOperationLog (
+			operator_id ,
+			deviceNumber,action,logined,shift,operator_session_code,type,version,createDate
+		)
+		values (
+			#{operationLog.operatorId},#{operationLog.deviceNumber},#{operationLog.action},
+			#{operationLog.logined}, #{operationLog.shift},
+			#{operationLog.operatorSessionCode},
+			#{operationLog.type}, #{operationLog.version}, #{operationLog.createDate}
+		)
+	</insert>
+	<!-- 获取操作员的会话 -->
+	<select id="findOperatorSession" resultType="com.xpos.common.entity.pos.POSOperationLog">
+		SELECT
+			o.id ,
+			o.operator_id as operatorId ,
+			o.action ,
+			o.logined,
+			o.shift,
+			o.operator_session_code as operatorSessionCode ,
+			o.deviceNumber,
+			o.createDate
+		FROM
+			(
+				SELECT
+				t.*
+				FROM
+				POSOperationlog t
+				WHERE
+				t.operator_id = #{operatorId}
+				AND t.deviceNumber = #{deviceNumber}
+				ORDER BY
+				t.id DESC
+				LIMIT 0, 1
+			) o
+		WHERE
+			o.logined != 0
+	</select>
+	<!-- 获取操作员最近的会话 -->
+	<select id="findLastOperatorSession" resultType="com.xpos.common.entity.pos.POSOperationLog">
+		SELECT
+			o.id ,
+			o.operator_id as operatorId ,
+			o.action ,
+			o.logined,
+			o.shift,
+			o.operator_session_code as operatorSessionCode ,
+			o.deviceNumber,
+			o.createDate
+		FROM
+			(
+				SELECT
+				t.*
+				FROM
+				POSOperationlog t
+				WHERE
+				t.operator_id = #{operatorId}
+				AND t.deviceNumber = #{deviceNumber}
+				ORDER BY
+				t.id DESC
+				LIMIT 0, 1
+			) o
+	</select>
+
+	<!-- 操作员交接班官方order清单 -->
+	<select id="getOrderSummarizeInfoByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.SummarizeInfoResultVO">
+		SELECT
+			<!-- 销售总量 -->
+			COUNT(o.id) totalOrderCount,
+			IFNULL( SUM( COALESCE (o.totalAmount, 0.00) ), 0.00 ) totalOrderAmount
+		FROM
+			Orders o
+		<trim prefix="WHERE" suffixOverrides="AND">
+			o.`status` = 'SUCCESS' AND
+			<if test="operatorSessionCode != null and operatorSessionCode != ''">
+				o.`operator_session_code` = #{operatorSessionCode} AND
+			</if>
+		</trim>
+	</select>
+
+	<select id="getThirdOrderSummarizeInfoByOperatorSessionCode"  resultType="com.xkeshi.pojo.vo.shift.SummarizeInfoResultVO">
+		SELECT
+			<!-- 销售总量 -->
+			COUNT(o.id) totalOrderCount,
+			IFNULL(SUM(COALESCE(o.amount,0.00)),0.00) totalOrderAmount
+		FROM
+			third_order o
+	    WHERE 
+			o.`third_order_payment_status_id` = 1 
+			<if test="operatorSessionCode != null and operatorSessionCode != ''">
+			 AND o.`operator_session_code` = #{operatorSessionCode}  
+			</if>
+	</select>
+
+	<!-- 交接班汇总 -->
+	<select id="findOperatorShiftItems" resultType="com.xkeshi.pojo.vo.shift.ShiftItemVO">
+		SELECT
+			oi.itemName name,
+			COALESCE (oi.price, 0.00) price,
+			SUM(COALESCE(oi.quantity, 0)) quantity,
+			SUM( COALESCE (oi.price, 0.00) * COALESCE (oi.quantity, 0) ) totalAmount
+		FROM
+			OrderItem oi
+			LEFT OUTER JOIN Orders o ON o.id = oi.order_id
+		WHERE
+			o.operator_session_code = #{operatorSessionCode}
+		AND o.status = 'SUCCESS'
+		GROUP BY oi.item_id
+		ORDER BY quantity DESC,  oi.item_id DESC
+	</select>
+
+	<!-- 当前操作员的当班信息 -->
+	<select id="findOperatorShiftInfo" resultType="com.xkeshi.pojo.vo.shift.ShiftInfoVO">
+		SELECT
+			o.realName operatorName ,
+			o.username operatorAccount,
+			date_format( MIN(t.createDate) ,'%Y-%m-%d %T') startTime,
+			date_format( IF ( MIN(t.createDate) = MAX(t.createDate), NOW(), MAX(t.createDate)) ,'%Y-%m-%d %T') endTime
+		FROM
+			POSOperationLog t
+			LEFT OUTER JOIN Operator o ON o.id = t.operator_id
+		WHERE
+			t.`operator_session_code` = #{operatorSessionCode} and t.deleted =0
+		GROUP BY
+			t.operator_session_code
+		ORDER BY endTime desc
+	</select>
+	
+	<!-- 获取当前设备，最后一条交班状态为登录的操作员的operatorSessionCode -->
+	<select id="findOperatorSessionByDeviceNumber"  resultType="com.xpos.common.entity.pos.POSOperationLog">
+		SELECT
+			t.deviceNumber,
+			t.operator_id operatorId,
+			t.operator_session_code operatorSessionCode
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					posoperationlog p
+				WHERE
+					p.deviceNumber = #{deviceNumber}
+				AND p.shift = 1  
+				AND  p.deleted  = 0 
+				ORDER BY p.id DESC
+				LIMIT 0,
+				1
+			) AS t
+		WHERE
+			t.logined = 1
+	</select>
+</mapper>

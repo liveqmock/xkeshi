@@ -1,0 +1,75 @@
+.msg_wrap{
+padding-left: 22px;
+}
+.msg_head{
+padding: 22px 0;
+border-bottom: 1px solid #e9e9e9;
+margin-right: 22px;
+}
+.msg_title{
+color: #666;
+}
+.msg_from, .msg_down_title{
+color: #0670f3;
+padding-bottom: 16px;
+}
+.msg_cont{
+padding-top: 22px;
+width: 756px;
+overflow: hidden;
+color: #333;
+line-height: 28px;
+}
+.msg_down{
+margin-top: 48px;
+}
+.msg_file{
+color: #666;
+margin-bottom: 12px;
+padding-left: 36px;
+height: 26px;
+line-height: 26px;
+}
+.file_doc{
+background: url(img/file_doc_min.png) no-repeat 0 0;
+}
+.cpn_btn_wrap{
+text-align: center;
+overflow: hidden;
+margin-top: 32px;
+padding-top: 32px;
+border-top: 1px solid #e9e9e9;
+}
+.accpt_btn{
+width: 100px;
+height: 41px;
+display: inline-block;
+background: url(img/accpt_btn.png) no-repeat 0 0;
+border: none;
+cursor: pointer;
+margin-right: 22px;
+}
+.sub_edit_btn{
+background: url(img/sub_edit_btn.png) no-repeat 0 0;
+width: 176px;
+height: 41px;
+display: inline-block;
+border: none;
+cursor: pointer;
+margin-right: 22px;
+}
+.reject_btn{
+background: url(img/reject_btn.png) no-repeat 0 0;
+width: 100px;
+height: 41px;
+display: inline-block;
+border: none;
+cursor: pointer;
+}
+.accpt_btn:hover, .sub_edit_btn:hover, .reject_btn:hover{
+opacity: 0.8;
+}
+.pop_opinion{
+width: 400px;
+margin-left: -236px;
+}

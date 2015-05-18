@@ -1,0 +1,199 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_info.css" type="text/css">
+<link rel="stylesheet" href="css/pos_info.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/pos_info.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>		
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<p class="r_title">商户账号</p>
+		<div class="nav_wrap">
+			<a href="javascript:" class="nav_a">商户基本信息</a><a href="javascript:" class="nav_a nav_now">商户账号</a><a href="javascript:" class="nav_a">关于商户</a><a href="javascript:" class="nav_a ">POS相关</a>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">爱客仕登录信息<a class="pop_a pop_account" href="javascript:">修改</a></div>
+			<table class="tb_main">
+				<tr class="tr_bg th">
+					<td class="td_l"><b>*</b>管理员账号</td>
+					<td>sadasm</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tb_wrap tb_wrap2">
+			<div class="tb_title">短信和域名<a class="pop_a pop_realname" href="javascript:">修改</a></div>
+			<table class="tb_main">
+				<tr class="th">
+					<td class="td_l">短信后缀</td>
+					<td>外婆家湖滨店</td>
+				</tr>
+				<tr class="th">
+					<td class="td_l">二级域名</td>
+					<td>165132132</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tb_wrap tb_wrap3">
+			<div class="tb_title">支付方式和终端<a class="pop_a" href="javascript:">添加</a></div>
+			<table class="tb_main">
+				<tr class="th">
+					<td class="td_r"><b>终端号</b></td>
+					<td><b>支付类型</b></td>
+					<td><b>商户号</b></td>
+					<td><b>备注</b></td>
+					<td><b>操作</b></td>
+				</tr>
+				<tr class="th tr_bg" data-id="">
+					<td>9F6CD413-BC5C-443B-80F1-CEB1E75F60CC</td>
+					<td>中国银行</td>
+					<td>xxxxx</td>
+					<td>.....</td>
+					<td><a class="pop_a pop_as pop_as0" href="javascript:">修改</a><a class="pop_a pop_as pop_as1" href="javascript:">删除</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="pb edit_account ">
+		<form id="form1">
+		<div class="pb_title">修改登录账号<a href="javascript:" class="pb_close"></a></div>
+		<div class="pb_main">
+			<div class="pb_item">
+				<p class="pb_item_title">账号</p>
+				<input type="text" class="pb_item_input" id="name_account">
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">登录密码</p>
+				<input type="password" class="pb_item_input" id="password">
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">确认密码</p>
+				<input type="password" class="pb_item_input" id="password2">
+			</div>
+		</div>
+		<button type="button" class="pb_btn pb_btn1">保存</button>
+		</form>
+	</div>
+	<div class="pb edit_opt">
+		<form  id="form2">
+		<div class="pb_title">修改短信和域名<a href="javascript:" class="pb_close"></a></div>
+		<div class="pb_main">
+			<div class="pb_item">
+				<p class="pb_item_title">短信后缀</p>
+				<input type="text" class="pb_item_input" id="name_suffix">
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">爱客仕二级域名</p>
+				<input type="text" class="pb_item_input" id="realname">
+			</div>
+		</div>
+		<button type="button" class="pb_btn pb_btn2">保存</button>
+		</form>
+	</div>
+	<div class="pb add_pos">
+		<form  id="form3">
+		<div class="pb_title">添加支付方式和终端<a href="javascript:" class="pb_close"></a></div>
+		<div class="pb_main">
+			<div class="pb_item">
+				<p class="pb_item_title">终端号</p>
+				<input type="text" class="pb_item_input required" >
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">支付类型</p>
+				<!-- <input type="text" class="pb_item_input required" > -->
+				<select>
+					<option>中国银行</option>
+					<option>杭州银行</option>
+					<option>支付宝</option>
+				</select>
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">商户号</p>
+				<input type="text" class="pb_item_input required" >
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">备注</p>
+				<input type="text" class="pb_item_input" >
+			</div>
+		</div>
+		<button type="button" class="pb_btn pb_btn3">保存</button>
+		</form>
+	</div>
+	<div class="pb edit_pos">
+		<form  id="form4">
+		<div class="pb_title">修改支付方式和终端<a href="javascript:" class="pb_close"></a></div>
+		<div class="pb_main">
+			<div class="pb_item">
+				<p class="pb_item_title">终端号</p>
+				<input type="text" class="pb_item_input required" id="deviceNumber">
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">支付类型</p>
+				<select id="pay_type">
+					<option>中国银行</option>
+					<option>杭州银行</option>
+					<option>支付宝</option>
+				</select>
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">商户号</p>
+				<input type="text" class="pb_item_input required" id="commer_number">
+			</div>
+			<div class="pb_item">
+				<p class="pb_item_title">备注</p>
+				<input type="text" class="pb_item_input" id="remark">
+			</div>
+		</div>
+		<button type="button" class="pb_btn pb_btn4">保存</button>
+		</form>
+	</div>
+	<div class="pb del_pos">
+		<form  id="form5">
+		<div class="pb_title">确定解除设备绑定？<a href="javascript:" class="pb_close"></a></div>
+		<div class="pb_main">
+			<div class="pb_item">
+				<p class="pb_item_title">设备码</p>
+				<p class="pb_item_cont deviceNumber" >9F6CD413-BC5C-443B-80F1-CEB1E75F60C</p>
+			</div>
+		</div>
+		<button type="button" class="pb_btn pb_btns pb_btn5">确定</button><div class="div_cancel">或<a href="javascript:;" class="a_cancel">取消</a></div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

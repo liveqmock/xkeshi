@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.CouponPaymentMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.CouponPayment" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <association property="couponInfo" column="couponInfo_id" select="com.xpos.common.persistence.mybatis.CouponInfoMapper.selectByPrimaryKey" />
+    <association property="user" column="user_id" select="com.xpos.common.persistence.mybatis.UserMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.CouponPayment" extends="ListMap">
+	<result column="ci_name" property="couponInfo.name"/>
+	<result column="ci_price" property="couponInfo.price" javaType="java.math.BigDecimal"/>
+  </resultMap>
+  
+   <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from CouponPayment where id=#{id}
+  </select>
+  
+  	<select id="selectSalesList" resultMap="DetailMap">
+		select id, tradeDate, ci_name, quantity, mobile, ci_price, sum, type, source, serial, buyerAccount, cardNumber
+		from (
+			select 
+				cp.id, cp.tradeDate, ci.name as ci_name, cp.quantity, cp.mobile, ci.price as ci_price, cp.sum, cp.type, cp.source, cp.serial, cp.buyerAccount, cp.cardNumber
+			from
+				CouponPayment cp
+				left join CouponInfo ci on cp.couponInfo_id = ci.id
+			where
+				cp.deleted = false and ci.deleted = false and ci.type = 'PACKAGE'
+				and 
+					<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">
+						((ci.businessType = 'MERCHANT' and ci.businessId = #{searcher.business.selfBusinessId})
+						or (ci.businessType = 'SHOP' and ci.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{searcher.business.selfBusinessId}))) 
+					</if>
+					<if test="searcher.business.selfBusinessType.name() == 'SHOP'">
+						ci.businessId = #{searcher.business.selfBusinessId} and ci.businessType = 'SHOP'
+					</if>
+				<if test="searcher.key != null"> 
+					and ci.name like '%${searcher.key}%' 
+				</if>
+				<if test="searcher.startDate != null">AND cp.tradeDate >= #{searcher.startDate}</if>
+				<if test="searcher.endDate != null">AND #{searcher.endDate} >= cp.tradeDate</if>
+				<if test="searcher.mobile != null and searcher.mobile != ''">AND cp.mobile = #{searcher.mobile}</if>
+				<if test="searcher.status != null"> and cp.status = #{searcher.status.name}</if>
+				<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+					<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+					)
+				</if>
+				<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size > 0">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size == 0">and cp.source = 'UNKNOWN'</if>
+			
+		UNION ALL
+			
+			select
+				distinct(cp.id), cp.tradeDate, ci.name as ci_name, cp.quantity, cp.mobile, ci.price as ci_price, cp.sum, cp.type, cp.source, cp.serial, cp.buyerAccount, cp.cardNumber
+			from
+				CouponPayment cp
+				left join CouponInfo ci on cp.couponInfo_id = ci.id
+				left join CouponInfo_Scope cs on ci.id = cs.couponInfo_id
+			where
+				cp.deleted = false and ci.deleted = false and cs.deleted = false
+				and ci.type = 'NORMAL'
+				and
+					<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">
+						((ci.businessType = 'MERCHANT' and ci.businessId = #{searcher.business.selfBusinessId})
+						or (ci.businessType = 'SHOP' and ci.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{searcher.business.selfBusinessId}))) 
+					</if>
+					<if test="searcher.business.selfBusinessType.name() == 'SHOP'">
+						cs.businessId = #{searcher.business.selfBusinessId} and cs.businessType = 'SHOP'
+					</if>
+				<if test="searcher.key != null"> 
+					and ci.name like '%${searcher.key}%' 
+				</if>
+				<if test="searcher.startDate != null">AND cp.tradeDate >= #{searcher.startDate}</if>
+				<if test="searcher.endDate != null">AND #{searcher.endDate} >= cp.tradeDate</if>
+				<if test="searcher.mobile != null and searcher.mobile != ''">AND cp.mobile = #{searcher.mobile}</if>
+				<if test="searcher.status != null"> and cp.status = #{searcher.status.name}</if>
+				<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+					<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+					)
+				</if>
+				<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size > 0">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size == 0">and cp.source = 'UNKNOWN'</if>
+		) T
+		order by id desc
+		limit #{pager.startNumber}, #{pager.endNumber}
+	</select>
+
+	<select id="countSalesList" resultType="int">
+		select count(*)
+		from (
+			select 
+				cp.id, cp.tradeDate, ci.name as ci_name, cp.quantity, cp.mobile, ci.price as ci_price, cp.sum, cp.type, cp.source
+			from
+				CouponPayment cp
+				left join CouponInfo ci on cp.couponInfo_id = ci.id
+			where
+				cp.deleted = false and ci.deleted = false and ci.type = 'PACKAGE'
+				and 
+					<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">
+						((ci.businessType = 'MERCHANT' and ci.businessId = #{searcher.business.selfBusinessId})
+						or (ci.businessType = 'SHOP' and ci.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{searcher.business.selfBusinessId}))) 
+					</if>
+					<if test="searcher.business.selfBusinessType.name() == 'SHOP'">
+						ci.businessId = #{searcher.business.selfBusinessId} and ci.businessType = 'SHOP'
+					</if>
+				<if test="searcher.key != null"> 
+					and ci.name like '%${searcher.key}%' 
+				</if>
+				<if test="searcher.startDate != null">AND cp.tradeDate >= #{searcher.startDate}</if>
+				<if test="searcher.endDate != null">AND #{searcher.endDate} >= cp.tradeDate</if>
+				<if test="searcher.mobile != null and searcher.mobile != ''">AND cp.mobile = #{searcher.mobile}</if>
+				<if test="searcher.status != null"> and cp.status = #{searcher.status.name}</if>
+				<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+					<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+					)
+				</if>
+				<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size > 0">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size == 0">and cp.source = 'UNKNOWN'</if>
+			
+		UNION ALL
+			
+			select
+				distinct(cp.id), cp.tradeDate, ci.name as ci_name, cp.quantity, cp.mobile, ci.price as ci_price, cp.sum, cp.type, cp.source
+			from
+				CouponPayment cp
+				left join CouponInfo ci on cp.couponInfo_id = ci.id
+				left join CouponInfo_Scope cs on ci.id = cs.couponInfo_id
+			where
+				cp.deleted = false and ci.deleted = false and cs.deleted = false
+				and ci.type = 'NORMAL'
+				and
+					<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">
+						((ci.businessType = 'MERCHANT' and ci.businessId = #{searcher.business.selfBusinessId})
+						or (ci.businessType = 'SHOP' and ci.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{searcher.business.selfBusinessId}))) 
+					</if>
+					<if test="searcher.business.selfBusinessType.name() == 'SHOP'">
+						cs.businessId = #{searcher.business.selfBusinessId} and cs.businessType = 'SHOP'
+					</if>
+				<if test="searcher.key != null"> 
+					and ci.name like '%${searcher.key}%' 
+				</if>
+				<if test="searcher.startDate != null">AND cp.tradeDate >= #{searcher.startDate}</if>
+				<if test="searcher.endDate != null">AND #{searcher.endDate} >= cp.tradeDate</if>
+				<if test="searcher.mobile != null and searcher.mobile != ''">AND cp.mobile = #{searcher.mobile}</if>
+				<if test="searcher.status != null"> and cp.status = #{searcher.status.name}</if>
+				<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+					<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+					)
+				</if>
+				<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size > 0">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size == 0">and cp.source = 'UNKNOWN'</if>
+		) T
+	</select>
+	
+	<select id="countSalesStatistics" resultType="HashMap">
+		select sum(ci_price * quantity) as priceSum, sum(sum) as paymentSum
+		from (
+			select 
+				cp.id, cp.tradeDate, ci.name as ci_name, cp.quantity, cp.mobile, ci.price as ci_price, cp.sum, cp.type, cp.source
+			from
+				CouponPayment cp
+				left join CouponInfo ci on cp.couponInfo_id = ci.id
+			where
+				cp.deleted = false and ci.deleted = false and ci.type = 'PACKAGE'
+				and 
+					<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">
+						((ci.businessType = 'MERCHANT' and ci.businessId = #{searcher.business.selfBusinessId})
+						or (ci.businessType = 'SHOP' and ci.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{searcher.business.selfBusinessId}))) 
+					</if>
+					<if test="searcher.business.selfBusinessType.name() == 'SHOP'">
+						ci.businessId = #{searcher.business.selfBusinessId} and ci.businessType = 'SHOP'
+					</if>
+				<if test="searcher.key != null"> 
+					and ci.name like '%${searcher.key}%' 
+				</if>
+				<if test="searcher.startDate != null">AND cp.tradeDate >= #{searcher.startDate}</if>
+				<if test="searcher.endDate != null">AND #{searcher.endDate} >= cp.tradeDate</if>
+				<if test="searcher.mobile != null and searcher.mobile != ''">AND cp.mobile = #{searcher.mobile}</if>
+				<if test="searcher.status != null"> and cp.status = #{searcher.status.name}</if>
+				<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+					<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+					)
+				</if>
+				<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size > 0">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size == 0">and cp.source = 'UNKNOWN'</if>
+			
+		UNION ALL
+			
+			select
+				distinct(cp.id), cp.tradeDate, ci.name as ci_name, cp.quantity, cp.mobile, ci.price as ci_price, cp.sum, cp.type, cp.source
+			from
+				CouponPayment cp
+				left join CouponInfo ci on cp.couponInfo_id = ci.id
+				left join CouponInfo_Scope cs on ci.id = cs.couponInfo_id
+			where
+				cp.deleted = false and ci.deleted = false and cs.deleted = false
+				and ci.type = 'NORMAL'
+				and
+					<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">
+						((ci.businessType = 'MERCHANT' and ci.businessId = #{searcher.business.selfBusinessId})
+						or (ci.businessType = 'SHOP' and ci.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{searcher.business.selfBusinessId}))) 
+					</if>
+					<if test="searcher.business.selfBusinessType.name() == 'SHOP'">
+						cs.businessId = #{searcher.business.selfBusinessId} and cs.businessType = 'SHOP'
+					</if>
+				<if test="searcher.key != null"> 
+					and ci.name like '%${searcher.key}%' 
+				</if>
+				<if test="searcher.startDate != null">AND cp.tradeDate >= #{searcher.startDate}</if>
+				<if test="searcher.endDate != null">AND #{searcher.endDate} >= cp.tradeDate</if>
+				<if test="searcher.mobile != null and searcher.mobile != ''">AND cp.mobile = #{searcher.mobile}</if>
+				<if test="searcher.status != null"> and cp.status = #{searcher.status.name}</if>
+				<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+					<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+					)
+				</if>
+				<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size > 0">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+				<if test="searcher.sourceSet != null and searcher.sourceSet.size == 0">and cp.source = 'UNKNOWN'</if>
+		) T
+	</select>
+</mapper>

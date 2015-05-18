@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.MerchantDAO">
+
+    <resultMap id="result" type="com.xkeshi.pojo.po.Merchant">
+        <id property="id" column="id"/>
+        <result column="fullName" property="fullName"/>
+        <result column="balance_id" property="balanceId"/>
+        <result column="shopIds" property="shopIds"/>
+        <result column="balance" property="balance"/>
+        <result column="memberCentralManagement" property="memberCentralManagement"/>
+        <result column="itemCentralManagement" property="itemCentralManagement"/>
+        <result column="balanceCentralManagement" property="balanceCentralManagement"/>
+        <result column="discountCentralManagement" property="discountCentralManagement"/>
+        <result column="smsSuffix" property="smsSuffix"/>
+        <result column="smsChannel" property="smsChannel"/>
+        <result column="avatar_id" property="avatarId"/>
+        <result column="visible" property="visible"/>
+        <result column="createDate" property="createdDate"/>
+        <result column="modifyDate" property="modifyDate"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+
+    <select id="checkMemberCentralManagementByMerchantId" resultType="java.lang.Boolean">
+        SELECT
+            t.memberCentralManagement
+        FROM
+            merchant t
+        WHERE
+            t.id = #{merchantId}
+    </select>
+     <select id="checkMemberCentralManagementPrepaidCardAvailableByShopId" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_merchant_shop b
+        LEFT JOIN (
+            SELECT
+                s.id shopId,
+                m.id merchantId
+            FROM
+                shop s
+            LEFT JOIN merchant m ON m.id = s.merchant_id
+            WHERE
+                s.id = #{shopId}
+            AND s.deleted = 0
+        ) a ON b.merchant_id = a.merchantId
+        AND b.shop_id = a.shopId
+        WHERE
+            a.shopId = #{shopId}
+    </select>
+
+
+    <select id="checkMemberCentralManagementByShopId" resultType="java.lang.Boolean">
+        SELECT
+            IFNULL(
+                (
+                    SELECT
+                        m.memberCentralManagement
+                    FROM
+                        shop t
+                    LEFT JOIN merchant m ON m.id = t.merchant_id
+                    WHERE
+                        t.id = #{shopId}
+                ),
+                0
+            )
+    </select>
+    <select id="checkDiscountCentralManagementByShopId" resultType="java.lang.Boolean">
+        SELECT
+            IFNULL(
+                (
+                    SELECT
+                        m.discountCentralManagement
+                    FROM
+                        shop t
+                    LEFT JOIN merchant m ON m.id = t.merchant_id
+                    WHERE
+                        t.id = #{shopId}
+                ),
+                0
+            )
+    </select>
+    <select id="checkBalanceCentralManagementByShopId"  resultType = "java.lang.Boolean">
+        SELECT
+            IFNULL(
+                (
+                    SELECT
+                        m.balanceCentralManagement
+                    FROM
+                        shop t
+                    LEFT JOIN merchant m ON m.id = t.merchant_id
+                    WHERE
+                        t.id = #{shopId}
+                ),
+                0
+            )
+    </select>
+    
+    <select id="findMerchantByShopId"  resultMap="result">
+    	SELECT
+			m.id,
+			m.balance,
+			m.smsSuffix,
+			m.smsChannel
+		FROM
+			merchant m
+		LEFT JOIN shop s ON m.id = s.merchant_id
+		WHERE
+			s.id = #{shopId}
+		AND s.deleted = FALSE
+		AND m.deleted = FALSE 
+    </select>
+    
+    <select id="findMerchantByMerchantId"  resultMap="result">
+    	SELECT
+			m.id,
+			m.balance,
+			m.smsSuffix,
+			m.smsChannel,
+			m.balanceCentralManagement,
+			m.memberCentralManagement,
+			m.discountCentralManagement
+		FROM
+			merchant m
+		WHERE
+			m.id = #{merchantId}
+		AND m.deleted = FALSE 
+    </select>
+
+    <select id="getNameById" resultType="String">
+        SELECT
+            t.fullName
+        FROM
+            merchant t
+        WHERE
+            t.id = #{merchantId}
+    </select>
+    
+    <select id="selectMerchantByMerchantId" resultMap="result">
+    	select 
+    		m.deleted
+    	from 
+    		merchant m
+    	where 
+    		m.id = #{merchantId}
+    </select>
+    
+    <select id="presenceEnableShiftShopCountByMerchantId"  resultType="java.lang.Integer">
+	    SELECT 
+	        COUNT(s.id)
+		FROM 
+		    shop s
+		WHERE
+			s.merchant_id  = #{merchantId}
+		AND s.enable_shift = TRUE
+		AND s.deleted      = FALSE
+    </select>
+    
+    <select id="getShiftShopVOByMerchantId"  resultType="com.xkeshi.pojo.vo.shift.ShiftShopVO">
+    	SELECT 
+	      	t.id ,
+	      	t.name ,
+    		t.merchant_id  merchantId,
+    		t.enable_shift  enableShift,
+    		t.deleted
+		FROM 
+		    shop t
+		WHERE
+			t.merchant_id  = #{merchantId}
+		AND t.deleted      = FALSE
+    </select>
+    
+</mapper>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.PrepaidCardChargeRulesDAO">
+
+    <resultMap id="result" type="com.xkeshi.pojo.po.PrepaidCardChargeRules">
+        <id property="id" column="id"/>
+        <result property="comment" column="comment"/>
+        <result property="status" column="status"/>
+        <result column="business_id" property="businessId"/>
+        <result column="business_type_id" property="businessId"/>
+        <result column="is_initial" property="isInitial"/>
+        <result column="member_type_id" property="memberTypeId"/>
+        <result column="charge_amount" property="chargeAmount"/>
+        <result column="charge_gift_type_id" property="chargeGiftTypeId"/>
+        <result column="charge_gift_amount" property="chargeGiftAmount"/>
+        <result column="memberTypeName" property="memberTypeName"/>
+        <result column="discount" property="discount"/>
+    </resultMap>
+    <delete id="clearMemberRules">
+        DELETE
+        FROM
+            prepaid_card_charge_rules
+        WHERE
+            business_id = #{businessId}
+        AND business_type_id = #{businessType}
+        AND member_type_id = #{memberTypeId}
+        AND is_initial = #{isInitial}
+    </delete>
+    <select id="hasRules" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_charge_rules t
+        WHERE
+            t.business_id = #{businessId}
+        AND t.business_type_id = #{businessTypeId}
+        AND t.`status` = 1
+    </select>
+    <select id="getRules" resultMap="result">
+        SELECT
+            t.id,
+            t.business_id,
+            t.business_type_id,
+            t.is_initial,
+            t.member_type_id,
+            t.charge_amount,
+            t.charge_gift_type_id,
+            t.charge_gift_amount,
+            t.`comment`,
+            t.`status`
+        FROM
+            prepaid_card_charge_rules t
+        WHERE
+            t.business_type_id = #{businessTypeId}
+        AND t.business_id = #{businessId}
+        AND t.`status` = 1
+    </select>
+    <select id="getMemberTypeListByMerchantId" resultType="com.xkeshi.pojo.vo.PrepaidCardChargeRulesListVO">
+        SELECT
+            mmt.id memberTypeId,
+            mmt.`name` memberTypeName,
+            IFNULL(mmt.discount,0)*10
+        FROM
+            prepaid_card_charge_rules t
+        LEFT JOIN merchant_member_type mmt ON mmt.id = t.member_type_id
+        LEFT JOIN merchant_shop_member_discount msmd ON msmd.merchant_member_type_id = mmt.id
+        WHERE
+            t.business_type_id = 1
+        AND t.business_id = #{businessId}
+        AND t.`status` = 1
+        GROUP BY memberTypeId
+    </select>
+    <select id="getFirstChargeRuleList" resultType="com.xkeshi.pojo.vo.PrepaidCardChargeRulesVO">
+        SELECT
+            t.id ruleId,
+            t.is_initial isInitial,
+            t.member_type_id memberTypeId,
+            t.charge_amount chargeAmount,
+            t.charge_gift_type_id chargeGiftTypeId,
+            t.charge_gift_amount chargeGiftAmount
+        FROM
+            prepaid_card_charge_rules t
+        WHERE
+            t.business_id = #{businessId}
+        AND t.business_type_id = #{businessTypeId}
+        AND t.member_type_id = #{memberTypeId}
+        AND t.is_initial is true
+        AND t.`status` = 1
+    </select>
+    <select id="hasFirstChargeRuleList" resultType="java.lang.Boolean">
+        SELECT
+            count(*) > 0
+        FROM
+            prepaid_card_charge_rules t
+        WHERE
+            t.business_id = #{businessId}
+        AND t.business_type_id = #{businessTypeId}
+        AND t.member_type_id = #{memberTypeId}
+        AND t.is_initial is true
+        AND t.`status` = 1
+    </select>
+    <select id="getRechargeRuleList" resultType="com.xkeshi.pojo.vo.PrepaidCardChargeRulesVO">
+         SELECT
+            t.id ruleId,
+            t.is_initial isInitial,
+            t.member_type_id memberTypeId,
+            t.charge_amount chargeAmount,
+            t.charge_gift_type_id chargeGiftTypeId,
+            t.charge_gift_amount chargeGiftAmount
+        FROM
+            prepaid_card_charge_rules t
+        WHERE
+            t.business_id = #{businessId}
+        AND t.business_type_id = #{businessTypeId}
+        AND t.member_type_id = #{memberTypeId}
+        AND t.is_initial is false
+        AND t.`status` = 1
+    </select>
+    <select id="hasRechargeRuleList" resultType="java.lang.Boolean">
+        SELECT
+           count(*) > 0
+        FROM
+            prepaid_card_charge_rules t
+        WHERE
+            t.business_id = #{businessId}
+        AND t.business_type_id = #{businessTypeId}
+        AND t.member_type_id = #{memberTypeId}
+        AND t.is_initial is false
+        AND t.`status` = 1
+    </select>
+    <select id="getMemberTypeListByShopId" resultType="com.xkeshi.pojo.vo.PrepaidCardChargeRulesListVO">
+    SELECT
+        smt.id memberTypeId,
+        concat(
+            smt.`name`,
+            '(',
+            IFNULL(smt.discount,0)*10 ,
+            ')'
+        ) memberTypeName
+    FROM
+        prepaid_card_charge_rules t
+    LEFT JOIN shop_member_type smt ON smt.id = t.member_type_id
+    WHERE
+        t.business_type_id = 2
+    AND t.business_id = #{businessId}
+    AND t.`status` = 1
+    </select>
+    <select id="getMemberTypeListByMerchantIdAndDisCountShopId"
+            resultType="com.xkeshi.pojo.vo.PrepaidCardChargeRulesListVO">
+          SELECT
+                    mmt.id memberTypeId,concat(mmt.`name`,'(', IFNULL(msmd.discount,mmt.discount)*10,')') memberTypeName
+            FROM
+                    prepaid_card_charge_rules t
+            LEFT JOIN merchant_member_type mmt ON mmt.id = t.member_type_id
+            LEFT JOIN merchant_shop_member_discount msmd ON msmd.merchant_member_type_id = mmt.id
+            WHERE
+                    t.business_type_id = 1
+            AND t.business_id = #{merchantId}
+        AND msmd.shop_id = #{businessId}
+            AND t.`status` = 1
+    </select>
+    <select id="getFirstChargeRulesByMemberTypeId"
+            resultMap="result">
+        SELECT
+        t.id id,
+        t.charge_amount,
+        t.charge_gift_amount
+        FROM
+        prepaid_card_charge_rules t
+        WHERE
+        t.is_initial = TRUE
+        AND t.member_type_id = #{memberTypeId}
+        AND t.`status` = 1
+
+    </select>
+
+    <select id="getRechargeRulesByMemberTypeId" resultMap="result">
+        SELECT
+        t.id,
+        t.charge_amount,
+        t.charge_gift_amount
+        FROM
+        prepaid_card_charge_rules t
+        WHERE
+        t.is_initial = FALSE
+        AND t.member_type_id = #{memberTypeId}
+        AND t.`status` = 1
+    </select>
+    <select id="hasRechargeRuleListByRuleId" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_charge_rules b
+        INNER JOIN (
+            SELECT
+                t.business_id,
+                t.business_type_id,
+                t.member_type_id
+            FROM
+                prepaid_card_charge_rules t
+            WHERE
+                t.id = #{ruleId}
+        ) a ON b.business_id = a.business_id
+        AND b.business_type_id = a.business_type_id
+        AND b.member_type_id = a.member_type_id
+        WHERE
+            b.is_initial IS FALSE
+    </select>
+    <select id="getByPrepaidChargeCode" resultMap="result">
+      SELECT
+            r.business_id,
+            r.business_type_id,
+            r.member_type_id
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN prepaid_card pc ON pc.id = t.prepaid_card_id
+        LEFT JOIN prepaid_card_charge_rules r ON r.id = pc.initial_rule_id
+        WHERE
+            t.`code` = #{prepaidOrder}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,17 @@
+.opt_wrap{
+height: 30px;
+}
+.state span{
+width: 58px;
+}
+.state3{
+background: #f3f3f3;
+color: #666667;
+border: 1px solid #dbdbdb;
+}
+.tb_main tr .state{
+width: 100px;
+}
+.tb_main tr .num{
+width: 120px;
+}

@@ -1,0 +1,395 @@
+.r_title{
+padding-left: 0;
+}
+.selex_head{
+padding: 0 15px;
+min-width: 200px;
+height: 32px;
+line-height: 32px;
+overflow:hidden;
+background: url(img/admin_frame/down_arrow.png) no-repeat 211px 50%;
+margin-top: 0;
+}
+.selex_item{
+width: 202px;
+height: 32px;
+line-height: 32px;
+overflow: hidden;
+padding-right:14px;
+position: relative;
+z-index: 2;
++z-index: 9999;
+    
+}
+.selex_wrap{
+float: left;
+margin-right: 14px;
+position: static;
+z-index: 2;
++z-index: 9999;
+}
+.selex_main{
+min-width: 230px;
+width: auto;
+max-height: 400px;
+overflow: auto;
+overflow-x: hidden;
+z-index: 2;
++z-index: 9999;
+}
+.top_sel_wrap{
+border-bottom: 1px solid #f0f0f0;
+padding-bottom: 20px;
+position: relative;
+
+}
+.top_zdex{
+	*z-index: 1;
+	*display: inline-block;
+}
+.day_nav{
+overflow: hidden;
+margin-top: 20px;
+margin-left: -15px;
+z-index: 0;
+position: relative;
+}
+.day_block{
+width: 141px;
+float: left;
+color: #fff;
+margin-left: 15px;
+position: relative;
+cursor: pointer;
+}
+.day_block_on .day_shadow{
+display: none;
+}
+.day_title{
+padding-left: 12px;
+width: 129px;
+height: 36px;
+line-height: 36px;
+font-size: 14px;
+font-weight: bold;
+border-radius: 3px 3px 0 0;
+}
+.day_val{
+text-align: center;
+height: 82px;
+line-height: 82px;
+font-size: 24px;
+border-radius: 0 0 3px 3px;
+}
+.day_val em{
+font-size: 18px;
+margin-left: 4px;
+}
+.today .day_title{
+background: #69cfaa;
+}
+.today .day_val{
+background: #36be8c;
+}
+.yesterday .day_title{
+background: #7eafd7;
+}
+.yesterday .day_val{
+background: #5394ca;
+}
+.seven .day_title{
+background: #667886;
+}
+.seven .day_val{
+background: #34495e;
+}
+.thirty .day_title{
+background: #b9c7c8;
+}
+.thirty .day_val{
+background: #a1b3b5;
+}
+.set_day{
+width: 270px;
+}
+.set_day1{
+height: 10px;
+background: #abd363;
+border-radius: 3px 3px 0 0;
+}
+.set_day2{
+height: 108px;
+line-height: 108px;
+font-size: 24px;
+background: #8fc42f;
+border-radius: 0 0 3px 3px;
+text-align: center;
+}
+.day_shadow{
+position: absolute;
+left: 0;
+bottom: 0;
+height: 10px;
+background: #000;
+/* IE 4-9 */
+filter:alpha(opacity=25);
+opacity: 0.25;
+width: 100%;
+z-index: 0;
+border-radius: 0 0 3px 3px;
+}
+.chart_wrap{
+border: 1px solid #ddd;
+margin-top: 20px;
+margin-bottom: 22px;
+}
+.chart_nav_a{
+height: 50px;
+width: 160px;
+display: inline-block;
+line-height: 50px;
+text-align: center;
+color: #c4c4c5;
+font-size: 12px;
+border-right: 1px solid #ddd;
+}
+.chart_nav_now{
+font-size: 14px;
+color: #666667;
+font-weight: bold;
+border-bottom: 1px solid #fff;
+}
+.chart{
+width: 620px;
+height: 250px;
+padding-bottom: 10px;
+float: left;
+}
+.chart_nav{
+position: relative;
+}
+.chart_nav_line{
+width: 100%;
+height: 1px;
+background: #ddd;
+position: absolute;
+bottom: 0;
+left: 0;
+z-index: -2;
+}
+.chart_main{
+overflow: hidden;
+position: relative;
+}
+.chart_r{
+float: left;
+width: 250px;
+height: 340px;
+padding-left: 23px;
+padding-top: 23px;
+border-left: 1px dashed #ddd;
+}
+.chart_data{
+margin-top: 14px;
+background: url(img/chart_data.png) no-repeat 0 4px;
+padding-left: 26px;
+}
+.chart_change{
+margin-top: 50px;
+background: url(img/chart_change.png) no-repeat 0 2px;
+}
+.chart_key{
+margin-bottom: 8px;
+}
+.chart_val{
+font-weight: bold;
+}
+.chart_data1{
+color: #e56f41;
+}
+.chart_data2{
+color: #ffb642;
+}
+.chart_data3{
+color: #b7b7b7;
+}
+.tb_wrap{
+margin-top: 14px;
+box-shadow: 1px 1px 1px #f8f8f8;
+}
+.tb_main tr{
+border-bottom: 1px solid #ddd;
+}
+.tb_main tr td{
+font-size: 12px;
+color: #516372;
+width: 430px;
+height: 40px;
+vertical-align: middle;
+}DDDD
+.tb_main .td_val{
+color: #212121;
+}
+.tb_main .td_key{
+width: 84px;
+display: inline-block;
+}
+.tr_bg{
+background: #fbfbfb;
+}
+.tb_main .th td{
+color: #333;
+font-weight: bold;
+}
+.tb_main tr .td_date{
+padding-left: 28px;
+}
+.pop_check, .pop_check2{
+width: 374px;
+}
+.pb_item{
+border-top: none;
+}
+.pb_item:last-child{
+border-bottom: none;
+}
+.pb_title{
+padding: 5px 0 17px;
+}
+.pb_lb{
+font-weight: bold;
+margin-right: 28px;
+display: inline-block;
+width: 130px;
+}
+.pb_add_time{
+margin-top: 16px;
+}
+.add_time_lb{
+color: #027dff;
+font-size: 14px;
+text-decoration: underline;
+}
+.pb_btn_wrap{
+text-align: center;
+border-top: 1px solid #EBEBEB;
+padding-top: 12px;
+}
+.pb_btn{
+width: 143px;
+}
+.pb{
+top: 50%;
+left: 50%;
+margin-left: -201.5px;
+z-index: 3;
+}
+.black_cover{
+z-index: 3;
+}
+.pop_check .pb_main{
+padding-bottom: 14px;
+}
+.report_a{
+width: 36px;
+height: 36px;
+display: inline-block;
+background: url(img/admin_frame/report_a.png) no-repeat 0 0;
+}
+.report_a:hover{
+background: url(img/admin_frame/report_a_hover.png) no-repeat 0 0;
+}
+.chart_none{
+display: none;
+height: 340px;
+width: 620px;
+background: url(img/admin_frame/chart_none.png) no-repeat 50% 50% #fff;
+position: absolute;
+top: 0;
+left: 0;
+z-index: 1;
+}
+.day_block_img{
+right: 8px;
+top: 10px;
+position: absolute;
+display: none;
+}
+.day_block_on .day_block_img{
+display: block;
+}
+.pb_item_hide{
+display:none;
+}
+.pb_item_hide .pb_lb{
+color: #009ce5;
+}
+.chart_title{
+font-size: 12px;
+color: #33455a;
+border-bottom: 1px solid #ddd;
+padding-bottom: 16px;
+font-weight: bold;
+margin: 22px 22px 24px 56px;
+display: none;
+}
+.chart_l{
+float:left;
+}
+.chart_rtb tr td{
+height: 46px;
+}
+.chart_rtb .th td{
+height: 56px;
+}
+.pb_date1, .pb_date2, .pb_date3{
+padding: 5px;
+background: url(img/tcal.png) no-repeat 180px center;
+}
+.td_split_div{
+border-bottom: 1px dashed #ddd;
+margin-bottom: 12px;
+padding-bottom: 12px;
+}
+.tb_fix{
+display:none;
+position:fixed;
+top:0;
+background:#fff;
+width: 894px;
+margin-left: -1px;
+border: 1px solid #ddd;
+}
+.tb_fix tr{
+border-bottom: none;
+}
+.tb_list_dd2{
+width: 894px;
+}
+.down_arrow{
+width: 12px;
+height: 17px;
+background: url(img/admin_frame/down_arrow_img.png) no-repeat 0 0;
+display: inline-block;
+margin-right: 8px;
+vertical-align: bottom;
+}
+.up_arrow{
+width: 12px;
+height: 17px;
+background: url(img/admin_frame/up_arrow_img.png) no-repeat 0 0;
+display: inline-block;
+margin-right: 8px;
+vertical-align: bottom;
+}
+.ping_arrow{
+width: 12px;
+height: 17px;
+background: url(img/admin_frame/ping_arrow_img.png) no-repeat 0 0;
+display: inline-block;
+margin-right: 8px;
+vertical-align: bottom;
+}
+.rwrap{
+font-family: 'Microsoft Yahei';
+}

@@ -1,0 +1,185 @@
+.b_a {
+	margin-right: 26px;
+}
+
+.status {
+	width: 100px;
+}
+
+.r_title {
+	padding-left: 0;
+	height: 44px;
+}
+	
+
+.pb_main_input {
+	border: 1px solid #d9d9d9;
+	padding: 9px 5px;
+	border-radius: 3px;
+	color: #666667;
+	font-size: 12px;
+	width: 250px;
+	line-height: 18px;
+	height: 18px;
+	/*margin: 0 25px 0 10px\9;*/
+	margin: 0 25px 0 12.5px;
+	display: inline-block;
+	/*position: relative;*/
+	/*top: 8px;*/
+	/*top: 5px\9;*/
+}
+.service_tr_div_readonly{
+	background-color: #f1f1f1;
+}
+/*2015 4.15 16:15(add) cobegin*/
+.readonly {
+	border: 1px solid #d9d9d9;
+	padding: 5px;
+	border-radius: 3px;
+	width: 250px;
+	/*line-height: 25px;*/
+	margin: 0 25px 0 12.5px;
+	/*margin: 0px 25px 0 10px\9;*/
+	display: inline-block;
+	height: 14.5px;
+	background-color: #f1f1f1;
+	/*position: relative;*/
+	/*top: 8px;*/
+}
+
+.td_key {
+	color: #999;
+	display: inline-block;
+	width: 180px;
+}
+
+.cp_i {
+	position: relative;
+	top: 8px;
+	top: 6px\9;
+}
+
+.cp_s {
+	position: relative;
+	top: -1.3px;
+}
+.import td,.shade td{
+	height: 42px;
+	line-height: 42px;
+}
+.td_val {
+	/*width: 15px;*/
+}
+.p3{
+	/*maigin: 0 1px;*/
+}
+/*2015 4.15 16:15(add) coend*/
+
+.service_tr {
+	height: 70px;
+}
+.service_tr .bmt{
+	border-bottom: 1px solid #ddd;
+}
+.service_tr .ntmt{
+	border-top: none;
+}
+.td_key {
+	color: #999;
+	display: inline-block;
+	width: 180px;
+}
+
+.btn_bottom {
+	width: 100%;
+	text-align: center;
+	padding-top: 50px;
+}
+
+.pb_btn_bottom {
+	width: 300px;
+	font-size: 14px;
+	height: 40px;
+}
+
+.pb_item_hint {
+	color: #ff0000;
+	font-size: 12px;
+}
+
+.hint_name,
+.hint_ps,
+.hint_ip {
+	display: none;
+}
+
+.pb_item_input {
+	resize: none;
+}
+
+.rwrap {
+	/* position: relative; */
+}
+
+.show_cover {
+	position: absolute;
+	width: 896px;
+	height: 70px;
+	left: 0px;
+	top: 130px;
+	background: #999;
+	opacity: 0.6;
+}
+
+.pop_cfm {
+	left: 50%;
+	top: 50%;
+	position: fixed;
+	margin: -119px 0 0 -210px;
+	z-index: 10;
+	width: 390px;
+}
+
+.pb_main {
+	padding-top: 0;
+}
+
+.pb_title2 {
+	font-weight: normal;
+	font-size: 14px;
+	color: #666667;
+	margin-bottom: 64px;
+}
+
+.pb_item:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.black_cover {
+	left: 0;
+	top: 0;
+	display: none;
+}
+
+.cfm_btn,
+.cancel_btn {
+	width: 180px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.cancel_btn {
+	margin-left: 10px;
+}
+
+.ps_w {
+	width: 300px;
+}
+#use1,#use2,#show1,#show2{
+	position: absolute\0;
+	z-index: -1\0;
+	margin-top: 1px\0;
+	margin-left: 1px\0;
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+	  	<property name="globalSessionTimeout" value="1800000"></property>
+	</bean>
+	
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="xkeshiMysqlRealm"/>
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+		<property name="sessionManager" ref="sessionManager"></property>
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	
+<!-- 	 <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor" />  -->
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean> 
+
+
+	
+	<!-- security data source: -->
+	<bean id="xkeshiMysqlRealm" class="com.xkeshi.shiro.MyShiroRealm" >
+		<property name="dataSource" ref="dataSource"/>
+		<property name="authenticationCachingEnabled" value="false"/>
+		<property name="authorizationCacheName" value="authorizationCacheName"/>
+		<property name="userRolesQuery" value="SELECT r.value FROM role r LEFT JOIN account_role ar ON r.id = ar.role_id LEFT JOIN account a ON a.id = ar.account_id WHERE a.username = ? ORDER BY  a.createDate  DESC   LIMIT  0,1 "/>
+		<!-- <property name="authenticationQuery" value="select password from Account where username = ? and deleted=false and enable = true "/> -->
+		<!-- <property name="userRolesQuery" value="SELECT r.value FROM role r LEFT JOIN account_role ar ON r.id = ar.role_id LEFT JOIN account a ON a.id = ar.account_id WHERE a.username = ? "/> -->
+        <!-- <property name="permissionsQuery" value="SELECT permission_code FROM role_permission LEFT JOIN role ON role_permission.role_id = role.id WHERE role.name = ?"/> -->
+		<!-- <property name="permissionsLookupEnabled" value="true"/> -->
+	</bean>
+    
+	<!-- shiro-ehcache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:shiro/ehcache.xml"/>
+	</bean>
+   
+    <bean id="secureRemoteInvocationExecutor" class="org.apache.shiro.spring.remoting.SecureRemoteInvocationExecutor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+   	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<property name="loginUrl" value="/login"></property>
+		<property name="successUrl" value="/"></property>
+		<property name="unauthorizedUrl" value="/login"></property> 
+	
+		<property name="filterChainDefinitions">
+		<!-- 
+		    anon :不用登陆也能访问
+		    authc:登录之后才能访问
+		    logout :
+		    authcBasic:httpBasic认证
+		    ssl:安全的URL请求,协议为https
+		    port[8081] :当请求的URL端口不是8081时,跳转到schemal://serverName:8081?queryString
+		    rest[user] :根据请求的方法,相当于/admins/user/**=perms[user:method],其中method为post,get,delete等
+		    perms[role:view/edit] 判断角色或权限，不足则执行 unauthorizedUrl
+		    roles[admin] : 当有多个参数时必须每个参数都通过才算通过,相当于hasAllRoles()方法
+		 -->
+			<value>
+        
+               		/login				= anon
+					/xposs/**			= anon
+					/api/**				= anon
+					/upyun/notify 		= anon	
+					/balance/api/** 	= anon	
+					/umpay/api/** 		= anon	
+					/image/code			= anon
+	               	/static/**			= anon
+		            /**              	= authc
+			</value>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.ShopPrinterMapper" >
+  
+  <resultMap id="BasicMap" type="com.xpos.common.entity.ShopPrinter" >
+    <id property="id" column="id"/>
+    <result property="shopId" column="shop_id"/>
+    <result property="name" column="name"/>
+    <result property="ip" column="ip"/>
+    <result property="enable" column="enable"/>
+  </resultMap>
+  
+    <select id="selectById" resultMap="BasicMap">
+ 		select * from shop_printer where id = #{id}
+ 	 </select>
+  
+  
+  <select id="findShopPrintersByShopId" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		shop_printer
+	WHERE
+		status = 1 and shop_id = #{shopId}
+		ORDER BY created_time DESC
+		 <if test="pager != null">
+			LIMIT #{pager.startNumber}, #{pager.pageSize}
+		</if>
+  </select>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xpos.common.entity.ShopPrinter">
+  
+  	INSERT INTO shop_printer(shop_id,name,ip,enable,comment) 
+  	VALUES 
+  	(
+  		#{shopId},#{name},#{ip},false,#{comment}
+  	)
+  </insert>
+  
+  <update id="update" parameterType="com.xpos.common.entity.ShopPrinter">
+  	update shop_printer set name = #{name} , ip = #{ip} , enable = #{enable}, comment = #{comment}
+  	<if test="status != null">
+  	,status = #{status}
+  	</if>
+  	where id = #{id}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+</mapper>

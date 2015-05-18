@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.MerchantMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Merchant" >
+      	<association property="avatar" column="avatar_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Merchant" extends="ListMap">
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="DetailMap">
+    select * from Merchant where id=#{id} and deleted = false
+  </select>
+</mapper>

@@ -1,0 +1,44 @@
+.pop_charge_done{
+	display: none;
+}
+.date{
+	width: 140px;
+}
+.m_num{
+	width: 60px;
+}
+.pay_way{
+	width: 60px;
+}
+.tb_main .th td.trade_type{
+	width: 56px;
+}
+.tb_main .th td.trade_con{
+	width: 58px;
+}
+.tb_main .th td.telephone{
+	width: 58px;
+}
+.tb_main tr td{
+	padding: 14px 10px 14px 10px;
+}
+.pop_filter .pb_item{
+	padding-bottom: 0;
+	border-bottom: none;
+}
+.selex_head{
+	background: url(css/img/admin_frame/down_arrow.png) no-repeat 190px 10px;
+}
+td.trans_num{
+	width:140px;
+}
+td.status{
+	width:80px;
+}
+td.detail{
+	width:60px;
+}
+.b_tit1{
+	float: none;
+	display: inline-block;
+}

@@ -1,0 +1,141 @@
+body {
+	background-color: #F0F0F0;
+}
+.mt25 {
+	margin-top: 25px;
+}
+.top {
+	height: 52px;
+	border-bottom: 0;
+	background-color: #FFFFFF;
+	background-image: none;
+	box-shadow: 1px 1px 1px #E1E1E1;
+}
+.top_main {
+	width: 1080px;
+}
+.logo {
+	width: 109px;
+	height: 52px;
+	background: url('img/logo.png') no-repeat center center;
+	margin-top: 0; 
+}
+.middle_line {
+	margin: 0 23px;
+}
+.title_text {
+	display: inline-block;
+	vertical-align: 22px;
+	font-size: 12px;
+	color: #6D6D6D;
+	font-weight: bold;
+	line-height: 23px;
+}
+.context_main {
+	width: 1080px;
+	height: 500px;
+	background-color: #FFFFFF;
+	border-radius: 3px;
+	margin: 63px auto 0;
+	font-family: "微软雅黑";
+}
+.context_main .step_header {
+	position: relative;
+	width: 932px;
+	height: 44px;
+	padding-top: 39px;
+	margin: 0 auto;
+}
+.context_main .step_header .step_1,
+.context_main .step_header .step_2 {
+	position: absolute;
+	width: 470px;
+	background: url('img/first_1.png') no-repeat;
+}
+.context_main .step_header .step_2 {
+	right: 0;
+	background: url('img/second_1.png') no-repeat;
+}
+.step_header p {
+	text-indent: 25px;
+	height: 44px;
+	line-height: 44px;
+	font-size: 14px;
+	color: #6D6D6D;
+}
+.step_header p span {
+	line-height: 23px;
+}
+.step_header .step_2 p {
+	color: #BABABA;
+	text-indent: 49px;
+}
+.step_main {
+	margin-top: 52px;
+
+}
+.step_main .pwd_rule,
+.step_main .warning_text {
+	line-height: 30px;
+	text-align: center;
+}
+.step_main .warning_text {
+	font-size: 18px;
+	color: #428BCA;
+}
+.step_main .pwd_rule {
+	font-size: 12px;
+	color: #6D6D6D;
+}
+.pwd_form_wrap {
+	margin: 64px 348px 0;
+}
+.pwd_form_wrap label {
+	position: relative;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	color: #6D6D6D;
+}
+.pwd_form_wrap input {
+	position: absolute;
+	left: 117px;
+	width: 261px;
+	height: 30px;
+	background-color: #FFFFFF;
+	border: 1px solid #D9D9D9;
+	border-radius: 2px;
+}
+.error, .error2 {
+	display: none;
+	position: absolute;
+	width: 300px;
+	left: 396px;
+	color: #f01663;
+	font-size: 12px;
+}
+.submit_wrap {
+	margin-top: 43px;
+}
+.submit_wrap .pwd_submit {
+	position: static;
+	height: 40px;
+	background-color: #009CE5;
+	border-radius: 2px;
+	color: #FFFFFF;
+	font-size: 14px;
+	/*line-height: 61px;*/
+	font-family: "微软雅黑";
+	cursor: pointer;
+}
+.or {
+	display: inline-block;
+	margin: 0 10px 0 47px;
+	line-height: 40px;
+	font-size: 12px;
+	color: #6D6D6D;
+}
+.logout {
+	font-size: 12px;
+	color: #009CE5;
+}

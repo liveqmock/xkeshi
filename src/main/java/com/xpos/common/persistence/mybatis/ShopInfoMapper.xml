@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.ShopInfoMapper" >
+    <resultMap id="ListMap" type="com.xpos.common.entity.ShopInfo" >
+    </resultMap>
+
+    <resultMap id="DetailMap" type="com.xpos.common.entity.ShopInfo" extends="ListMap">
+        <association property="posAccountList" column="shopId" select="com.xpos.common.persistence.mybatis.POSGatewayAccountMapper.selectByShopId" />
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="DetailMap">
+        select * from ShopInfo where shopId=#{id}
+    </select>
+
+    <update id="updateByShopId" >
+        UPDATE
+        shopInfo
+        SET
+        smssuffix = #{shopInfo.smssuffix},
+        smsChannel = #{shopInfo.smsChannel},
+        xposSld = #{shopInfo.xposSld},
+        consumeType = #{shopInfo.consumeType}
+        <if test="shopInfo.enableCash != null">
+            ,enableCash = #{shopInfo.enableCash}
+        </if>
+        WHERE
+        shopId = #{shopInfo.shopId}
+    </update>
+    <update id="updateShopInfoCash">
+        UPDATE
+            shopInfo
+        SET
+            enableCash = #{shopInfo.enableCash}
+        WHERE
+            shopId = #{shopInfo.shopId}
+    </update>
+
+</mapper>

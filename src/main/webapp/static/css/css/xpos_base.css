@@ -1,0 +1,115 @@
+#Top{
+background: url(img/head_bg2.png) no-repeat 0 0;
+}
+.nav_wrap {
+clear: both;
+float: left;
+margin: 16px 0 0 180px;
+overflow: hidden;
+position: relative;
+z-index: 10;
+}
+.nav_name{
+color: #fff;
+margin-top: 6px;
+}
+.nav_a {
+color: #FFFFFF;
+display: block;
+float: left;
+margin-right: 18px;
+padding: 6px 0;
+}
+.nav_a img {
+margin-left: 8px;
+vertical-align: 3px;
+}
+.lnav_selected{
+background: url(img/lnav_select_bg2.png) no-repeat 0 2px, url(img/white_arrow.png) no-repeat right 15px;
+}
+.lnav_img{
+width: 28px;
+display: inline-block;
+text-align: center;
+}
+.head_back{
+width: 27px;
+height: 27px;
+display: inline-block;
+background: url(img/head_back.png) no-repeat 0 0;
+}
+.head_back:hover{
+background: url(img/head_back_hover.png) no-repeat 0 0;
+}
+.head_new_activity{
+float: right;
+display: block;
+width: 101px;
+height: 27px;
+background: url(img/head_new_activity.gif) no-repeat 0 0;
+}
+.head_new_activity:hover{
+background: url(img/head_new_activity_hover.gif) no-repeat 0 0;
+}
+.head_edit{
+display: inline-block;
+width: 27px;
+height: 27px;
+background: url(img/head_edit.png) no-repeat 0 0;
+margin-left: 12px;
+}
+.head_edit:hover{
+background: url(img/head_edit_hover.png) no-repeat 0 0;
+}
+.r_block{
+width: 570px;
+}
+.r_main{
+background: #fff;
+padding-right: 10px;
+}
+.r_side{
+margin: 12px 12px 0 0;
+background:#f8f8f8;
+width: 218px;
+padding-bottom: 48px;
+}
+.anav_wrap{
+overflow: hidden;
+margin-top: -8px;
+}
+.anav_a{
+background: #f8f8f8;
+float: left;
+border-bottom: 2px solid #d8d8d8;
+color: #666;
+padding: 6px 12px;
+width: 84px;
+cursor: pointer;
+}
+.anav_a_selected{
+border-right: 1px solid #d8d8d8;
+box-shadow: -1px 0 0 #fefefe inset;
+border-bottom: 2px solid #91cc00;
+}
+.anav_title{
+font-size: 16px;
+}
+.side_title{
+font-size: 16px;
+color: #466b0d;
+font-size: 16px;
+color: #000;
+padding: 3px 0;
+}
+.anav_text{
+margin-left: 12px;
+}
+.blue{
+color: #2d71f6;
+}
+.cont_pre{
+overflow: hidden;
+white-space: pre-wrap;
+word-wrap: break-word;
+}

@@ -1,0 +1,126 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>优惠券&套票退款</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_info.css" type="text/css">
+<link rel="stylesheet" href="css/coupon_back.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/page_template.js"></script>
+<script src="js/msg_reset.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>		
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img11.png" class="lnav_img lnav_img11"><span class="lnav_text">展示</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item lnav_now" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券&套票</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img13.png" class="lnav_img lnav_img13"><span class="lnav_text">推广</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img14.png" class="lnav_img lnav_img14"><span class="lnav_text">收银</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img15.png" class="lnav_img lnav_img15"><span class="lnav_text">统计&明细</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img9"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item "><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<div class="pb pop_del">
+			<form>
+			<div class="pb_title">删除</div>
+			<div class="pb_main">
+				确认删除图片<!-- <span class="pb_cate_name"></span> -->
+			</div>
+			<input type="hidden" name="id">
+			<button type="button" class="pb_btn pb_btn_s" >确定</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+			</form>
+		</div>
+		<div class="r_title">优惠券&套票退款</div>	
+		<div class="tb_wrap tb_other">
+			<div class="div_top">
+				显示：
+				<input type="checkbox" class="check_lis" id="selectAll" />全部
+				<input type="checkbox" class="check_li" />审核中
+				<input type="checkbox" class="check_li" />退款中
+				<input type="checkbox" class="check_li" />退款成功
+				<input type="checkbox" class="check_li" />退款失败
+			</div>
+			<table class="tb_main tb_list">
+				<thead>
+					<th>退款提交时间</th>
+					<th>用户手机号码</th>
+					<th>退款优惠券&套票</th>
+					<th>退款金额</th>
+					<th>支付方式</th>
+					<th>操作</th>
+				</thead>
+				<tr class="tr tr_bg">
+					<td>2015-08-15<br/>15:42:21</td>
+					<td>135825625365</td>
+					<td>优惠券名称</td>
+					<td>20.00元</td>
+					<td>微信支付<br/>订单号码：2484254875125544</td>
+					<td>
+						审核中<br/>
+						<a href="javascript:;" data-code="1" data-status="ACCEPTED" class="a_pop">通过</a>
+						<a href="javascript:;" data-code="2" data-status="REJECTED" class="a_pop">拒绝</a>
+					</td>
+				</tr>
+				<tr class="tr ">
+					<td>2015-08-15<br/>15:42:21</td>
+					<td>135825625365</td>
+					<td>【套票】套票名称</td>
+					<td>20.00元</td>
+					<td>微信支付<br/>订单号码：2484254875125544</td>
+					<td>
+						退款中<br/>
+						<a href="javascript:;" data-code="3" data-status="SUCCESS" class="a_pop">通过</a>
+						<a href="javascript:;" data-code="4" data-status="FAILED" class="a_pop">拒绝</a>
+					</td>
+				</tr>
+				<tr class="tr tr_bg">
+					<td>2015-08-15<br/>15:42:21</td>
+					<td>135825625365</td>
+					<td>【套票】套票名称</td>
+					<td>20.00元</td>
+					<td>微信支付<br/>订单号码：2484254875125544</td>
+					<td>
+						退款成功<br/>
+					</td>
+				</tr>
+				<tr class="tr ">
+					<td>2015-08-15<br/>15:42:21</td>
+					<td>135825625365</td>
+					<td>【套票】套票名称</td>
+					<td>20.00元</td>
+					<td>微信支付<br/>订单号码：2484254875125544</td>
+					<td>
+						退款失败<br/>
+					</td>
+				</tr>
+			</table>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

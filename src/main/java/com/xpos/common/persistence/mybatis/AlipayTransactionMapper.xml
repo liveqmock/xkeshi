@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.AlipayTransactionMapper" >
+  <resultMap id="basicMap" type="com.xkeshi.pojo.po.alipay.AlipayTransaction">
+    <id property="id" column="id"/>
+    <result property="orderNumber" column="order_number"/>
+    <result property="thirdOrderCode" column="third_order_code"/>
+    <result property="prepaidCardChargeOrderCode" column="prepaid_card_charge_order_code"/>
+    <result property="sellerAccount" column="seller_account"/>
+    <result property="buyerId" column="buyer_id"/>
+    <result property="buyerAccount" column="buyer_account"/>
+    <result property="amount" column="amount"/>
+    <result property="alipayPaymentStatus" column="alipay_payment_status_id"/>
+    <result property="serial" column="serial"/>
+    <result property="alipaySerial" column="alipay_serial"/>
+    <result property="responseCode" column="response_code"/>
+    <result property="deviceNumber" column="device_number"/>
+  </resultMap>
+  <resultMap id="alipayTransactionList" type="com.xkeshi.pojo.po.AlipayTransactionList">
+      <id property="id" column="id"/>
+      <result property="orderNumber" column="order_number" />
+      <result property="amount" column="amount" />
+      <result property="tradeTime" column="trade_time" />
+      <result property="createdTime" column="created_time" />
+      <result property="buyerId" column="buyer_id" />
+      <result property="businessId" column="businessId" />
+      <result property="shopId" column="shop_id" />
+      <result property="shopName" column="shop_name" />
+      <result property="merchantId" column="merchant_id" />
+      <result property="memberName" column="member_name" />
+      <result property="mobile" column="member_mobile" />
+      <result property="statusCode" column="status_code" />
+      <result property="statusName" column="status_name" />
+  </resultMap>
+  <resultMap id="alipayTransactionDetail" type="com.xkeshi.pojo.po.AlipayTransactionDetail">
+      <result property="id" column="id"/>
+      <result property="amount" column="amount"/>
+      <result property="serial" column="serial"/>
+      <result property="alipaySerial" column="alipay_serial" />
+      <result property="buyerId" column="buyer_id"/>
+      <result property="sellerAccount" column="seller_account"/>
+      <result property="deviceNumber" column="device_number"/>
+      <result property="responseCode" column="response_code"/>
+      <result property="tradeTime" column="trade_time"/>
+      <result property="createdTime" column="created_time"/>
+      <result property="updatedTime" column="updated_time"/>
+      <result property="statusCode" column="status_code"/>
+      <result property="statusName" column="status_name"/>
+      <result property="memberName" column="member_name"/>
+      <result property="memberMobile" column="member_mobile"/>
+      <result property="operatorUserName" column="operator_username"/>
+  </resultMap>
+
+  
+  <insert id="insert" parameterType="com.xkeshi.pojo.po.alipay.AlipayTransaction" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO alipay_transaction (
+		`order_number`,
+		`third_order_code`,
+		`prepaid_card_charge_order_code`,
+		`seller_account`,
+		`buyer_id`,
+		`buyer_account`,
+		`amount`,
+		`alipay_payment_status_id`,
+		`serial`,
+		`device_number`
+	)
+	VALUES
+		(
+			#{orderNumber},
+			#{thirdOrderCode},
+			#{prepaidCardChargeOrderCode},
+			#{sellerAccount},
+			#{buyerId},
+			#{buyerAccount},
+			#{amount},
+			#{alipayPaymentStatus},
+			#{serial},
+			#{deviceNumber}
+		)
+  </insert>
+  
+  <select id="selectById" resultMap="basicMap">
+	SELECT
+		*
+	FROM
+		alipay_transaction
+	WHERE
+		id = #{id}
+	AND status = 1
+  </select>
+  
+  <update id="updateById" parameterType="com.xkeshi.pojo.po.alipay.AlipayTransaction">
+	UPDATE alipay_transaction
+	SET buyer_id = #{buyerId},
+	 buyer_account = #{buyerAccount},
+	 alipay_payment_status_id = #{alipayPaymentStatus},
+	 alipay_serial = #{alipaySerial},
+	 response_code = #{responseCode},
+	 trade_time = #{tradeTime},
+	 `comment` = #{comment}
+	WHERE
+		id = #{id}
+		AND `status` = 1
+  </update>
+
+  <select id="selectBySerial" resultMap="basicMap">
+	SELECT
+		*
+	FROM
+		alipay_transaction
+	WHERE
+		serial = #{serial}
+		AND STATUS = 1
+  </select>
+  <select id="getByOrderNumberAndSerial" resultMap="basicMap">
+	SELECT
+		*
+	FROM
+		alipay_transaction
+	WHERE
+		serial = #{serial} and order_number = #{orderNumber}
+		AND STATUS = 1
+  </select>
+  
+  <select id="getOrderTotalAmountByOperatorSessionCode"  resultType="com.xkeshi.pojo.vo.shift.AlipayTransactionVO" >
+  	SELECT
+	   SUM(COALESCE(at.amount , 0.00)) totalAmount
+	FROM
+		alipay_transaction at
+	LEFT OUTER JOIN orders o ON `at`.order_number = o.orderNumber
+	WHERE
+		`at`.`status` = 1
+	AND o.status =  'SUCCESS'  
+	AND o.operator_session_code = #{operatorSessionCode}
+  </select>
+  
+  <select id="getThirdOrderTotalAmountByOperatorSessionCode"  resultType="com.xkeshi.pojo.vo.shift.AlipayTransactionVO" >
+  	SELECT
+	   SUM(COALESCE(at.amount , 0.00)) totalAmount
+	FROM
+		alipay_transaction at
+	LEFT OUTER JOIN third_order o ON `at`.third_order_code = o.third_order_code
+	WHERE
+		`at`.`status` = 1
+    AND `at`.alipay_payment_status_id = 1 
+	AND o.third_order_payment_status_id =  1  
+	AND o.operator_session_code = #{operatorSessionCode}
+  </select>
+  
+  <select id="getPayTransactionGroupByOrderNumber"  resultType="com.xkeshi.pojo.vo.transaction.AlipayTransactionVO">
+  	SELECT 
+	   SUM(COALESCE(t.amount , 0.00))  amount 
+	FROM
+		alipay_transaction  t 
+    WHERE
+    	t.order_number = #{orderNumber}  AND t.`status`  = 1 AND t.alipay_payment_status_id in (1,7)
+	GROUP BY  t.order_number
+  </select>
+  
+  <select id="countByOperatorAndType" resultType="int">
+       select 
+       	count(*) 
+       from 
+       	alipay_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+   
+   <select id="getAmountByOperatorAndType" resultType="java.math.BigDecimal">
+       select 
+      	 IFNULL(SUM(COALESCE(ct.amount , 0.00)),0)
+       from 
+       	alipay_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+
+   <select id="AlipayQRCodeList" resultMap="alipayTransactionList">
+        SELECT
+            a.id,
+            a.order_number,
+            a.amount,
+            a.trade_time,
+            a.created_time,
+            a.buyer_id,
+            a.created_time,
+            o.businessId,
+            s.id shop_id,
+            s. NAME shop_name,
+            s.merchant_id merchant_id,
+            m. NAME member_name,
+            m.mobile member_mobile,
+            mrps.code status_code,
+            mrps.name status_name
+        FROM
+            alipay_transaction a
+        LEFT JOIN orders o ON a.order_number = o.orderNumber
+        LEFT JOIN shop s ON o.businessId = s.id
+        LEFT JOIN member m ON o.member_id = m.id
+        LEFT JOIN meta_transaction_payment_status mrps on a.alipay_payment_status_id = mrps.id
+        WHERE
+        <choose>
+            <when test="businessType == 'SHOP'">s.id = #{alipayTransactionVo.businessId}</when>
+            <when test="businessType == 'MERCHANT'">s.merchant_id = #{alipayTransactionVo.businessId}</when>
+        </choose>
+        <if test="alipayTransactionVo.shopName != null">
+            AND s.name LIKE CONCAT('%','${alipayTransactionVo.shopName}','%')
+        </if>
+        <if test="alipayTransactionVo.status != null">
+            AND mrps.code IN
+            <foreach collection="alipayTransactionVo.status" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="key != null">
+            AND (m.name LIKE CONCAT('%','${key}','%') OR m.mobile LIKE CONCAT('%','${key}','%') OR a.buyer_id LIKE CONCAT('%','${key}','%'))
+        </if>
+        <if test="alipayTransactionVo.startDateTime != null">
+            AND a.created_time >= #{alipayTransactionVo.startDateTime}
+        </if>
+        <if test="alipayTransactionVo.endDateTime != null">
+            AND a.created_time &lt;= #{alipayTransactionVo.endDateTime}
+        </if>
+        <if test="pager != null"><!-- 本来是要按照交易时间倒序排序的，但是如果订单未付款交易时间是null的，所以就按照创建时间来排序 -->
+        	ORDER BY a.created_time DESC
+            LIMIT #{pager.startNumber}, #{pager.pageSize}
+        </if>
+        
+   </select>
+
+   <select id="AlipayQRCodeListSize" resultType="int">
+        SELECT
+            count(*)
+        FROM
+            alipay_transaction a
+        LEFT JOIN orders o ON a.order_number = o.orderNumber
+        LEFT JOIN shop s ON o.businessId = s.id
+        LEFT JOIN member m ON o.member_id = m.id
+        LEFT JOIN meta_transaction_payment_status mrps on a.alipay_payment_status_id = mrps.id
+        WHERE
+        <choose>
+            <when test="businessType == 'SHOP'">s.id = #{alipayTransactionVo.businessId}</when>
+            <when test="businessType == 'MERCHANT'">s.merchant_id = #{alipayTransactionVo.businessId}</when>
+        </choose>
+        <if test="alipayTransactionVo.shopName != null">
+            AND s.name LIKE CONCAT('%','${alipayTransactionVo.shopName}','%')
+        </if>
+        <if test="alipayTransactionVo.status != null">
+            AND mrps.code IN
+            <foreach collection="alipayTransactionVo.status" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="key != null">
+            AND (m.name LIKE CONCAT('%','${key}','%') OR m.mobile LIKE CONCAT('%','${key}','%') OR a.buyer_id LIKE CONCAT('%','${key}','%'))
+        </if>
+        <if test="alipayTransactionVo.startDateTime != null">
+            AND a.created_time >= #{alipayTransactionVo.startDateTime}
+        </if>
+        <if test="alipayTransactionVo.endDateTime != null">
+            AND a.created_time &lt;= #{alipayTransactionVo.endDateTime}
+        </if>
+   </select>
+
+   <select id="findAlipayTransactionById" resultMap="alipayTransactionDetail">
+        SELECT
+            a.id,
+            a.amount,
+            a.serial,
+            a.alipay_serial,
+            a.buyer_id,
+            a.seller_account,
+            a.device_number,
+            a.response_code,
+            a.trade_time,
+            a.created_time,
+            a.updated_time,
+            mrps.code status_code,
+            mrps.name status_name,
+            m.name member_name,
+            m.mobile member_mobile,
+            op.username operator_username
+        FROM
+            alipay_transaction a
+        LEFT JOIN orders o ON a.order_number = o.orderNumber
+        LEFT JOIN member m ON o.member_id = m.id
+        LEFT JOIN meta_transaction_payment_status mrps on a.alipay_payment_status_id = mrps.id
+        LEFT JOIN operator op on o.operator_id = op.id
+        WHERE a.id = #{id}
+   </select>
+   
+  <update id="updateStatusById">
+	UPDATE alipay_transaction
+	SET alipay_payment_status_id = #{alipayPaymentStatus}
+	WHERE
+		id = #{id}
+		AND `status` = 1
+  </update>
+  
+</mapper>

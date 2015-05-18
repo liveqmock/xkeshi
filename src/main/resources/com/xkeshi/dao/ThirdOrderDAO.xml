@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.ThirdOrderDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.ThirdOrder">
+        <id property="id" column="id"/>
+        <result property="comment" column="comment"/>
+        <result property="status" column="status"/>
+
+        <result property="thirdOrderCode" column="third_order_code"/>
+        <result property="amount" column="amount"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="deviceNumber" column="device_number"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="operatorSessionCode" column="operator_session_code"/>
+        <result property="consumerName" column="consumer_name"/>
+        <result property="consumerGender" column="consumer_gender"/>
+        <result property="consumerMobileNumber" column="consumer_mobile_number"/>
+        <result property="xAppCode" column="x_app_code"/>
+        <result property="xAppVersion" column="x_app_version"/>
+        <result property="thirdOrderPaymentStatusId" column="third_order_payment_status_id"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+
+    </resultMap>
+    <update id="updateOrderRefundStatus">
+        UPDATE third_order
+        SET third_order_payment_status_id = #{refundStatus}
+        WHERE
+            third_order_code = #{orderNumber}
+    </update>
+    <select id="getActuallyPaidAmount" resultType="java.math.BigDecimal">
+         SELECT
+            t.amount
+        FROM
+            third_order t
+        WHERE
+            t.third_order_code = #{orderNumber}
+    </select>
+    <select id="checkAvailableRefund" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            third_order t
+        WHERE
+            t.third_order_code = #{orderNumber}
+        AND t.`status` = 1
+        AND t.third_order_payment_status_id = 1
+    </select>
+</mapper>

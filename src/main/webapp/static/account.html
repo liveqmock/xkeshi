@@ -1,0 +1,137 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_list_new.css" type="text/css">
+<link rel="stylesheet" href="css/account.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/My97DatePicker/WdatePicker.js"></script>
+<script src="js/back_base.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<div class="r_title">账户明细<div class="search_wrap"><form class="search_form"><input type="text" class="search_input" placeholder="商户ID/商户简称"><button class="search_btn"></button></form><a class="pop_a filter_a" href="javascript:" data-pop="pop_filter"></a></div></div>
+		<div class="opt_wrap">可用余额： <em class="g_num">1200.00</em> 元 （冻结：100.00元）<a href="javascript:" class="b_a pop_a" data-pop="pop_charge">充值</a></div>
+		<table class="tb_main">
+			<tr class="th">
+				<td class="date">日期</td>
+				<td class="change">账户变化</td>
+				<td class="source">来源/用途</td>
+				<td class="remark">备注</td>
+			</tr>
+			<tr class="tr_bg">
+				<td class="date">2013-11-22 12:48:39</td>
+				<td class="change"><em class="g_num">+60.00</em></td>
+				<td class="source">商家自助充值</td>
+				<td class="remark"></td>
+			</tr>
+			<tr class="tr">
+				<td class="date">2013-11-22 12:48:39</td>
+				<td class="change"><em class="r_num">-60.00</em></td>
+				<td class="source">商家自助充值</td>
+				<td class="remark"></td>
+			</tr>
+			<tr class="tr_bg">
+				<td class="date">2013-11-22 12:48:39</td>
+				<td class="change"><em class="g_num">+60.00</em></td>
+				<td class="source">商家自助充值</td>
+				<td class="remark"></td>
+			</tr>
+			<tr class="tr">
+				<td class="date">2013-11-22 12:48:39</td>
+				<td class="change"><em class="r_num">-60.00</em></td>
+				<td class="source">商家自助充值</td>
+				<td class="remark"></td>
+			</tr>
+		</table>
+		<div class="pb pop_filter">
+			<form>
+			<div class="pb_title">筛选<a href="javascript:" class="pb_close"></a></div>
+			<div class="pb_main">
+				<div class="pb_item">
+					<p class="pb_title2">按时间</p>
+					<input type="text" class="tcal pb_input" style="margin-right:14px;"><input type="text" class="tcal pb_input">
+				</div>
+			</div>
+			<button class="pb_btn">确定</button>
+			</form>
+		</div>
+		<div class="pb pop_charge">
+			<form>
+			<div class="pb_title">积分充值<a href="javascript:" class="pb_close"></a></div>
+			<div class="pb_main">
+				<table class="pb_table">
+					<tr>
+						<td class="td_key">当前可用余额</td>
+						<td class="td_val">1200.00元</td>
+					</tr>
+					<tr>
+						<td class="td_key">选择充值金额</td>
+						<td class="td_val"><select class="pb_sel"></select></td>
+					</tr>
+					<tr>
+						<td class="td_key">输入自定义充值金额</td>
+						<td class="td_val"><input type="text" class="pb_input"></td>
+					</tr>
+					<tr>
+						<td class="td_key">支付银行</td>
+						<td class="td_val"><select class="pb_sel"></select></td>
+					</tr>
+					<tr>
+						<td class="td_key">充值后可用余额</td>
+						<td class="td_val">2200.00元</td>
+					</tr>
+					<tr>
+						<td class="td_key">需支付</td>
+						<td class="td_val"><em class="r_num">100.00</em>元</td>
+					</tr>
+				</table>
+			</div>
+			<div class="pb_btn_wrap"><button class="pb_btn">确定</button></div>
+			</form>
+		</div>
+		<div class="pb pop_charge_done">
+			<div class="pb_title">积分充值<a href="javascript:" class="pb_close"></a></div>
+			<div class="pb_main">
+				<a class="pay_done" href="javascript:">支付完成</a>
+				<a class="pay_error" href="javascript:">支付遇到问题</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>

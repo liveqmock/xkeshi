@@ -1,0 +1,152 @@
+.tb_main tr td{
+border: none;
+border-bottom: 1px solid #e5e8e6;
+padding: 16px 0 16px 20px;
+width: 430px;
+}
+.tb_main{
+border: 1px solid #e5e8e6;
+}
+.rb{
+float: right;
+margin-right: 55px;
+}
+.tb_main .th td{
+padding: 13px 0 13px 20px;
+}
+.tb_main a{
+margin-right: 55px;
+}
+.tb_main .name a.b_a{
+	color:#027dff;
+}
+.tb_title a{
+color: #027DFF;
+font-weight: normal;
+font-size: 12px;
+float: right;
+margin-right: 8px;
+text-decoration: underline;
+}
+.tb_title a:hover{
+text-decoration: underline;
+}
+.tb_wrap2 .tb_title a{
+margin-right: 20px;
+}
+.tb_wrap2 .tb_main a{
+margin-right: 42px;
+}
+ 
+.pb_title{
+color: #428bca;
+font-weight: bold;
+padding-bottom: 9px;
+}
+.pb_close{
+display: block;
+float: right;
+width: 20px;
+height: 20px;
+background: url(img/admin_frame/pb_close.png) no-repeat 0 0;
+}
+.pb_item{
+padding: 14px 0;
+border-top: 1px solid #ebebeb;
+}
+.pb_item:first-child{
+	border-top:none;
+}
+.pb_item_title{
+color: #4b4b4b;
+font-size: 12px;
+font-weight: bold;
+}
+.pb_item_card_title{
+color: #757575;
+font-size: 12px;
+font-weight: bold;
+}
+.pb_item_input{
+border: 1px solid #d9d9d9;
+padding: 5px;
+border-radius: 3px;
+color: #666667;
+font-size: 12px;
+margin: 7px 0 4px;
+width: 201px;
+}
+.pb_s_save{
+width: 99px;
+}
+.pb_s_del{
+width: 99px;
+background: #e17b38;
+border: 1px solid #e06e39;
+margin-left: 5px;
+}
+.pb_item_cont{
+font-size: 12px;
+color: 666667;
+margin: 12px 0 6px;
+}
+.del_pos, .add_pos{
+height: 146px;
+}
+.show_memberShipCard{
+	color: #027DFF;
+	border: none;
+}
+.tb_main tr td{
+width:auto;
+}
+.tb_main tr td.mer_name,.tb_main tr td.mer_name2,.tb_main tr td.mer_type,.tb_main tr td.mer_tel{
+	width:110px;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.tb_main .th td.mer_time{
+	width:130px;
+}
+
+.tb_main .th td.mer_id{
+	width:60px;
+}
+.tb_main tr td.merc_name{
+	width:140px;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.tb_main tr td.merc_name2{
+	width:140px;
+}
+.tb_main tr td.merc_type{
+	width:140px;
+}
+.tb_main tr td.merc_tel{
+	width:140px;
+}
+.tb_main tr td.merc_time{
+	width:auto;
+}
+.tb_main tr td:last-child{
+padding-right: 20px;
+}
+.pb_item select:last-child{
+margin-left: 0;
+}
+.pb_btn_s2{
+	width:146px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	display:inline-block;
+}
+.show_cover_picture{
+	color:#027DFF;
+}
+
+.b_tit{
+	/*float: none;*//*此属性导致会员列表筛选提示框不正常*/
+	display: inline-block;
+}

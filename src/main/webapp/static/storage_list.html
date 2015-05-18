@@ -1,0 +1,185 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_list_new.css" type="text/css">
+<link rel="stylesheet" href="css/product_list.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/back_base.js"></script>
+<script src="js/storage_list.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<div class="r_title"><a class="back_a" href="javascript:history.go(-1);"></a>商品批量出入库</div>
+		<table class="tb_main tb_all">
+			<tr class="th tr_bg">
+				<td class="id">顺序</td>
+				<td class="img"></td>
+				<td class="name">商品名称</td>
+				<td class="state">单价</td>
+				<td class="date">库存</td>
+				<td class="sum">分类</td>
+				<td class="sum">是否上架</td>
+				<td class="storage">出库/入库</td>
+			</tr>
+			<tr class="tr" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+			<tr class="tr_bg" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+			<tr class="tr" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+			<tr class="tr_bg" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+			<tr class="tr" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+			<tr class="tr_bg" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+			<tr class="tr" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+			<tr class="tr_bg" data-id="123">
+				<td class="id">1</td>
+				<td class="img"><img src="css/img/admin_frame/product_img.png"></td>
+				<td class="name">啤酒鸭</td>
+				<td class="price">998.00</td>
+				<td class="amount">20</td>
+				<td class="cat">热菜</td>
+				<td class="ison">已上架</td>
+				<td class="storage"><input type="text" class="storage_input"></td>
+			</tr>
+		</table>
+		<div class="btn_wrap">
+			<button class="pb_btn sub_btn">提交库存修改</button>
+		</div>
+	</div>
+	<div class="pb pop_change">
+		<div class="pb_title">本次库存修改如下</div>
+		<div class="pb_main">
+			<table class="tb_main pb_tb">
+<!--				<tr class="th">
+					<td class="name">商品名称</td>
+					<td class="store1">修改前库存</td>
+					<td class="change">库存变化</td>
+					<td class="store2">修改后库存</td>
+				</tr>
+ 				<tr class="tr tr_bg">
+					<td class="name">啤酒鸭</td>
+					<td class="store1">20</td>
+					<td class="change">+100</td>
+					<td class="store2">120</td>
+				</tr>
+				<tr class="tr">
+					<td class="name">啤酒鸭</td>
+					<td class="store1">20</td>
+					<td class="change">+100</td>
+					<td class="store2">120</td>
+				</tr>
+				<tr class="tr tr_bg">
+					<td class="name">啤酒鸭</td>
+					<td class="store1">20</td>
+					<td class="change">+100</td>
+					<td class="store2">120</td>
+				</tr> -->
+			</table>
+		</div>
+		<div class="pb_btn_wrap">
+			<button class="pb_btn change_btn">确定</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+		</div>
+		<form class="change_form">
+			<input type="hidden" name="data" value="" class="hidden_data">
+		</form>
+	</div>
+</div>
+<div class="black_cover"></div>
+</body>
+</html>

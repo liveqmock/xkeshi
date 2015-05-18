@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.OperatorShiftConsumedPhysicalCouponDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.OperatorShiftConsumedPhysicalCoupon">
+        <id column="id" property="id"/>
+        <result column="operator_shift_id" property="operatorShiftId"/>
+        <result column="physical_coupon_id" property="physicalCouponId"/>
+        <result column="physical_coupon_amount" property="physicalCouponAmount"/>
+        <result column="physical_coupon_name" property="physicalCouponName"/>
+        <result column="total_consumed_count" property="totalConsumedCount"/>
+        <result column="status" property="status"/>
+    </resultMap>
+     
+    <insert id="insertOperatorShiftConsumedPhysicalCoupon" parameterType="com.xkeshi.pojo.po.OperatorShiftConsumedPhysicalCoupon">
+	INSERT INTO
+    operator_shift_consumed_physical_coupon  
+	    (  operator_shift_id , physical_coupon_id , physical_coupon_name , physical_coupon_amount,total_consumed_count)
+    VALUES
+    	(#{operatorShiftId},#{physicalCouponId},#{physicalCouponName},#{physicalCouponAmount},#{totalConsumedCount})
+    </insert>
+	
+</mapper>

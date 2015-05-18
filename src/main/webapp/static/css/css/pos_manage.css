@@ -1,0 +1,84 @@
+.id_edit_a{
+display: block;
+float: left;
+width: 28px;
+height: 28px;
+background: url(img/kuang_edit.png) no-repeat 0 0;
+margin-right: 16px;
+}
+.btn_wrap{
+margin-top: 32px;
+text-align: center;
+display: none;
+}
+.id_manage_save{
+background:url(img/id_manage_save.png) no-repeat 0 0;
+border:none;
+cursor: pointer;
+width: 122px;
+height: 32px;
+vertical-align: middle;
+}
+.btn_split{
+margin:0 6px;
+}
+.btn_cancel{
+color: #666;
+text-decoration: underline;
+}
+.btn_cancel:hover{
+text-decoration: underline;	
+}
+.add_a{
+text-decoration: underline;
+color: #06b7f3;
+float: left;
+margin: 0 0 12px 12px;
+display: block;
+}
+.add_a:hover{
+text-decoration: underline;
+}
+.blue_edit{
+border:1px solid #06b7f3;
+border-radius: 4px;
+margin:0 12px 12px 0;
+display: block;
+float: left;
+padding: 3px 0;
+}
+.item_input{
+border:none;
+width: 80px;
+}
+.del_item_a{
+padding: 8px;
+font-size: 18px;
+color: #d20;
+line-height: 18px;
+margin-left: 12px;
+}
+.item_wrap{
+overflow: hidden;
+margin: 0 20px 16px;
+color: #666;
+width: 748px;
+}
+.r_head{
+margin-bottom: 20px;
+}
+.item_title{
+float: left;
+font-weight: bold;
+color: #333;
+margin-right: 32px;
+}
+.item_block{
+overflow: hidden;
+width: 650px;
+}
+.item{
+margin: 0 32px 16px 0;
+float: left;
+width: 92px;
+}

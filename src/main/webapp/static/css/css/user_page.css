@@ -1,0 +1,62 @@
+.r_block{
+margin: 48px 0 0 48px;
+}
+.user_avatar{
+width: 160px;
+height: 160px;
+border-radius: 80px;
+margin: 0 0 0 72px;
+display: block;
+}
+.card_add_a{
+width: 28px;
+height: 28px;
+background: url(img/add_card.png) no-repeat 0 0;
+display: block;
+float: right;
+}
+.basic_info, .card_info{
+border: 1px solid #ddd;
+padding: 12px 32px;
+font-size: 13px;
+margin-top: 32px;
+}
+.info_title, .td_name{
+font-size: 15px;
+font-weight: bold;
+color: #333;
+}
+.td_name{
+margin-right: 12px;
+}
+.infotb{
+margin-top: 16px;
+}
+.infotb tr td{
+padding-bottom: 8px;
+}
+.infotb tr .td_title{
+text-align: right;
+padding-right: 100px;
+width: 80px;
+color: #999;
+}
+.basic_info{
+margin-top: 0;
+}
+.sanjiaoxing{
+height: 20px;
+width: 23px;
+background: url(img/sanjiaoxing.png) no-repeat 0 0;
+margin: 10px 0 -1px 140px;
+position: relative;
+}
+.card_edit_a{
+margin-left: 12px;
+color: #3D83F8;
+text-decoration: underline;
+vertical-align: 1px;
+}
+.card_edit_a:hover{
+text-decoration: underline;
+}

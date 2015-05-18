@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.PageMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Page" >
+  	<association property="pageTemplate" column="pageTemplate_id" select="com.xpos.common.persistence.mybatis.PageTemplateMapper.selectByPrimaryKey" />  
+  	<association property="pageCategory" column="pageCategory_id" select="com.xpos.common.persistence.mybatis.PageCategoryMapper.selectByPrimaryKey" />  
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Page" extends="ListMap">
+    
+  </resultMap>
+    <select id="selectByPrimaryKey" resultMap="DetailMap">
+  	select * from Page where id=#{id}
+  </select>
+</mapper>

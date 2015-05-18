@@ -1,0 +1,43 @@
+.tb_main{
+width: 100%;
+}
+.name_input{
+border: 1px solid #C0C0C0;
+border-radius: 3px;
+padding: 9px;
+width: 736px;
+}
+.tb_main .td_key{
+width: 60px;
+}
+.tb_main tr td{
+padding: 19px 0 18px 20px;
+}
+.rd_span{
+margin-right: 92px;
+color: #666;
+}
+.rd_span input{
+vertical-align: -2px;
+margin-right: 12px;
+}
+.item_img{
+border: 1px solid #D5D5D5;
+box-shadow: -1px 1px 0 #CDCBCC;
+height: 180px;
+width: 180px;
+vertical-align: middle;
+}
+.tb_main tr .img_td{
+padding: 24px 0 24px 20px;
+}
+.add_photo_btn{
+margin: 24px 8px 0 256px;
+}
+.photo_input{
+border: 1px solid #C0C0C0;
+border-radius: 3px;
+padding: 9px;
+width: 736px;
+background: #fff;
+}

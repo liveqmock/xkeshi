@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean name="component" id="component" autowire="byName" class="org.restlet.ext.spring.SpringComponent">
+		<property name="defaultTarget" ref="router" />
+	</bean>
+	<bean name="router" class="org.restlet.ext.spring.SpringBeanRouter" />
+
+	<!-- API 0: http post/put获取全局唯一的ticket -->
+	<bean name="/ticket/new" id="ticketNew" autowire="byName" scope="prototype"
+		class="com.xpos.api.TicketResource" />
+
+	<!-- API 1: POS终端操作员登陆 -->
+	<bean name="/pos/login" id="posLogin" autowire="byName" scope="prototype"
+		class="com.xpos.api.PosResource" />
+
+	<!-- API 2: 新会员注册 -->
+	<bean name="/member/register" id="memberRegister" autowire="byName" scope="prototype"
+		class="com.xpos.api.MemberResource" />
+	
+	
+	<!-- API 3: 请求订单 -->
+	<bean name="/order/add" id="orderAdd" autowire="byName" scope="prototype"
+		class="com.xpos.api.OrderResource" />
+
+	<!-- API 4: 获取商户的会员列表 -->
+	<bean name="/merchant/{mid}/member/list" id="getMerchantMemberList" scope="prototype"
+		autowire="byName" class="com.xpos.api.MemberListResource" />
+	
+	<!-- API 5: 得到核销信息 -->
+	<bean name="/merchant/{mid}/activity" id="getMerchantActivity" scope="prototype"
+		autowire="byName" class="com.xpos.api.ActivityResource" />
+
+	<!-- API 6: 商户核销成功列表 -->
+	<bean name="/merchant/{mid}/coupon/used/list" id="getMerchantUsedCouponList" scope="prototype"
+		autowire="byName" class="com.xpos.api.MerchantUsedCouponResource" />
+
+	<!-- API 8: 用户已核销列表 -->
+	<bean name="/merchant/{mid}/member/coupon/used/list" id="getMemberUsedCouponList" scope="prototype"
+		autowire="byName" class="com.xpos.api.MemberUsedCouponResource" />
+
+	<!-- API 10: 验证核销码 -->
+	<bean name="/merchant/{mid}/coupon/consume" id="consumeCoupon" scope="prototype"
+		autowire="byName" class="com.xpos.api.CouponResource" />
+
+	<!-- API 11: 修改会员资料 	-->
+	<bean name="/merchant/{mid}/member/{mbid}/update" id="updateMember" scope="prototype"
+		autowire="byName" class="com.xpos.api.MemberResource" />
+
+
+	<!-- API 12: 提交支付状态 -->
+	<bean name="/order/umpay/payment/update" id="updateOrderStatus" scope="prototype"
+		autowire="byName" class="com.xpos.api.OrderPaymentResource" />
+
+	<!-- API 14: 获取用户信息 -->
+	<bean name="/merchant/{mid}/member/{phone}" id="getMemberInfo" scope="prototype"
+		autowire="byName" class="com.xpos.api.MemberResource" />
+	
+	
+	<!-- API 16: 记录客户端操作记录 -->
+	<bean name="/merchant/{mid}/terminal/operation/record" id="recordOperation" scope="prototype"
+		autowire="byName" class="com.xpos.api.TerminalOptResource" />
+
+	<!-- API 17: 验证客户端版本 -->
+	<bean name="/terminal/version/check" id="checkTerminalVersion" scope="prototype"
+		autowire="byName" class="com.xpos.api.MerchantDeviceResource" />
+
+	<!-- API 18: 获取商家打折活动列表 
+	<bean name="/merchant/{mid}/activity/public/list" id="getMerchantPubActivityList" scope="prototype"
+		autowire="byName" class="com.xpos.api.MerchantActivityResource" />
+	-->
+
+	<!-- API 19: 非会员交易后更新手机号 -->
+	<bean name="/order/update/phone" id="updateOrderPhone" autowire="byName" scope="prototype"
+		class="com.xpos.api.OrderResource" />
+
+	<!-- API 20: 联动优势交易成功后的回调 -->
+	<bean name="/order/umpay/payment/notify" id="updateOrderStatusXML" scope="prototype"
+		autowire="byName" class="com.xpos.api.OrderPaymentXMLResource" />
+
+	<!-- API 21: 重发优惠码短信 -->
+	<bean name="/coupon/{couponId}/resend" id="resendCoupon" autowire="byName" scope="prototype"
+		class="com.xpos.api.CouponResource" />
+
+	<!-- API 22: 绑定终端的接口 -->
+	<bean name="/merchant/device/binding" id="merchantDeviceBanding" scope="prototype"
+		autowire="byName" class="com.xpos.api.MerchantDeviceResource" />
+
+	<!-- API 23: 商户获取交易列表 -->
+	<bean name="/merchant/{mid}/order/list" id="merchantOrderList" scope="prototype"
+		autowire="byName" class="com.xpos.api.OrderListResource" />
+
+	<!-- API 24: 联动优势回调传回电子签名图片 -->
+	<bean name="/order/umpay/update/signature" id="orderSignatureUpload" scope="prototype"
+		autowire="byName" class="com.xpos.api.SignatureResource" />
+
+	<!-- API 25: 积分活动列表
+	<bean name="/merchant/{mid}/point/activity/list" id="getMerchantPointActivities" scope="prototype"
+		autowire="byName" class="com.xpos.api.PointResource" />
+	-->
+	
+	<!-- API 26: 移动电子券余额 -->
+	<bean name="/member/cmcc_ticket/balance" id="getTicketBalanceByPhone" scope="prototype"
+		autowire="byName" class="com.xpos.api.CMCCTicketOrderResource" />
+	
+
+	<!-- API 27: 创建并支付移动电子券订单 -->
+	<bean name="/order/cmcc_ticket/pay" id="payTicketOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.CMCCTicketOrderResource" />
+	
+	
+	<!-- API 28: 中行订单支付通知 -->
+	<bean name="/order/boc/payment/notify" id="paymentNotify" scope="prototype"
+		autowire="byName" class="com.xpos.api.BOCOrderResource" />
+
+	<!-- API 29: 移动电子券订单冲正（撤销） -->
+	<bean name="/order/cmcc_ticket/cancel" id="cancelTicketOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.CMCCTicketOrderResource" />
+	
+	<!-- API 30: 盛付通交易成功后的回调 -->
+	<bean name="/order/shengpay/payment/notify" id="shengPayNotify" scope="prototype"
+		autowire="byName" class="com.xpos.api.ShengPayOrderResource" />
+	
+	<!-- API 31: 盛付通单笔交易查询 -->
+	<bean name="/order/shengpay/{mid}/query" id="shengPayQuery" scope="prototype"
+		autowire="byName" class="com.xpos.api.ShengPayOrderResource" />
+	
+	<!-- API 32: 盛付通客户签字上传 -->
+	<bean name="/order/shengpay/update/signature" id="signatureUpload" scope="prototype"
+		autowire="byName" class="com.xpos.api.ShengPayOrderResource" />
+	
+	<!-- API 33: 解绑终端的接口 -->
+	<bean name="/merchant/device/unbind" id="merchantDeviceUnbind" scope="prototype"
+		autowire="byName" class="com.xpos.api.MerchantDeviceResource" />
+	
+	<!-- API 34: 销售统计查询 -->
+	<bean name="/statistics/{mid}/summary" id="statisticsSummary" scope="prototype"
+		autowire="byName" class="com.xpos.api.StatisticsResource" />
+	
+	<!-- API 35: 收银交易流水查询 -->
+	<bean name="/orderItem/{mid}/list" id="orderList" scope="prototype"
+		autowire="byName" class="com.xpos.api.orderItem.OrderItemListResource" />
+	
+	<!-- API 36: 微信支付交易成功后的回调 -->
+	<bean name="/order/wxpay/payment/notify" id="wxPayNotify" scope="prototype"
+		autowire="byName" class="com.xpos.api.wxpay.WXPaymentResource" />
+	
+	<!-- API 37: 微信用户维权通知接口 -->
+	<bean name="/order/wxpay/feedback/notify" id="wxPayFeedback" scope="prototype"
+		autowire="byName" class="com.xpos.api.wxpay.WXFeedbackResource" />
+	
+	<!-- API 38: 第三方系统申请新优惠券接口 -->
+	<bean name="/partner/coupon/apply" id="couponApply" scope="prototype"
+		autowire="byName" class="com.xpos.api.partner.PartnerCouponResource" />
+	
+	<!-- API 39: 获取各个商户扩展会员属性 -->
+	<bean name="/merchant/{mid}/member/attribute/template" id="getMemberAttributes" autowire="byName" scope="prototype"
+		class="com.xpos.api.MemberAttributeResource" />
+
+	<!-- API 40: 第三方系统申请新优惠券接口(已事先生成券的code和password) -->
+	<bean name="/partner/thirdcoupon/apply" id="thirdcouponApply" scope="prototype"
+		autowire="byName" class="com.xpos.api.partner.PartnerThirdCouponResource" />
+	
+	<!-- API 41: 微信告警通知接口 -->
+	<bean name="/order/wxpay/alarm/" id="wxPayAlarm" scope="prototype"
+		autowire="byName" class="com.xpos.api.wxpay.WXAlarmResource" />
+			
+	<!-- API 42: 中行客户签字上传 -->
+	<bean name="/order/BOC/update/signature" id="bocSignatureUpload" scope="prototype"
+		autowire="byName" class="com.xpos.api.BOCOrderResource" />
+			
+	<!-- API 43: 支付宝统一下单并支付接口(线下扫码支付) -->
+	<bean name="/order/alipay/qrcode" id="createAndPayByQRCode" scope="prototype"
+		autowire="byName" class="com.xpos.api.alipay.AlipayQRCodePaymentOrderResource" />
+			
+	<!-- API 44: 支付宝线下扫码交易结果查询接口 -->
+	<bean name="/order/alipay/qrcode/query" id="queryQRCodeResult" scope="prototype"
+		autowire="byName" class="com.xpos.api.alipay.AlipayQRCodePaymentOrderResource" />
+			
+	<!-- API 45: 支付宝线下扫码撤销交易接口 -->
+	<bean name="/order/alipay/qrcode/cancel" id="cancelQRCodeOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.alipay.AlipayQRCodePaymentOrderResource" />
+			
+	<!-- API 46: 支付宝线下扫码退款交易接口 -->
+	<bean name="/order/alipay/qrcode/refund" id="refundQRCodeOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.alipay.AlipayQRCodePaymentOrderResource" />
+			
+	<!-- API 47: 查询单笔收银详情 -->
+	<bean name="/orderItem/{mid}/detail" id="orderItemDetail" scope="prototype"
+		autowire="byName" class="com.xpos.api.orderItem.OrderItemDetailResource" />
+			
+	<!-- API 48: 中行刷卡撤销操作通知 -->
+	<bean name="/order/boc/cancel/notify" id="cancelBOCOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.BOCOrderResource" />
+	
+	<!-- API 49: 创建点单订单记录 -->
+	<bean name="/orderItem/purchaseOrder" id="purchaseOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.orderItem.OrderItemTransactionResource" />
+	
+	<!-- API 50: 取消已有收银订单 -->
+	<bean name="/orderItem/{mid}/cancelOrder" id="cancelOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.orderItem.OrderItemTransactionResource" />
+	
+	<!-- API 51: 对现金方式的收银订单执行退款 -->
+	<bean name="/orderItem/{mid}/refundCashOrder" id="refundCashPaidOrder" scope="prototype"
+		autowire="byName" class="com.xpos.api.orderItem.OrderItemTransactionResource" />
+	
+	<!-- API 52: 编辑订单商品 -->
+	<bean name="/orderItem/changeItem" id="changeItem" scope="prototype"
+		autowire="byName" class="com.xpos.api.orderItem.OrderItemChangeResource" />
+	
+	<!-- API 53: 更新订单支付状态 -->
+	<bean name="/orderItem/updatePayment" id="updatePayment" scope="prototype"
+		autowire="byName" class="com.xpos.api.orderItem.OrderItemPaymentResource" />
+	
+	<!-- API 55: 请求电子现金支付流水 -->
+	<bean name="/order/electronic_cash/add" id="addElectronicCashOrder" autowire="byName" scope="prototype"
+		class="com.xpos.api.OrderPaymentResource" />
+	
+	<!-- ================积分模块第三方交互接口 start================ -->
+	<!-- API P1: 获取商户积分兑换配置 
+	<bean name="/merchant/{mid}/pointRate" id="getMerchantPointRate" scope="prototype"
+		autowire="byName" class="com.xpos.api.MerchantPointRateResource" />
+	-->
+	
+	<!-- API P2: 更新商户的账户余额 
+	<bean name="/merchant/account/modify" id="modifyMerchantAccount" scope="prototype"
+		autowire="byName" class="com.xpos.api.MerchantAccountResource" />
+	-->
+	<!-- ================积分模块第三方交互接口 end================ -->
+</beans>
+ 

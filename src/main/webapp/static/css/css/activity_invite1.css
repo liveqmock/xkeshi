@@ -1,0 +1,105 @@
+.r_wrap{
+width: 800px;
+}
+.actnew_wrap{
+width: 638px;
+margin: 62px auto 0;
+}
+.actnew_nav{
+background: url(img/activity_invite1.png) no-repeat 0 0;
+display: block;
+width: 638px;
+height: 54px;
+}
+.form_wrap{
+margin-top: 36px;
+}
+.fp{
+margin-bottom: 16px;
+}
+.fp label{
+color: #000;
+font-size: 15px;
+margin-right: 20px;
+font-weight: bold;
+}
+.fp input, .fp textarea{
+border: 1px solid #d4d4d4;
+border-radius: 3px;
+padding: 3px 4px;
+font-size: 14px;
+color: #666;
+}
+.fp input:hover, .fp textarea:hover{
+border-color: #71aef6;
+}
+.fp label em{
+color: #3278f7;
+margin-right: 8px;
+font-weight: normal;
+font-size: 14px;
+vertical-align: 1px;
+}
+.name_input{
+width: 520px;
+}
+.time_split{
+color: #ccc;
+margin: 0 16px;
+}
+.time_input{
+width: 120px;
+}
+.fp .cont_text{
+resize:none;
+overflow: auto;
+vertical-align: top;
+width: 522px;
+height: 350px;
+}
+.file_input_ori{
+width: 450px;
+}
+.file_input{
+width: 421px;
+}
+.file_label{
+width: 180px;
+display: inline-block;
+}
+.next_btn{
+width: 177px;
+height: 41px;
+display: block;
+background: url(img/act_next_btn.png) no-repeat 0 0;
+border: none;
+cursor: pointer;
+margin:64px auto;
+}
+.next_btn:hover{
+opacity: 0.8;
+}
+.delete_file{
+color: #666;
+margin-left: 12px;
+}
+.add_file{
+text-decoration: underline;
+color: #3278f7;
+font-size: 12px;
+margin: 10px 0 0 208px;
+display: inline-block;
+}
+.add_file:hover, .delete_file:hover{
+text-decoration: underline;
+}
+.fp .hint{
+color: #999;
+font-size: 12px;
+margin: 6px 0 4px 208px;
+display: inline-block;
+}
+.added_file_input{
+margin: 10px 0 6px 207px;
+width: 353px;
+}

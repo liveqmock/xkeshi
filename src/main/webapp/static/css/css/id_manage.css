@@ -1,0 +1,85 @@
+.id_edit_a{
+display: block;
+float: left;
+width: 28px;
+height: 28px;
+background: url(img/kuang_edit.png) no-repeat 0 0;
+margin-right: 16px;
+}
+.item_wrap_title, .item_wrap{
+margin-left: 18px;
+color: #666;
+padding:6px 8px;
+}
+.item_wrap_title{
+margin-top: 16px;
+font-weight: bold;
+color: #333;
+}
+.item_wrap_title .item, .item_wrap .item{
+display: inline-block;
+margin-right: 16px;
+width: 100px;
+text-align: left;
+}
+.btn_wrap{
+margin-top: 26px;
+text-align: center;
+display: none;
+}
+.id_manage_save{
+background:url(img/id_manage_save.png) no-repeat 0 0;
+border:none;
+cursor: pointer;
+width: 122px;
+height: 32px;
+vertical-align: middle;
+}
+.id_manage_save:hover{
+background:url(img/id_manage_save_hover.png) no-repeat 0 0;
+}
+.btn_split{
+margin:0 6px;
+}
+.btn_cancel{
+color: #666;
+text-decoration: underline;
+}
+.btn_cancel:hover{
+text-decoration: underline;	
+}
+.add_a_wrap{
+margin:16px 0 0 26px;
+display: none;
+}
+.add_a{
+text-decoration: underline;
+color: #06b7f3;
+}
+.add_a:hover{
+text-decoration: underline;
+}
+.blue_edit{
+border:1px solid #06b7f3;
+width: 417px;
+margin-bottom: 8px;
+border-radius: 4px;
+}
+.item_input{
+width: 96px;
+border:none;
+text-align: center;
+}
+.item_split{
+margin: 0 12px;
+}
+.del_item_a{
+padding: 8px;
+font-size: 18px;
+color: #d20;
+line-height: 18px;
+margin-left: 12px;
+}
+.item_wrap .item_pwd, .item_wrap_title .item_pwd{
+display: none;
+}

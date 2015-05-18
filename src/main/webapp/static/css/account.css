@@ -1,0 +1,102 @@
+.opt_wrap{ 
+height: 30px;
+line-height: 30px;
+font-size: 12px;
+font-weight: bold;
+padding: 0 16px;
+color: #666667;
+}  
+.g_num{
+color: #428bca;
+font-weight: bold;
+}
+.opt_wrap a{
+font-weight: bold;
+margin-left: 8px;
+}
+.date{
+width: 160px;
+}
+.r_num{
+color: #ff5454;
+font-weight: bold;
+}
+.tb_main{
+font-size: 12px;
+}
+.change{
+width: 160px;
+}
+.remark{
+text-align: left;
+}
+.source{
+width: 160px;
+}
+.filter_a{
+margin-right: 0;
+}
+.pop_filter .pb_item{
+border-top: none;
+}
+.pop_filter .pb_main{
+padding-top: 2px;
+padding-bottom: 0;
+}
+.pop_filter .pb_input{
+width: 90px;
+}
+.pop_charge{
+width: 370px;
+}
+.pb_table td{
+height: 50px;
+vertical-align: middle;
+}
+.pb_table .td_key{
+width: 132px;
+text-align: right;
+color: #4b4b4b;
+font-weight: bold;
+padding-right: 30px;
+}
+.pb_table .r_num{
+font-size: 14px;
+}
+.pb_table .pb_input{
+width: 162px;
+}
+.pb_btn_wrap{
+text-align: center;
+border-top: 1px solid #EBEBEB;
+padding-top: 16px;
+}
+.pop_charge .pb_main{
+padding-bottom: 4px;
+}
+.pay_done, .pay_error{
+background: url(img/admin_frame/gantan.png) no-repeat 0 0;
+padding-left: 30px;
+height: 20px;
+line-height: 20px;
+display: block;
+color: #027dff;
+margin-top: 30px;
+margin-left: 6px;
+}
+.pay_error{
+background: url(img/admin_frame/wenhao.png) no-repeat 0 0;
+}
+.pop_charge_done{
+width: 370px;
+display: block;
+left: 50%;
+margin-left: -203px;
+top: 50%;
+height: 350px;
+margin-top: -193px;
+float: left;
+}
+.pop_charge_done .pb_main{
+padding-top: 0;
+}

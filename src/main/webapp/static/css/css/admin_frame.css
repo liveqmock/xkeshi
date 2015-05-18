@@ -1,0 +1,125 @@
+body{
+font-family: '宋体';
+}
+.top{
+width: 100%;
+height: 39px;
+background: url(img/admin_frame/top_bg.png) repeat-x 0 0;
+border-bottom: 1px solid #d4d4d4;
+box-shadow: 2px 2px 2px #efefef;
+}
+.logo{
+display: inline-block;
+width: 94px;
+height: 27px;
+background: url(img/admin_frame/logo.png) no-repeat 0 0;
+margin-top: 6px; 
+}
+.msg{
+margin-left: 50px;
+display: inline-block;
+vertical-align: 8px;
+}
+.msg_text{
+color: #a8a8a8;
+font-size: 12px;
+vertical-align: 2px;
+}
+.msg_num{
+width: 40px;
+height: 20px;
+background: #9b9b9b;
+display: inline-block;
+border-radius: 10px;
+color: #fff;
+text-align: center;
+line-height: 20px;
+margin-left: 10px;
+}
+.user{
+float: right;
+width: 130px;
+height: 28px;
+line-height: 28px;
+border: 1px solid #d0d0d0;
+padding-left: 18px;
+color: #212121;
+font-size: 12px;
+background: url(img/admin_frame/down_arrow.png) no-repeat 130px center;
+border-radius: 3px;
+margin: 4px 15px 0 0;
+cursor: pointer;
+}
+.wrapper, .top_main{
+width: 1150px;
+margin: 0 auto;
+overflow: hidden;
+}
+.lwrap{
+width: 228px;
+border: 1px solid #ddd;
+overflow: hidden;
+float: left;
+margin-right: 21px;
+margin-top: 25px;
+}
+.lnav_item{
+height: 50px;
+line-height: 50px;
+border-bottom: 1px solid #e5e8e6;
+box-shadow: 1px 1px 1px #fafafa;
+background: #f7f7f7;
+font-size: 14px;
+font-family: 'Microsoft Yahei', '黑体';
+color: #4f6c1a;
+display: block;
+}
+.lnav_top{
+width: 228px;
+height: 14px;
+background: url(img/admin_frame/lnav_top.png) no-repeat 0 0;
+border-bottom: 1px solid #e5e8e6;
+box-shadow: 1px 1px 1px #fafafa;
+}
+.lnav_img{
+vertical-align: -5px;
+margin: 0 26px 0 52px;
+}
+.lnav_now{
+background: url(img/admin_frame/lnav_now_bg.png) no-repeat 0 0;
+color: #fff;
+}
+.lnav2_wrap{
+padding-top: 6px;
+}
+.lnav2_item{
+display: block;
+height: 42px;
+line-height: 42px;
+color: #1f1f1f;
+font-size: 12px;
+padding-left: 52px;
+}
+.lnav2_item:hover{
+text-decoration: underline;
+}
+.lnav2_now{
+font-weight: bold;
+}
+.lnav2_bottom{
+width: 228px;
+height: 14px;
+background: url(img/admin_frame/lnav2_bottom.png) no-repeat 0 0;
+}
+.r_title{
+font-size: 22px;
+color: #4f6c1a;
+font-family: 'Microsoft Yahei', '黑体';
+padding-left: 16px;
+}
+.rwrap{
+width: 896px;
+float: right;
+overflow: hidden;
+margin-top: 25px;
+}

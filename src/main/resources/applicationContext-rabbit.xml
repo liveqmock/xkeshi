@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+           http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="nativeConnectionFactory" class="com.rabbitmq.client.ConnectionFactory">
+		<property name="connectionTimeout" value="3000" /> <!-- in milliseconds -->
+		<property name="requestedHeartbeat" value="5" /> <!-- in seconds -->
+	</bean>
+    						   
+   <rabbit:connection-factory id="producerConnectionFactory" 
+    						   host="122.226.100.40"
+    						   port="5672"
+    						   channel-cache-size="25"
+    						   connection-factory="nativeConnectionFactory" 
+    						   />
+	
+    <rabbit:connection-factory id="consumerConnectionFactory" 
+    						   host="122.226.100.40"
+    						   port="5672"
+    						   channel-cache-size="25"
+    						   connection-factory="nativeConnectionFactory" 
+    						   />
+
+    <!-- queue -->
+   <rabbit:queue id="xpos_sms_promotion_queue_ack" durable="true" auto-delete="false" exclusive="false" name="xpos_sms_promotion_queue"/>
+   <rabbit:queue id="sms_queue_out" durable="true" auto-delete="false" exclusive="false" name="sms_queue_out"/>
+   <rabbit:queue id="sms_queue_out_ack" durable="true" auto-delete="false" exclusive="false" name="sms_queue_out_ack"/>
+   
+   <!-- sms exchange key -->
+    <rabbit:direct-exchange name="sms_exchange" durable="true" auto-delete="false" id="sms_exchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="sms_queue_out" key="sms_queue_out_key"/>
+            <rabbit:binding queue="sms_queue_out_ack" key="sms_queue_out_ack_key"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+    <rabbit:template exchange="sms_exchange" id="amqpTemplate"  connection-factory="producerConnectionFactory"  message-converter="jsonMessageConverter"/>
+	<bean id="jsonMessageConverter"  class="com.xpos.common.utils.JsonMessageConverter" />
+</beans>

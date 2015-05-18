@@ -1,0 +1,25 @@
+.id{
+width: 100px;
+}
+.act_detail{
+width: 250px;
+}
+.back_a{
+display:inline-block;
+width:42px;
+height:26px;
+border: 1px solid #ccc;
+border-radius:3px;
+margin-right:16px;
+background:url(img/back.png) no-repeat 12px 8px #eeefef;
+}
+.data_bar{
+border: 1px solid #ccc;
+border-width: 1px 0;
+padding: 14px;
+margin: 18px 18px 0;
+}
+.data_item{
+margin-right: 24px;
+font-size: 12px;
+}

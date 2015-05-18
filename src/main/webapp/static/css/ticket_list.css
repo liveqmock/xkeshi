@@ -1,0 +1,32 @@
+.opt_wrap{
+height: 30px;
+}
+.state span{
+width: 94px;
+}
+.name em{
+color: #428bca;
+}
+.tb_main tr .name{
+width: 320px;
+padding-left: 32px;
+}
+.tk_title{
+/*margin-bottom: 12px;*/
+}
+.tk_item{
+margin-bottom: 6px;
+}
+.tb_main tr .date{
+width: 130px;
+padding-left: 48px;
+padding-right: 48px;
+}
+.tb_main tr .state{
+width: 96px;
+padding-left: 32px;
+}
+.b_tit1{
+	float: none;
+	display: inline-block;
+}

@@ -1,0 +1,39 @@
+.page_btn{
+font-size: 18px;
+line-height: 18px;
+padding: 3px 14px;
+border-radius: 4px;
+border: 1px solid #d7d7d7;
+background-color:#f0f0f0;
+cursor: pointer;
+margin-right: 6px;
+vertical-align: bottom;
+display: inline-block;
+text-align: center;
+}
+.page_wrap{
+float: right;
+margin: 12px;
+}
+.page_text{
+color: #999;
+margin-right: 12px;
+vertical-align: 3px;
+}
+.page_btn:hover{
+background-color: #fff;
+}
+.r_block{
+width: 800px;
+}
+.td_name{
+width:228px;
+}
+.td_seller select{
+border:1px solid #ccc;
+padding:2px 4px;
+color:#666;
+}
+.blue{
+width: 40px;
+}

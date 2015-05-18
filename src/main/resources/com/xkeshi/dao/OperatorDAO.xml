@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.OperatorDAO" >
+    <resultMap id="ListMap" type="com.xkeshi.pojo.po.Operator" >
+        <id column="id" property="id" ></id>
+        <result property="username" column="username"/>
+        <result property="realName" column="realName"/>
+        <result property="password" column="password"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="level" column="level"/>
+        <result property="createDate" column="createDate"/>
+        <result property="modifyDate" column="modifyDate"/>
+    </resultMap>
+
+    <!-- 根据shopId获取操作员列表 -->
+    <select id="loadOperatorsByShopId" resultMap="ListMap">
+        SELECT
+          *
+        FROM
+          operator
+        WHERE
+          shop_id = #{shopId}
+          AND
+          deleted = '0'
+    </select>
+</mapper>

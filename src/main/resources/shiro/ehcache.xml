@@ -1,0 +1,47 @@
+<ehcache>
+    <defaultCache
+            maxElementsInMemory="1000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            />
+
+    <cache name="shiro-activeSessionCache"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="120"
+           timeToIdleSeconds="120"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="120"/>
+
+    <cache name="meta"
+           maxElementsInMemory="10000"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" />
+
+    <cache name="permission"
+           maxElementsInMemory="1000"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" />
+
+    <cache name="employee"
+           maxElementsInMemory="2000"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" />
+
+    <cache name="role"
+           maxElementsInMemory="1000"
+           eternal="false"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU" />
+
+
+
+</ehcache>

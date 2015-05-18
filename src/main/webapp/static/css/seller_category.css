@@ -1,0 +1,107 @@
+.add_a{
+background: url(img/admin_frame/add_cate.png) no-repeat 0 0;
+display: inline-block;
+height: 36px;
+width: 36px;
+}
+.sort_a{
+background: url(img/admin_frame/sort_a.png) no-repeat 0 0;
+display: inline-block;
+height: 36px;
+width: 36px;
+}
+.sort_a{
+margin-left: 13px;
+}
+.search_wrap{
+float: right;
+}
+.cate_tb, .botb{
+font-size: 12px;
+width: 100%;
+border: 1px solid #e5e8e6;
+}
+.botb{
+border-top: none;
+}
+.ltr{
+background: #fbfbfb;
+}
+tr{
+border-bottom: 1px solid #e5e8e6;
+}
+.img{
+width: 178px;
+text-align: right;
+}
+.ltr td{
+padding: 17px 0;
+}
+.str td{
+padding: 12px 0;
+}
+.img img{
+vertical-align: top;
+}
+tr .state{
+padding-left: 26px;
+width: 80px;
+}
+td a, .pb_cancel_a{
+color: #027dff;
+text-decoration: underline;
+}
+td a:hover, .pb_cancel_a:hover{
+text-decoration: underline;
+}
+.edit, .del{
+width: 60px;
+}
+.name{
+color: #212121;
+}
+.parent_name{
+font-weight:bold;
+color: #000000;	
+}
+.botb tr td{
+padding: 16px 0;
+}
+.add_scate{
+width: 126px;
+text-align: right;
+}
+.botb tr .sort_scate{
+padding-left: 36px;
+}
+.cate_block{
+margin-bottom: 26px;
+overflow: hidden;
+}
+.r_title{
+overflow: hidden;
+}
+.pb_btn{
+width: 146px;
+}
+.pb_btn_split{
+color: #666;
+font-size: 12px;
+margin: 0 6px 0 12px;
+}
+.pb_cancel_a{
+font-size: 12px;
+}
+.pb_main{
+font-size: 12px;
+color: #a7a7a7;
+padding: 18px 0 35px;
+border-top: 1px solid #EBEBEB;
+}
+.pb_cate_name{
+color: #212121;
+margin-left: 6px;
+}
+.pb{
+height: 138px;
+}

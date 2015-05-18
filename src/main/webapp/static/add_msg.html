@@ -1,0 +1,98 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/photo_list.css" type="text/css">
+<link rel="stylesheet" href="css/seller_info.css" type="text/css">
+<link rel="stylesheet" href="css/add_msg.css" type="text/css">
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>		
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<div class="r_title"><a href="javascript:" class="back_a"></a>添加新任务
+			<div class="search_wrap">
+				<form class="search_form"><input type="text" class="search_input" placeholder="商户ID/商户简称"><button class="search_btn"></button></form><a class="del_a" href="javascript:"></a><a class="new_a" href="javascript:"></a>
+			</div>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">选择发送对象</div>
+			<table class="tb_main">
+				<tr>
+					<td colspan='2'><span class="td_key"><input class="cust_type" type="radio" id="cust_type1"><label for="cust_type1" class="cust_type_lb">已有客户</label></span><span class="td_val">（共<em class="cust_num">1000</em>个客户 <a href="javascript:" class="cust_list_a">查看客户列表</a><a href="import_cust_list">导入客户数据</a>）</span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td colspan='2'><span class="td_key"><input class="cust_type" type="radio" id="cust_type2"><label for="cust_type2" class="cust_type_lb">添加手机号码</label></span><span class="td_val">（每一行输入一个手机号码）<div class="add_num_wrap"><textarea class="add_num_text"></textarea><p class="add_num_hint">当前已添加<em class="add_num_sum">100</em>个手机号码</p></div></span></td>
+				</tr>
+			</table>
+			<div class="tb_title tb_title2">发送短信内容</div>
+			<table class="tb_main">
+				<tr class="tr_bg">
+					<td colspan='2'><div class="msg_cont_wrap"><textarea class="msg_cont_text" placeholder="$客户姓名$，$客户生日$是你的生日，在这里祝你生日快乐"></textarea><div class="msg_cont_opt">插入：<a href="javascript:" class="msg_cont_a">客户姓名</a><a href="javascript:" class="msg_cont_a">客户性别</a><a href="javascript:" class="msg_cont_a">客户生日</a><p class="msg_cont_hint">当前<em class="msg_cont_now">140</em>个字，还可输入<em class="msg_cont_more">0</em>个字</p></div></div></td>
+				</tr>
+				<tr>
+					<td colspan='2'><span class="td_key td_title2">发送短信内容预览</span><span class="td_val">张三，2月14日是你的生日，在这里祝你生日快乐</td>
+				</tr>
+				<tr class="tr_bg"><td class="td2" colspan='2'><span class="td_key td_title2">发送时间</span><span class="td_val"><span class="msg_time"><input type="radio" class="msg_time_rd" id="msg_time_rd1"><label for="msg_time_rd1">保存后立即发送</label></span><span class="msg_time"><input type="radio" class="msg_time_rd" id="msg_time_rd2"><label for="msg_time_rd2">指定发送时间</label><input type="text" class="tcal msg_time_input" placeholder="日期时间设置"></span></td></tr>
+				<tr>
+					<td colspan='2'><span class="td_key" style="margin-left:18px;">本次发送预计消耗积分：<em class="score_now">x</em></span><span class="td_val" style="margin-left:45px;">当前账户可用积分：<em class="score_more">y</em><a href="javascript:" class="score_charge_a">积分充值</a></td>
+				</tr>
+			</table>			
+		</div>
+		<div class="btn_wrap"><button class="green_btn_l add_photo_btn">保存</button><span class="btn_split">或</span><a href="javascript:" class="cancel_a">取消</a></div>
+		<div class="pb pop_error">
+			<form>
+			<div class="pb_title">错误</div>
+			<div class="pb_main">
+				上传的客户数据文件格式错误！
+			</div>
+			<button class="pb_btn pb_btn_s">确定</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+			</form>
+		</div>
+		<div class="pb pop_over">
+			<form>
+			<div class="pb_title">客户数据导入结束</div>
+			<div class="pb_main">
+				<p class="pb_main_item">导入成功：xxx个客户资料<a href="javascrip:" class="pb_main_a">查看</a></p>
+				<p class="pb_main_item">导入成功：xxx个客户资料<a href="javascrip:" class="pb_main_a">查看</a></p>
+			</div>
+			<button class="pb_btn pb_btn_s">确定</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

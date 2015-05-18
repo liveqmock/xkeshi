@@ -1,0 +1,155 @@
+.tb_main .td_key{
+width: 58px;
+}
+.td_val .dl_input{
+width: 120px;
+}
+.td_val .file_ip{
+width: 277px;
+}
+.bz_cb{
+vertical-align: -2px;
+margin-right: 4px;
+}
+.bz_lb{
+margin-right: 40px;
+}
+.zs_rd, .st_rd, .sp_rd{
+vertical-align: -2px;
+margin-right: 4px;
+}
+.zs_lb, .st_lb, .sp_lb{
+margin-right: 40px;
+}
+.td_val .zs_input, .td_val .st_input, .td_val .sp_input{
+width: 130px;
+margin: 0 12px 0 -28px;
+}
+.tb_main .lm_a{
+float: none;
+margin-right: 0;
+}
+.lm_rd{
+vertical-align: -2px;
+margin-right: 4px;
+}
+.lm_lb{
+margin-right: 28px;
+}
+.by_span{
+display: block;
+margin-top: 16px;
+padding-top: 16px;
+border-top: 1px dotted #c0c0c0;
+margin-left: 92px;
+}
+.by_input{
+border: 1px solid #C0C0C0;
+border-radius: 3px;
+margin-right: 8px;
+padding: 9px;
+width: 120px;
+}
+.by_cb{
+vertical-align: -2px;
+}
+.by_lb{
+margin: 0 8px;
+}
+.pb_btn_s{
+width: 146px;
+}
+.pb_user_filter_a{
+margin-right: 28px;
+}
+.pb_tb{
+width: 100%;
+}
+.pb_tb_wrap{
+height: 220px;
+overflow: auto;
+}
+.pb_tb tr td{
+height: 38px;
+vertical-align: middle;
+border-bottom: 1px solid #ddd;
+}
+.pb_tb_th{
+padding: 12px 0;
+font-weight: bold;
+}
+.pb_tb_th span{
+display: inline-block;
+}
+.pop_user .id{
+width: 56px;
+}
+.pop_user .name{
+width: 76px;
+}
+.pop_group .pb_lb{
+color: #a7a7a7;
+}
+.pb_user_filter span{
+color: #a7a7a7;
+}
+.distance{
+color: #a7a7a7;
+line-height: 40px;
+}
+.distance .pb_sel{
+width: 110px;
+margin-left: 20px;
+}
+.pb_seller_tip{
+border: 1px solid #ebebeb;
+border-width: 1px 0;
+line-height: 26px;
+padding: 12px 0;
+}
+.pop_seller .pb_main{
+padding-bottom: 8px;
+}
+.tcal{
+background: url(img/tcal.png) no-repeat 110px 50%;
+}
+.td_val .text_ip{
+width: 278px;
+margin-right: 12px;
+}
+.td_sel{
+margin: 0 12px;
+}
+.img_hint{
+width: 20px;
+height: 20px;
+display: inline-block;
+background: url(img/admin_frame/green_gantan.png) no-repeat 0 0;
+margin: 0 4px 0 -24px;
+vertical-align: -6px;
+}
+.up_img_btn{
+width: 84px;
+height: 34px;
+line-height: 34px;
+text-align: center;
+color: #027DFF;
+text-decoration: underline;
+display: inline-block;
+border: 1px solid #c0c0c0;
+border-radius: 3px 0 0 3px;
+border-right: 1px dashed #c0c0c0;
+cursor: pointer;
+}
+.up_img_hint{
+color: #c0c0c0;
+font-size: 12px;
+border: 1px solid #c0c0c0;
+border-radius: 0 3px 3px 0;
+border-left: none;
+display: inline-block;
+height: 34px;
+line-height: 34px;
+padding-left: 14px;
+width: 197px;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xpos.common.persistence.mybatis.CouponInfoMapper">
+  <resultMap id="ListMap" type="com.xpos.common.entity.CouponInfo">
+    <result property="id"  column="id" />
+    <association property="pic" column="pic_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" /> 
+    <association property="thumb" column="thumb_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" />
+    <association property="scope" column="id" select="com.xpos.common.persistence.mybatis.CouponInfoMapper.selectAllowedShopsByCouponInfoId" /> 
+    <association property="items" column="id" select="com.xpos.common.persistence.mybatis.CouponInfoMapper.selectItemsByParentId" /> 
+  </resultMap>
+  <resultMap id="DetailMap" type="com.xpos.common.entity.CouponInfo" extends="ListMap" >
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <association property="pic" column="pic_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" /> 
+    <association property="thumb" column="thumb_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" /> 
+
+  </resultMap>
+  
+    <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from CouponInfo where id=#{id}
+  </select>
+  
+  <insert id="insertCouponInfoAllowedShop" keyColumn="id" useGeneratedKeys="true" >
+    insert into CouponInfo_Scope(couponInfo_id, businessId, businessType) values(#{cid}, #{businessId}, #{businessType})
+  </insert>
+
+  <insert id="insertCouponInfoPackge" keyColumn="id" useGeneratedKeys="true" >
+    insert into CouponInfo_Package(parent_id, item_id, quantity) values(#{parentId}, #{itemId}, #{quantity})
+  </insert>
+  
+</mapper>

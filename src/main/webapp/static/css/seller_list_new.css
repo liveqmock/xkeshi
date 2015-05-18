@@ -1,0 +1,355 @@
+/*.filter_a{
+margin: 0 0 0 8px;
+}*/
+.phTips{
+	color: #999;
+	font-size: 12px;
+	position: absolute;
+	margin-top: 3px;
+}
+.pb_item .phTips{
+	margin-top: 13px;
+}
+.mbe7 {
+	margin-bottom: 7px\9;
+}
+
+.filter_a {
+	margin-left: 12px;
+}
+
+.opt_wrap {
+	background: #f5f5f5;
+	padding: 4px 0;
+	overflow: hidden;
+	width: 100%;
+	margin-bottom: 16px;
+}
+.tb_main tr div.pln{
+	padding-left: 0px;
+}
+.opt_wrap{
+background: #f5f5f5;
+padding: 4px 0;
+overflow: hidden;
+width: 100%;
+margin-bottom: 16px;
+}
+
+.opt_main {
+	float: left;
+	margin-left: 16px;
+}
+
+.opt_main a {
+	width: 110px;
+	height: 24px;
+	border-radius: 3px;
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #ccc;
+	background: url(img/admin_frame/storage_a.png) no-repeat center;
+	cursor: pointer;
+}
+
+.opt_main a:hover {
+	background: url(img/admin_frame/storage_a_hover.png) no-repeat center;
+}
+
+/*opt_main2选择器修改增对商户、集团公开隐藏修改删除功能样式*/
+.opt_main2 {
+	float: left;
+	margin-left: 16px;
+}
+
+.opt_main2 a {
+	width: 67px;
+	height: 25px;
+	line-height: 25px;
+	/*font-size: 13px;*/
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 3px;
+	display: inline-block;
+	border: 1px solid #ccc;
+	color: #666667;
+	background: url("img/admin_frame/seller_opt_bg.png") no-repeat ;
+}
+.opt_main2 a:hover {
+	background: #fff;
+}
+
+/* .opt1{
+background: #f0f7ff;
+color: #307eff;
+border: 1px solid #5aa3ff;
+}
+.opt2{
+color: #666667;
+background: #f5f5f5;
+border: 1px solid #666667;
+}
+.opt3{
+color: #81c43d;
+background: #f5feed;
+border: 1px solid #9fc47f;
+}
+.opt4{
+color: #f55250;
+background: #fde8e8;
+border: 1px solid #f78483;
+margin-right: 7px;
+} */
+.pb_item .lh14{
+	line-height: 14px\9;
+}
+
+.tb_main {
+	width: 100%;
+	font-size: 12px;
+	color: #516372;
+	margin-top: 6px;
+	border: 1px solid #e5e8e6;
+}
+
+.th {
+	color: #333;
+}
+
+.a_tim {
+	width: 75px;
+	width: 105px\9;
+}
+.tb_main tr td {
+	padding: 14px 15px 14px 16px;
+	border-top: 1px solid #ddd;
+}
+.tb_pointer tr td {
+	padding: 14px 15px 14px 16px;
+	border-top: 1px solid #ddd;
+	width:870px;
+}
+
+.tb_main tr td .name {
+	padding-left: 20px;
+	word-break: break-all;
+}
+
+.tr_bg {
+	background: #fbfbfb;
+}
+
+.tb_main .th td {
+	font-weight: bold;
+	border-top: none;
+}
+
+.tb_main .th td.status1 {
+	width: 50px;
+}
+
+.tb_main .th td.mobile {
+	width: 70px;
+}
+
+.tb_main tr .id {
+	padding-left: 18px;
+	width: 60px;
+}
+
+.tb_main tr .name {
+	width: 150px;
+}
+
+.tb_main tr .name2 {
+	width: 480px;
+}
+
+.tb_main tr .discount {
+	width: 80px;
+}
+
+.tb_main tr .createDate {
+	width: 130px;
+}
+
+.tb_main tr .modifyDate {
+	width: 130px;
+}
+
+.tb_main tr .style {
+	width: 100px;
+}
+
+.tb_main tr .time {
+	width: 130px;
+	padding-right: 16px;
+}
+
+.tb_main tr .onlh {
+	*height: 62px;
+}
+
+.wtd {
+	width: 800px;
+}
+
+.mtime {
+	width: 89px;
+	*width: 95px;
+	word-spacing: 2px;
+}
+
+.dbtime{
+	width: 125px;
+}
+
+.htime{
+	width: 65px;
+	*width: 70px;/*hack for ie*/
+	
+}
+/*此属性针对统计分析中的那些时间字段*/
+.sdtime,.xtime,.sbtime{
+	word-spacing: 5px;
+	width: 64px;  
+	width: 70px\9; /*hack for ie*/
+}
+.xmobile{
+	width: 100px;
+	*width: 105px;
+}
+.name_key {
+	margin-left: 5px;
+	color: #4b4b4b;
+}
+
+.tb_main tr .times {
+	width: 60px;
+}
+
+.tb_main tr .opt input {
+	vertical-align: -2px;
+}
+
+.required_error {
+	color: #c00;
+	display: none;
+}
+
+.tb_main tr .widen {
+	width: 135px;
+}
+
+.id {
+	position: relative;
+}
+
+.show_avatar{
+	display:block;
+	width:80px;
+	color:#027dff;
+}
+.pb_tum{
+	border-bottom: 1px solid #ebebeb\9;
+}
+#con_name {
+	width: 250px;
+}
+
+#tb_main tr td,
+#tb_main2 tr td {
+	padding: 14px 8px;
+}
+
+#pays {
+	width: 150px;
+}
+
+#pay_style {
+	width: 190px;
+}
+
+#pay_num {
+	width: 200px;
+}
+
+#name123 {
+	width: 160px;
+}
+
+#pays2 {
+	width: 180px;
+}
+
+.house_icon {
+	width: 16px;
+	height: 17px;
+	display: block;
+	top: 34%;
+	right: -10px;
+	z-index: 3;
+	position: absolute;
+	background: url(img/shopicon_house.png) no-repeat 0;
+}
+
+.house_icon2 {
+	top: 10%;
+	right: -25px;
+	z-index: 3;
+	position: absolute;
+}
+
+.datesty {
+	width: 60px;
+}
+
+.name {
+	width: 100px;
+}
+
+.h_name {
+	cursor: pointer;
+	position: relative;
+}
+
+.l_id {
+	position: relative;
+}
+
+td.status {
+	width: 50px;
+}
+
+.blue {
+	color: #009ce5 !important;
+}
+
+.tb_main .th td.opt1 {
+	width: 10px;
+	padding-right: 10px;
+}
+
+.tb_main1 .th td {
+	text-align: center;
+/*	padding-right: 20px;*/
+}
+
+.tb_cte {
+	text-align: center;
+}
+
+.tb_main1 tr.th1 .name {
+	width: 230px;
+}
+
+.tb_main1 tr.th1 td {
+	text-align: center;
+}
+
+.b_tit {
+	display: inline-block;
+}
+.b_tit1 {
+	float: none;
+}

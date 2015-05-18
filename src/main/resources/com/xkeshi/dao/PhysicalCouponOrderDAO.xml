@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.PhysicalCouponOrderDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.PhysicalCouponOrder">
+        <id property="id" column="id"/>
+        <result property="comment" column="comment"/>
+        <result property="status" column="status"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="thirdOrderCode" column="third_order_code"/>
+        <result property="physicalCouponId" column="physical_coupon_id"/>
+        <result property="amount" column="amount"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+    <delete id="clearPhysicalCouponsByOrderNumber">
+        DELETE FROM physical_coupon_order
+        WHERE order_number = #{orderNumber}
+    </delete>
+
+    <!-- 获取官方订单使用的实体券 -->
+	<select id="getOrderUsePhysicalCouponByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.OrderPhysicalCouponVO">
+		SELECT
+		    t.physical_coupon_id  id,   
+			t.physical_coupon_name name ,
+			t.amount amount, 
+			SUM(COALESCE(t.amount,0.00)) totalAmount,
+			COUNT(t.id) totalCount
+		FROM
+			physical_coupon_order t
+		LEFT OUTER JOIN Orders o ON t.order_number = o.orderNumber 
+		WHERE t.status = 1 AND o.operator_session_code = #{operatorSessionCode}
+		GROUP BY t.physical_coupon_id
+	</select>
+	
+    <!-- 获取第三方订单使用的实体券 -->
+	<select id="getThirdOrderUsePhysicalCouponByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.OrderPhysicalCouponVO">
+		SELECT
+			t.physical_coupon_id  id,   
+			t.physical_coupon_name name ,
+			t.amount amount, 
+			SUM(COALESCE(t.amount,0.00)) totalAmount,
+			COUNT(t.id) totalCount
+		FROM
+			physical_coupon_order t
+		LEFT OUTER JOIN third_order o ON t.third_order_code = o.third_order_code 
+		WHERE t.status = 1 AND o.operator_session_code = #{operatorSessionCode}
+		GROUP BY t.physical_coupon_id
+	</select>
+    <select id="sumAmountByOrderNumber" resultType="java.math.BigDecimal">
+        SELECT
+            IFNULL(SUM(t.amount), 0)
+        FROM
+            physical_coupon_order t
+        WHERE
+            t.order_number = #{orderNumber}
+        AND t.`status` = 1
+    </select>
+	
+	<select id="countByOperatorAndType" resultType="int">
+       select 
+       	count(*) 
+       from 
+       	physical_coupon_order ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+   
+   <select id="getAmountByOperatorAndType" resultType="java.math.BigDecimal">
+       select 
+      	  IFNULL(SUM(COALESCE(ct.amount , 0.00)),0)
+       from 
+       	physical_coupon_order ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+
+</mapper>

@@ -1,0 +1,119 @@
+.tb_wrap{
+	margin-top: 50px;
+}
+.r_title{
+	padding-left: 0;
+}
+.div_list{
+	width: 220px;
+	height: 388px;
+	float: left;
+	margin-right: 1px;
+	background-color: #d52334;
+}
+.div_list1{
+	background-color: #6ac5c0;	
+}
+.div_list2{
+	background-color: #973f51;	
+}
+.div_list3{
+	background-color: #16528e;	
+}
+.div_bgs{
+	background-image: url(img/admin_frame/div1_bg.jpg);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+.div_bgs1{
+	background-image: url(img/admin_frame/div2_bg.jpg);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+.div_bgs2{
+	background-image: url(img/admin_frame/div3_bg.jpg);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+.div_bgs3{
+	background-image: url(img/admin_frame/div4_bg.jpg);
+	background-repeat: repeat-x;
+	background-position: bottom;
+}
+.div_list_wrap{
+	width: 180px;
+	margin: 0 auto;
+}
+.a_coupon_tit{
+	display: block;
+	background: url(img/admin_frame/coupon_line_1.png) no-repeat bottom;
+}
+.a_coupon_tit1{
+	display: block;
+	background: url(img/admin_frame/coupon_line_2.png) no-repeat bottom;
+}
+.a_coupon_tit2{
+	display: block;
+	background: url(img/admin_frame/coupon_line_3.png) no-repeat bottom;
+}
+.a_coupon_tit3{
+	display: block;
+	background: url(img/admin_frame/coupon_line_4.png) no-repeat bottom;
+}
+.coupon_t{
+	color: #fff;
+	height: 70px;
+	display: block;
+	font-size: 24px;
+	line-height: 70px;
+	padding-left: 45px;
+	margin-bottom: 10px;
+	background: url(img/admin_frame/serve_icon.png) no-repeat 0;
+}
+.coupon_t1{
+	background: url(img/admin_frame/discount_icon.png) no-repeat 0;
+}
+.coupon_t2{
+	background: url(img/admin_frame/exchange_icon.png) no-repeat 0;
+}
+.coupon_t3{
+	background: url(img/admin_frame/common_icon.png) no-repeat 0;
+}
+.coupon_con{
+	color: #fff;
+	height: 188px;
+	line-height: 26px;
+}
+.creat_btn{
+	width: 160px;
+	height: 38px;
+	color: #fff;
+	display: block;
+	margin: 0 auto;
+	line-height: 38px;
+	text-align: center;	
+	border-radius: 3px;
+	border:1px solid #fff;
+}
+.creat_btn,.coupon_con,.coupon_t{
+	font-family: '微软雅黑';	
+}
+.serve_btn:hover{
+	color: #d52334;
+	background:#fff;
+}
+.discount_btn:hover{
+	color: #6ac5c0;
+	background:#fff;
+}
+.exchange_btn:hover{
+	color: #973f51;
+	background:#fff;
+}
+.common_btn:hover{
+	color: #16528e;
+	background:#fff;
+}
+.creat_btn_cur{
+	
+}

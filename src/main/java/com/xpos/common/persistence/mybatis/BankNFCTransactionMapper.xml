@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.BankNFCTransactionMapper" >
+  <resultMap id="BasicMap" type="com.xkeshi.pojo.po.BankNFCTransaction" >
+    <id property="id" column="id"/>
+    <result property="orderNumber" column="order_number"/>
+    <result property="prepaidCardChargeOrderCode" column="prepaid_card_charge_order_code"/>
+    <result property="thirdOrderCode" column="third_order_code"/>
+    <result property="mobile" column="mobile"/>
+    <result property="registerMid" column="register_mid"/>
+    <result property="posChannel" column="pos_channel_id"/>
+    <result property="amount" column="amount"/>
+    <result property="serial" column="serial"/>
+    <result property="externalSerial" column="external_serial"/>
+    <result property="paymentStatus" column="nfc_payment_status_id"/>
+    <result property="responseCode" column="response_code"/>
+    <result property="cardNumber" column="card_number"/>
+    <result property="referenceNumber" column="reference_number"/>
+    <result property="location" column="location"/>
+    <result property="authCode" column="auth_code"/>
+    <result property="batchNumber" column="batch_number"/>
+    <result property="traceNumber" column="trace_number"/>
+    <result property="cardOrg" column="card_org"/>
+    <result property="issueCode" column="issue_code"/>
+    <result property="issueName" column="issue_name"/>
+    <result property="terminal" column="terminal"/>
+    <result property="createdTime" column="created_time"/>
+    <result property="updatedTime" column="updated_time"/>
+    <result property="tradeTime" column="trade_time"/>
+    <result property="comment" column="comment"/>
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xkeshi.pojo.po.BankNFCTransaction" extends="BasicMap">
+  </resultMap>
+  
+  <insert id="insert" keyColumn="id" useGeneratedKeys="true" >
+	INSERT INTO bank_nfc_transaction (
+		order_number,
+		prepaid_card_charge_order_code,
+		third_order_code,
+		register_mid,
+		pos_channel_id,
+		amount,
+		serial,
+		nfc_payment_status_id
+	)
+	VALUES
+		(
+			#{orderNumber},
+			#{prepaidCardChargeOrderCode},
+			#{thirdOrderCode},
+			#{registerMid},
+			#{posChannel},
+			#{amount},
+			#{serial},
+			#{paymentStatus}
+		)
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" useGeneratedKeys="true" >
+	INSERT INTO bank_nfc_transaction (
+		order_number, prepaid_card_charge_order_code, third_order_code, register_mid,
+		pos_channel_id, amount, serial, external_serial,  nfc_payment_status_id,
+		response_code ,card_number, reference_number, location, auth_code, batch_number, trace_number, 
+		card_org, issue_code, issue_name, terminal, created_time, updated_time, trade_time
+	)
+	VALUES
+		(
+			#{orderNumber},#{prepaidCardChargeOrderCode},#{thirdOrderCode},#{registerMid},
+			#{posChannel},#{amount},#{serial},#{externalSerial},#{paymentStatus},
+			#{responseCode}, #{cardNumber}, #{referenceNumber}, #{location}, #{authCode},
+			#{batchNumber}, #{traceNumber}, #{cardOrg}, #{issueCode}, #{issueName}, #{terminal},
+			#{createdTime}, #{updatedTime},#{tradeTime}
+		)
+		ON DUPLICATE KEY UPDATE
+		external_serial= #{serial},nfc_payment_status_id = #{paymentStatus}, response_code = #{responseCode}, 
+		card_number = #{cardNumber}, reference_number = #{referenceNumber}, location = #{location}, auth_code = #{authCode}, 
+		 batch_number = #{batchNumber},trace_number = #{traceNumber}, card_org = #{cardOrg}, issue_code = #{issueCode}, 
+		issue_name = #{issueName}, terminal = #{terminal}, trade_time = #{tradeTime}, updated_time = #{updatedTime}
+		
+  </insert>
+  
+  <select id="selectById" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		bank_nfc_transaction
+	WHERE
+		id = #{id}
+		AND status = 1
+  </select>
+  
+  <select id="selectBySerial" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		bank_nfc_transaction
+	WHERE
+		serial = #{serial}
+		AND status = 1
+  </select>
+
+  <update id="updateBySerial" parameterType="com.xkeshi.pojo.po.BankNFCTransaction">
+	UPDATE bank_nfc_transaction
+	SET updated_time = now()
+		<if test="paymentStatus != null">,nfc_payment_status_id = #{paymentStatus}</if>
+		<if test="mobile != null">,mobile = #{mobile}</if>
+		<if test="responseCode != null">,response_code = #{responseCode}</if>
+		<if test="cardNumber != null">,card_number = #{cardNumber}</if>
+		<if test="referenceNumber != null">,reference_number = #{referenceNumber}</if>
+		<if test="location != null">,location = #{location}</if>
+		<if test="authCode != null">,auth_code = #{authCode}</if>
+		<if test="batchNumber != null">,batch_number = #{batchNumber}</if>
+		<if test="traceNumber != null">,trace_number = #{traceNumber}</if>
+		<if test="cardOrg != null">,card_org = #{cardOrg}</if>
+		<if test="issueCode != null">,issue_code = #{issueCode}</if>
+		<if test="issueName != null">,issue_name = #{issueName}</if>
+		<if test="terminal != null">,terminal = #{terminal}</if>
+		<if test="tradeTime != null">,trade_time = #{tradeTime}</if>
+		<if test="comment != null">,`comment` = #{comment}</if>
+	WHERE
+		serial = #{serial}
+	AND STATUS = 1
+  </update>
+
+	<select id="getOrderTotalAmountByOperatorSessionCode"  resultType="com.xkeshi.pojo.vo.shift.BankNFCPayTransactionVO">
+		SELECT
+			SUM(COALESCE(t.amount , 0.00)) totalAmount
+		FROM
+			bank_nfc_transaction t
+			LEFT OUTER JOIN Orders o ON t.order_number = o.orderNumber
+		WHERE
+			o.operator_session_code = #{operatorSessionCode}
+			AND o.status = 'SUCCESS'
+			GROUP BY o.operator_session_code
+	</select>
+	
+	<select id="getThirdOrderTotalAmountByOperatorSessionCode"  resultType="com.xkeshi.pojo.vo.shift.BankNFCPayTransactionVO">
+		SELECT
+			SUM(COALESCE(t.amount , 0.00)) totalAmount
+		FROM
+			bank_nfc_transaction t
+			LEFT OUTER JOIN third_order o ON t.third_order_code = o.third_order_code
+		WHERE
+		    o.operator_session_code = #{operatorSessionCode}
+		AND o.third_order_payment_status_id =  1  
+		AND t.nfc_payment_status_id =  1 
+		AND t.status = 1 
+			GROUP BY o.operator_session_code
+	</select>
+	
+	<select id="getPayTransactionGroupByOrderNumber"  resultType="com.xkeshi.pojo.vo.transaction.BankNFCTransactionVO">
+	  	SELECT 
+		   SUM(COALESCE(t.amount , 0.00))  amount 
+		FROM
+			bank_nfc_transaction  t 
+	    WHERE
+	    	t.order_number = #{orderNumber}  AND t.`status`  = 1 AND t.nfc_payment_status_id in(1,7) 
+		GROUP BY  t.order_number
+   </select>
+   
+   <select id="countByOperatorAndType" resultType="int">
+       select 
+       	count(*) 
+       from 
+       	bank_nfc_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+   
+   <select id="getAmountByOperatorAndType" resultType="java.math.BigDecimal">
+       select 
+      	 IFNULL(SUM(ct.amount),0)
+       from 
+       	bank_nfc_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+</mapper>

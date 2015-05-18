@@ -1,0 +1,141 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_info.css" type="text/css">
+<link rel="stylesheet" href="css/add_seller_new.css" type="text/css">
+<link rel="stylesheet" href="css/add_ticket.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/back_base.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/My97DatePicker/WdatePicker.js"></script>
+<script src="js/add_price_ticket.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>		
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<form class="check_form">
+		<div class="r_title"><a href="javascript:" class="back_a"></a>抵价券创建</div>
+		<div class="tb_wrap">
+			<div class="tb_title">基本信息</div>
+			<table class="tb_main">
+				<tr>
+					<td class="std"><em>*</em><span class="td_key">名称</span><span class="td_val"><input type="text" class="text_ip"></span></td>
+					<td class="std"><em class="v9">*</em><span class="td_key" style="width:47px;">抵价</span><span class="td_val"><input type="text" class="text_ip isneed isfloat" data-hint="抵价">元</span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td class="std"><em>*</em><span class="td_key">有效期</span><span class="td_val"><input type="text" class="tcal dl_input isneed" data-hint="有效期起始日期"> - <input type="text" class="tcal dl_input isneed" data-hint="有效期截止日期"></span></td>
+					<td class="std"><em>&nbsp;</em><span class="td_key">总数限制</span><span class="td_val"><input type="radio" id="sp_rd1" class="sp_rd" name="abc"><label for="sp_rd1" class="sp_lb">不限</label><input type="radio" id="sp_rd2" class="sp_rd" name="abc"><label for="sp_rd2" class="sp_lb">限</label><input type="text" class="sp_input">份</span></td>
+				</tr>
+				<tr>
+					<td class="std"><em>*</em><span class="td_key">Logo</span><span class="td_val"><span class="img_hint"></span><input type="file" class="file_ip isneed" data-hint="Logo" style="display:none;"><span class="up_img"><span class="up_img_btn">选择图片</span><span class="up_img_hint">建议400*400px</span></span></span></td>
+					<td class="std"><em class="v9">*</em><span class="td_key" style="width:47px;vertical-align:-9px;">列表用缩略图</span><span class="td_val" style="margin-left:17px;"><span class="img_hint"></span><input type="file" class="file_ip v9 isneed" data-hint="列表用缩略图" style="display:none;"><span class="up_img"><span class="up_img_btn">选择图片</span><span class="up_img_hint">建议400*400px</span></span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td class="ltd" colspan="2"><em>*</em><span class="td_key">使用说明</span><span class="td_val"><textarea></textarea></span></td>
+				</tr>
+				<tr>
+					<td class="ltd" colspan="2"><em>*</em><span class="td_key">描述详情</span><span class="td_val"><textarea></textarea></span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td class="ltd" colspan="2"><em>&nbsp;</em><span class="td_key">简介</span><span class="td_val"><textarea></textarea></span></td>
+				</tr>
+				<tr>
+					<td class="ltd" colspan="2"><em>&nbsp;</em><span class="td_key">备注</span><span class="td_val"><textarea></textarea></span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">获取条件</div>
+			<table class="tb_main">
+				<tr>
+					<td><em>&nbsp;</em><span class="td_key">售价</span><span class="td_val"><input type="text"></span></td>
+					<td class="td"><em>&nbsp;</em><span class="td_key">获取限制</span><span class="td_val"><span style="margin-right:12px;">每个用户限抢购</span><input type="radio" id="sp_rd5" class="sp_rd"><label for="sp_rd5" class="sp_lb">不限</label><input type="radio" id="sp_rd6" class="sp_rd"><label for="sp_rd6" class="sp_lb">限</label><input type="text" class="sp_input" style="width:40px;">份</span></td>
+				</tr>
+				<tr>
+					<td class="td"><em>&nbsp;</em><span class="td_key">获取<br>起始时间</span><span class="td_val"><input type="radio" id="st_rd1" class="st_rd"><label for="st_rd1" class="st_lb">不限</label><input type="radio" id="st_rd2" class="st_rd"><label for="st_rd2" class="st_lb">自</label><input type="text" class="st_input tcal" style="width:120px;">起</span></td><td class="td"><em>&nbsp;</em><span class="td_key">获取<br>截止时间</span><span class="td_val"><input type="radio" id="sp_rd3" class="sp_rd"><label for="sp_rd3" class="sp_lb">不限</label><input type="radio" id="sp_rd4" class="sp_rd"><label for="sp_rd4" class="sp_lb">自</label><input type="text" class="sp_input tcal" style="width:120px;">止</span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td colspan='2'><em>&nbsp;</em><span class="td_key">支付限时</span><span class="td_val">拍下<select class="td_sel"><option>30分钟</option></select>未支付，系统自动关闭交易，关闭交易后，电子券<select class="td_sel"><option>不可继续销售</option></select></td>
+				</tr>
+				<tr class="tr_bg">
+					<td colspan='2'><em>&nbsp;</em><span class="td_key">服务保障</span><span class="td_val"><input type="checkbox" id="bz_cb1" class="bz_cb"><label for="bz_cb1" class="bz_lb">支持随时退款</label><input type="checkbox" id="bz_cb2" class="bz_cb"><label for="bz_cb2" class="bz_lb">支持过期退款</label></span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">使用条件</div>
+			<table class="tb_main" style="width:100%;">
+				<tr>
+					<td class="td" colspan="2"><em>&nbsp;</em><span class="td_key">获取限制</span><span class="td_val"><input type="radio" id="tj_rd" class="sp_rd"><label for="tj_rd" class="sp_lb">暂无</label></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">使用规则</div>
+			<table class="tb_main" style="width:100%;">
+				<tr>
+					<td class="td" colspan="2"><em>&nbsp;</em><span class="td_key">使用规则</span><span class="td_val"><input type="checkbox" id="ru_cb" class="bz_cb"><label for="ru_cb" class="sp_lb">不可与其他类型电子券同时使用</label></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">适用商户</div>
+			<table class="tb_main" style="width:100%;">
+				<tr>
+					<td class="td" colspan="2"><em>&nbsp;</em><span class="td_val"><input type="checkbox" id="mc_cb_all" class="mc_cb"><label for="mc_cb_all" class="sp_lb">全部</label></td>
+				</tr>
+				<tr class="tr_bg">
+					<td class="td"><em>&nbsp;</em><span class="td_val"><input type="checkbox" id="mc_cb1" class="mc_cb"><label for="mc_cb1" class="sp_lb">宝岛金点朝晖店</label></td>
+					<td class="td"><em>&nbsp;</em><span class="td_val"><input type="checkbox" id="mc_cb2" class="mc_cb"><label for="mc_cb2" class="sp_lb">宝岛金点朝晖店</label></td>
+				</tr>
+				<tr class="tr">
+					<td class="td"><em>&nbsp;</em><span class="td_val"><input type="checkbox" id="mc_cb3" class="mc_cb"><label for="mc_cb3" class="sp_lb">宝岛金点朝晖店</label></td>
+					<td class="td"><em>&nbsp;</em><span class="td_val"><input type="checkbox" id="mc_cb4" class="mc_cb"><label for="mc_cb4" class="sp_lb">宝岛金点朝晖店</label></td>
+				</tr>
+				<tr class="tr_bg">
+					<td class="td"><em>&nbsp;</em><span class="td_val"><input type="checkbox" id="mc_cb5" class="mc_cb"><label for="mc_cb5" class="sp_lb">宝岛金点朝晖店</label></td>
+					<td class="td"><em>&nbsp;</em><span class="td_val"><input type="checkbox" id="mc_cb6" class="mc_cb"><label for="mc_cb6" class="sp_lb">宝岛金点朝晖店</label></td>
+				</tr>
+			</table>
+		</div>
+		<div class="btn_wrap"><button class="add_seller_btn">保存抵价券</button><span>或</span><a href="javascript:" class="cancel_a">取消</a></div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

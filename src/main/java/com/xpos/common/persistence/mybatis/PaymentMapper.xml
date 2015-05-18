@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.PaymentMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Payment" >
+    
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Payment" extends="ListMap">
+  	<association property="account" column="account_id" select="com.xpos.common.persistence.mybatis.AccountMapper.selectByPrimaryKey" />  
+  	
+  </resultMap>
+    <select id="selectByPrimaryKey" resultMap="DetailMap">
+  	select * from Payment where id=#{id}
+  </select>
+</mapper>

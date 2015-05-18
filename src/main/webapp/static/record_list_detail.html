@@ -1,0 +1,146 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_list_new.css" type="text/css">
+<link rel="stylesheet" href="css/account.css" type="text/css">
+<link rel="stylesheet" href="css/record_list.css" type="text/css">
+<link rel="stylesheet" href="css/record_list_detail.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/My97DatePicker/WdatePicker.js"></script>
+<script src="js/back_base.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<div class="r_title"><a class="back_a"></a>出入库记录明细<div class="search_wrap"><form class="search_form"><input type="text" class="search_input" placeholder="商品名称"><button class="search_btn"></button></form>
+		<a class="pop_a export_a" href="javascript:" data-pop="pop_filter"></a></div></div>
+		<table class="tb_main tb_mains">
+			<tr class="">
+				<td class="date_h">操作时间<span class="s_span">2013-10-16 12:48:57</span></td>
+				<td class="trans_num">操作员<span class="s_span">003</span></td>
+			</tr>
+			<tr class="tr_bg">
+				<td class="date_h">操作商户<span class="s_span">湖鲜蟹家</span></td>
+				<td class="trans_num"></td>
+			</tr>	
+		</table>
+		<table class="tb_main">
+			<tr class="tr_bg"><td class="td_tit" colspan="7">出入库操作清单</td></tr>
+			<tr class="th ">
+				<td class="date">排列序号</td>
+				<td class="trans_num">商品</td>
+				<td class="m_num">单价</td>
+				<td class="pay_way">分类</td>
+				<td class="telephone">操作前库存</td>
+				<td class="telephone">入库/出库</td>
+				<td class="telephone">操作后库存</td>
+			</tr>
+			<tr class="tr_bg">
+				<td class="date">20<img src="css/img/admin_frame/pic_item.png" class="item_img"></td>
+				<td class="trans_num">啤酒鸭啤酒鸭</td>
+				<td class="m_num">236</td>
+				<td class="trade_type">热菜</td>
+				<td class="telephone">001</td>
+				<td class="trade_type">+10</td>
+				<td class="telephone">001</td>
+			</tr>
+			<tr class="">
+				<td class="date">31<img src="css/img/admin_frame/pic_item.png" class="item_img"></td>
+				<td class="trans_num">啤酒鸭</td>
+				<td class="m_num">236.5</td>
+				<td class="trade_type">冷菜</td>
+				<td class="telephone">002</td>
+				<td class="trade_type">-25</td>
+				<td class="telephone">001</td>
+			</tr>
+			<tr class="tr_bg">
+				<td class="date">31<img src="css/img/admin_frame/pic_item.png" class="item_img"></td>
+				<td class="trans_num">啤酒鸭</td>
+				<td class="m_num">236</td>
+				<td class="trade_type">不热不冷</td>
+				<td class="telephone">003</td>
+				<td class="trade_type">-3</td>
+				<td class="telephone">001</td>
+			</tr>
+			<tr class="">
+				<td class="date">31<img src="css/img/admin_frame/pic_item.png" class="item_img"></td>
+				<td class="trans_num">啤酒鸭</td>
+				<td class="m_num">236</td>
+				<td class="trade_type">点单</td>
+				<td class="telephone">25</td>
+				<td class="trade_type">点单</td>
+				<td class="telephone">10</td>
+			</tr>	
+		</table>
+		<div class="pb pop_filter">
+			<form>
+			<div class="pb_title">筛选<a href="javascript:" class="pb_close"></a></div>
+			<div class="pb_main">
+				<div class="pb_item">
+					<p class="pb_item_title">交易类型</p>
+					<select name="trade_type" class="trades">
+						<option value="" selected="selected">点单</option>
+						<option value="" >点单付</option>
+					</select>
+				</div>
+				<div class="pb_item">
+					<p class="pb_item_title">支付方式</p>
+					<select name="trade_type" class="trades">
+						<option value="" selected="selected">扫码付1</option>
+						<option value="" >点单付2</option>
+					</select>
+				</div>
+				<div class="pb_item">
+					<p class="pb_item_title">手机号码</p>
+					<input type="text" class="pb_item_input f_input " id="telephone" name="member.name" value=""/>
+				</div>
+				<div class="pb_item">
+					<p class="pb_item_title">交易号码</p>
+					<input type="text" class="pb_item_input f_input " name="member.name" value=""/>
+				</div>
+				<div class="pb_item">
+					<p class="pb_title2">按时间</p>
+					<input type="text" class="tcal pb_input" style="margin-right:14px;" id="set_time1"><input type="text" class="tcal pb_input" id="set_time2">
+				</div>
+			</div>
+			<button class="pb_btn">确定</button>
+			</form>
+		</div>
+	</div>
+</div>
+</body>

@@ -1,0 +1,76 @@
+.pop_charge_done{
+	display: none;
+}
+.date{
+	width: 142px;
+}
+.pay_way{
+	width: 62px;
+}
+.tb_main .th td.trade_type{
+	width: 58px;
+}
+.tb_main .th td.trade_con{
+	width: 60px;
+}
+.tb_main .th td.telephone{
+	width: 50px;
+}
+
+.pop_filter .pb_item{
+	border-bottom: none;
+}
+.selex_head{
+	background: url(css/img/admin_frame/down_arrow.png) no-repeat 190px 10px;
+}
+.level{
+	width:40px;
+}
+
+.telephone,.open_date{
+	width:45px;
+	*width:70px;
+}
+.validity{
+	width: 67px;
+}
+.c_times,.c_num,.use_num{
+	width: 52px;
+}
+.m_num{
+	width: 57px;
+}
+.use_date{
+	width: 57px;
+}
+.th .use_date{
+	width: 77px;
+}
+.left,.operate{
+	width: 52px;
+}
+.status{
+	width: 27px;
+}
+.tb_main tr td{
+	padding:13px 0 13px 20px;
+
+}
+.operate{
+	width: 90px;
+}
+.left{
+	color: #009ce5;
+	font-weight: bold;
+}
+.th .left{
+	color: #666667;
+}
+.tb_main tr .operate a{
+	padding-right: 20px;
+	text-decoration: underline;
+	color: #027dff;
+}
+.page_wrap{
+margin-bottom: 32px;
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.ItemInventoryChangeRecordMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.itemInventory.ItemInventoryChangeRecord" >
+  	
+  	<result  property="businessId" column="businessId"  />  
+  	<result  property="importItemQuantity" column="import_item_quantity"  />  
+  	<result  property="exportItemQuantity" column="export_item_quantity"  />  
+  	<result  property="importTotalQuantity" column="import_total_quantity"  />  
+  	<result  property="exportTotalQuantity" column="export_total_quantity"  />  
+  	<association property="account" column="account_id" select="com.xpos.common.persistence.mybatis.AccountMapper.selectByPrimaryKey" />  
+  	<association property="shop" column="businessId" select="com.xpos.common.persistence.mybatis.ShopMapper.selectByPrimaryKey" />  
+ 	 
+ 
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.itemInventory.ItemInventoryChangeRecord" extends="ListMap">
+   </resultMap>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from item_inventory_change_record where id=#{id}
+  </select>
+  
+  <select id="selectByMerchantId" resultMap="ListMap">
+  	select * from item_inventory_change_record 
+  	where businessId in (select id from shop where merchant_id=#{merchantId} and deleted = false )
+  	order by createDate desc 
+  	<if test="pager != null">
+    	LIMIT #{pager.startNumber}, #{pager.pageSize}
+    </if>
+  </select>
+  <select id="selectByCondition" resultMap="ListMap">
+  	SELECT * FROM item_inventory_change_record 
+  	WHERE businessId IN (
+  		<if test="seacher.getShopName() == null">
+  			SELECT id FROM shop WHERE merchant_id=#{merchantId} 
+  		</if>
+  		<if test="seacher.getShopName() != null">
+  			SELECT id FROM shop WHERE name LIKE CONCAT("%",replace(#{seacher.shopName},' ',''),"%")
+  		</if>
+  		AND deleted = false 
+  	)
+  	<if test="seacher.getAccountName() != null">
+  		AND account_id IN (SELECT id FROM Account WHERE username LIKE CONCAT("%",replace(#{seacher.accountName},' ',''),"%"))
+  	</if>
+  	<if test="seacher.getStartDateTime() != null">
+  		AND createDate >= #{seacher.startDateTime}
+  	</if>
+  	<if test="seacher.getEndDateTime() != null">
+  		AND #{seacher.endDateTime} >= createDate
+  	</if>
+  	order by createDate desc 
+  	<if test="pager != null">
+    	LIMIT #{pager.startNumber}, #{pager.pageSize}
+    </if>
+  </select>
+  <select id="countByMerchantId" resultType="int">
+  	select count(*) from item_inventory_change_record 
+  	where businessId in (select id from shop where merchant_id=#{merchantId} and deleted = false) 
+  </select>
+  <select id="countByCondition" resultType="int">
+  	SELECT count(*) FROM item_inventory_change_record 
+  	WHERE businessId IN (
+  		<if test="seacher.getShopName() == null">
+  			SELECT id FROM shop WHERE merchant_id=#{merchantId} 
+  		</if>
+  		<if test="seacher.getShopName() != null">
+  			SELECT id FROM shop WHERE name LIKE CONCAT("%",replace(#{seacher.shopName},' ',''),"%")
+  		</if>
+  		AND deleted = false 
+  	)
+  	<if test="seacher.getAccountName() != null">
+  		AND account_id IN (SELECT id FROM Account WHERE username LIKE CONCAT("%",replace(#{seacher.accountName},' ',''),"%"))
+  	</if>
+  	<if test="seacher.getStartDateTime() != null">
+  		AND createDate >= #{seacher.startDateTime}
+  	</if>
+  	<if test="seacher.getEndDateTime() != null">
+  		AND #{seacher.endDateTime} >= createDate
+  	</if>
+  	order by createDate desc 
+  	<if test="pager != null">
+    	LIMIT #{pager.startNumber}, #{pager.pageSize}
+    </if>
+  </select>
+  <insert id="insertChangeRecord" parameterType="com.xpos.common.entity.itemInventory.ItemInventoryChangeRecord" keyProperty="id" useGeneratedKeys="true" >
+  	insert into item_inventory_change_record
+  	(account_id,businessId,businessType,import_item_quantity,export_item_quantity,import_total_quantity,export_total_quantity)
+  	values
+  	(#{account.id},#{businessId},#{businessType},#{importItemQuantity},#{exportItemQuantity},#{importTotalQuantity},#{exportTotalQuantity})
+  </insert>
+</mapper>

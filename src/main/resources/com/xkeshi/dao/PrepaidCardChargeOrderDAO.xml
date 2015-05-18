@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.PrepaidCardChargeOrderDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.PrepaidCardChargeOrder">
+        <id column="id" property="id"/>
+        <result column="comment" property="comment"/>
+        <result column="status" property="status"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="is_initial" property="isInitial"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="actual_amount" property="actualAmount"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="prepaid_card_id" property="prepaidCardId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="operator_session_code" property="operatorSessionCode"/>
+        <result column="charge_status_id" property="chargeStatusId"/>
+        <result column="charge_channel_id" property="chargeChannelId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="chargeChannelStr" property="chargeChannelStr"/>
+        <result column="chargeStatusStr" property="chargeStatusStr"/>
+        <result column="operatorName" property="operatorName"/>
+        <result column="mobileNumber" property="mobileNumber"/>
+        <result column="giftAmount" property="giftAmount"/>
+        <result column="memberTypeId" property="memberTypeId"/>
+    </resultMap>
+    <update id="updatePrepaidCardChargeChannel">
+        UPDATE prepaid_card_charge_order
+        SET charge_channel_id = #{channelId}
+        WHERE `code` = #{orderNumber}
+    </update>
+    <update id="updateOrderRefundStatus">
+        UPDATE prepaid_card_charge_order
+        SET charge_status_id = #{refundStatus}
+        WHERE
+            `code` = #{orderNumber}
+    </update>
+
+    <select id="queryAPIPrepaidCardChargeRecordList" resultMap="result">
+        SELECT
+            t.`code`,
+            t.total_amount,
+            t.actual_amount,
+            t.charge_channel_id,
+            t.created_time,
+            t.charge_status_id,
+            m1.`name` chargeChannelStr,
+            m2.`name` chargeStatusStr
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN meta_prepaid_card_charge_channel m1 ON m1.id = t.charge_channel_id
+        LEFT JOIN meta_order_payment_status m2 on m2.id = t.charge_status_id
+        WHERE
+            t.shop_id = #{shopId}
+        AND TO_DAYS(t.created_time) = TO_DAYS(#{date})
+        AND t.`status` = 1
+    </select>
+    <select id="hasChargeSuccessOrderByShopId" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_charge_order t
+        WHERE
+            t.member_id = #{memberId}
+        AND t.shop_id = #{shopId}
+        AND t.`charge_status_id` = 1
+        AND t.`status` = 1
+    </select>
+    <select id="hasChargeSuccessOrderByMerchantId" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_charge_order t
+        WHERE
+            t.member_id = #{memberId}
+        AND t.shop_id in (SELECT id from shop WHERE merchant_id = #{merchantId})
+        AND t.`charge_status_id` = 1
+        AND t.`status` = 1
+    </select>
+    <select id="getActuallyPaidAmount" resultType="java.math.BigDecimal">
+        SELECT
+            t.actual_amount
+        FROM
+            prepaid_card_charge_order t
+        WHERE
+            t.code = #{orderNumber}
+    </select>
+     <select id="getTotalPaidAmount" resultType="java.math.BigDecimal">
+        SELECT
+            t.total_amount
+        FROM
+            prepaid_card_charge_order t
+        WHERE
+            t.code = #{orderNumber}
+    </select>
+    <select id="getTotalChargeAmountByPrepaidCardId" resultType="java.math.BigDecimal">
+
+    SELECT
+        IFNULL(
+            (
+                SELECT
+                    SUM(t.actual_amount)
+                FROM
+                    prepaid_card_charge_order t
+                WHERE
+                    t.prepaid_card_id = #{prepaidCardId}
+                AND t.charge_status_id = 1
+                AND t. STATUS = 1
+            ),
+            0
+        )
+    </select>
+    <select id="countPrepaidCardChargeOrderListByShop" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+            from prepaid_card_charge_order t
+            LEFT JOIN member m on m.id = t.member_id
+            WHERE
+        <if test="param.param != null and param.param != ''">
+            (m.mobile = #{param.param} OR t.`code` = #{param.param}) AND
+        </if>
+        <if test="param.beginTime != null and param.beginTime != ''">
+            <![CDATA[
+            t.created_time >= #{param.beginTime} AND
+            ]]>
+        </if>
+        <if test="param.endTime != null and param.endTime != ''">
+            <![CDATA[
+            t.created_time <= #{param.endTime} AND
+            ]]>
+        </if>
+        <if test="param.initialCharge != null">
+            t.is_initial = #{param.initialCharge} AND
+        </if>
+        <if test="param.chargeAmount != null and param.chargeAmount != ''">
+            t.actual_amount = #{param.chargeAmount} AND
+        </if>
+        <if test="param.chargeChannelId != null">
+            t.charge_channel_id = #{param.chargeChannelId} and
+        </if>
+        t.shop_id = #{param.businessId} and
+        t.charge_status_id = 1 and
+        t.`status` = 1
+    </select>
+    <select id="countPrepaidCardChargeOrderListByMerchant" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        from prepaid_card_charge_order t
+        LEFT JOIN member m on m.id = t.member_id
+        LEFT JOIN shop s on s.id = t.shop_id
+        WHERE
+        <if test="param.param != null and param.param != ''">
+            (m.mobile = #{param.param} OR t.`code` = #{param.param}) AND
+        </if>
+        <if test="param.beginTime != null and param.beginTime != ''">
+            <![CDATA[
+            t.created_time >= #{param.beginTime} AND
+            ]]>
+        </if>
+        <if test="param.endTime != null and param.endTime != ''">
+            <![CDATA[
+            t.created_time <= #{param.endTime} AND
+            ]]>
+        </if>
+        <if test="param.initialCharge != null">
+            t.is_initial = #{param.initialCharge} AND
+        </if>
+        <if test="param.chargeAmount != null and param.chargeAmount != ''">
+            t.actual_amount = #{param.chargeAmount} and
+        </if>
+        <if test="param.chargeChannelId != null">
+            t.charge_channel_id = #{param.chargeChannelId} and
+        </if>
+        s.merchant_id = #{param.businessId} and
+        t.charge_status_id = 1 and
+        t.`status` = 1
+    </select>
+    <select id="queryPrepaidCardChargeOrderListByShop" resultMap="result">
+        SELECT
+        t.id,
+        t.`code`,
+        t.is_initial,
+        t.actual_amount,
+        t.total_amount,
+        (t.total_amount - t.actual_amount) giftAmount,
+        t.operator_id,
+        o.username operatorName,
+        m.mobile mobileNumber,
+        t.charge_status_id,
+        t.charge_channel_id,
+        m.member_type_id memberTypeId,
+        t.created_time
+        FROM
+        prepaid_card_charge_order t
+        LEFT JOIN member m ON m.id = t.member_id
+        LEFT JOIN operator o ON o.id = t.operator_id
+        WHERE
+        <if test="param.param != null and param.param != ''">
+            (m.mobile = #{param.param} OR t.`code` = #{param.param}) AND
+        </if>
+        <if test="param.beginTime != null and param.beginTime != ''">
+            <![CDATA[
+            t.created_time >= #{param.beginTime} AND
+            ]]>
+        </if>
+        <if test="param.endTime != null and param.endTime != ''">
+            <![CDATA[
+            t.created_time <= #{param.endTime} AND
+            ]]>
+        </if>
+        <if test="param.initialCharge != null">
+            t.is_initial = #{param.initialCharge} AND
+        </if>
+        <if test="param.chargeAmount != null and param.chargeAmount != ''">
+            t.actual_amount = #{param.chargeAmount} AND
+        </if>
+        <if test="param.chargeChannelId != null">
+            t.charge_channel_id = #{param.chargeChannelId} and
+        </if>
+        t.shop_id = #{param.businessId} and
+        t.charge_status_id = 1 and
+        t.`status` = 1
+    </select>
+    <select id="queryPrepaidCardChargeOrderListByMerchant" resultMap="result">
+        SELECT
+        t.id,
+        t.`code`,
+        t.is_initial,
+        t.actual_amount,
+        t.total_amount,
+        (t.total_amount - t.actual_amount) giftAmount,
+        t.operator_id,
+        o.username operatorName,
+        m.mobile mobileNumber,
+        t.charge_status_id,
+        t.charge_channel_id,
+        m.member_type_id memberTypeId,
+        t.created_time
+        FROM
+        prepaid_card_charge_order t
+        LEFT JOIN member m ON m.id = t.member_id
+        LEFT JOIN operator o ON o.id = t.operator_id
+        LEFT JOIN shop s on s.id = t.shop_id
+        WHERE
+        <if test="param.param != null and param.param != ''">
+            (m.mobile like CONCAT('%', #{param.param}, '%') OR t.`code` like CONCAT('%', #{param.param}, '%')) AND
+        </if>
+        <if test="param.beginTime != null and param.beginTime != ''">
+            <![CDATA[
+            t.created_time >= #{param.beginTime} AND
+            ]]>
+        </if>
+        <if test="param.endTime != null and param.endTime != ''">
+            <![CDATA[
+            t.created_time <= #{param.endTime} AND
+            ]]>
+        </if>
+        <if test="param.initialCharge != null">
+            t.is_initial = #{param.initialCharge} AND
+        </if>
+        <if test="param.chargeAmount != null and param.chargeAmount != ''">
+            t.actual_amount = #{param.chargeAmount} AND
+        </if>
+        <if test="param.chargeChannelId != null">
+            t.charge_channel_id = #{param.chargeChannelId} and
+        </if>
+        s.merchant_id = #{param.businessId} and
+        t.charge_status_id = 1 and
+        t.`status` = 1
+    </select>
+    <select id="sumPrepaidCardChargeOrderAmountByMerchant" resultType="java.math.BigDecimal">
+        select IFNULL(
+        (
+        SELECT
+        sum(t.actual_amount)
+        from prepaid_card_charge_order t
+        LEFT JOIN member m on m.id = t.member_id
+        WHERE
+        <if test="param.param != null and param.param != ''">
+            (m.mobile = #{param.param} OR t.`code` = #{param.param}) AND
+        </if>
+        <if test="param.beginTime != null and param.beginTime != ''">
+            <![CDATA[
+            t.created_time >= #{param.beginTime} AND
+            ]]>
+        </if>
+        <if test="param.endTime != null and param.endTime != ''">
+            <![CDATA[
+            t.created_time <= #{param.endTime} AND
+            ]]>
+        </if>
+        <if test="param.initialCharge != null">
+            t.is_initial = #{param.initialCharge} AND
+        </if>
+        <if test="param.chargeAmount != null and param.chargeAmount != ''">
+            t.actual_amount = #{param.chargeAmount} AND
+        </if>
+        <if test="param.chargeChannelId != null">
+            t.charge_channel_id = #{param.chargeChannelId} and
+        </if>
+        t.shop_id in (SELECT id FROM shop s WHERE s.merchant_id = #{param.businessId} ) and
+        t.charge_status_id = 1 and
+        t.`status` = 1),0)
+    </select>
+
+    <select id="sumPrepaidCardChargeOrderAmountByShop" resultType="java.math.BigDecimal">
+        select IFNULL(
+        (
+        SELECT
+        sum(t.actual_amount)
+        from prepaid_card_charge_order t
+        LEFT JOIN member m on m.id = t.member_id
+        WHERE
+        <if test="param.param != null and param.param != ''">
+            (m.mobile = #{param.param} OR t.`code` = #{param.param}) AND
+        </if>
+        <if test="param.beginTime != null and param.beginTime != ''">
+            <![CDATA[
+            t.created_time >= #{param.beginTime} AND
+            ]]>
+        </if>
+        <if test="param.endTime != null and param.endTime != ''">
+            <![CDATA[
+            t.created_time <= #{param.endTime} AND
+            ]]>
+        </if>
+        <if test="param.initialCharge != null">
+            t.is_initial = #{param.initialCharge} AND
+        </if>
+        <if test="param.chargeAmount != null and param.chargeAmount != ''">
+            t.actual_amount = #{param.chargeAmount} AND
+        </if>
+        <if test="param.chargeChannelId != null">
+            t.charge_channel_id = #{param.chargeChannelId} and
+        </if>
+        t.charge_status_id = 1 and
+        t.shop_id = #{param.businessId} and
+        t.charge_status_id = 1 and
+        t.`status` = 1),0)
+    </select>
+
+
+    <!-- 官方订单预付卡消费 -->
+	<select id="getOrderTotalAmountByOperatorSessionCode"  resultType="com.xkeshi.pojo.vo.shift.PrepaidCardPayTransactionVO">
+		SELECT
+			SUM(COALESCE(t.amount , 0.00)) totalAmount
+		FROM
+			prepaid_card_transaction t
+			LEFT OUTER JOIN Orders o ON t.order_number = o.orderNumber
+		WHERE 
+		     o.operator_session_code = #{operatorSessionCode}
+		  AND o.status  = "SUCCESS" 
+		GROUP BY o.operator_session_code
+	</select>
+	
+	<!-- 第三方订单预付卡消费 -->
+	<select id="getThirdOrderTotalAmountByOperatorSessionCode"  resultType="com.xkeshi.pojo.vo.shift.PrepaidCardPayTransactionVO">
+		SELECT
+			SUM(COALESCE(t.amount , 0.00)) totalAmount
+		FROM
+			prepaid_card_transaction t
+			LEFT OUTER JOIN third_order o ON t.third_order_code = o.third_order_code
+		WHERE 
+		     o.operator_session_code = #{operatorSessionCode}
+	    AND t.prepaid_card_payment_status_id = 1 
+		AND o.third_order_payment_status_id =  1  
+		AND t.status = 1  
+		AND o.status = 1
+		GROUP BY o.operator_session_code
+	</select>
+    <select id="isInitial" resultType="java.lang.Boolean">
+        SELECT
+            t.is_initial
+        FROM
+            prepaid_card_charge_order t
+        WHERE
+            t.`code` = #{orderNumber} AND t.`status` = 1
+    </select>
+    <select id="getByCode" resultMap="result">
+      SELECT
+        t.id,
+        t.`code`,
+        t.shop_id,
+        t.is_initial,
+        t.total_amount,
+        t.actual_amount,
+        t.operator_id,
+        t.prepaid_card_id,
+        t.member_id,
+        t.operator_session_code,
+        t.charge_status_id,
+        t.charge_channel_id,
+        t.created_time,
+        t.updated_time,
+        t.`comment`,
+        t.`status`
+    FROM
+        prepaid_card_charge_order t
+    WHERE
+        t.`code` = #{orderNumber}
+    AND t.`status` = 1
+    </select>
+    <select id="getShopNameByOrderNumber" resultType="java.lang.String">
+        SELECT
+            s.`name`
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN shop s ON s.id = t.shop_id
+        WHERE
+            t.`code` = #{orderNumber}
+        AND t.`status` = 1
+    </select>
+	
+	<select id="countByOperatorAndType" resultType="int">
+       select 
+       	count(*) 
+       from 
+       	prepaid_card_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+   
+   <select id="getAmountByOperatorAndType" resultType="java.math.BigDecimal">
+       select 
+      	 IFNULL(SUM(ct.amount),0)
+       from 
+       	prepaid_card_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+    <select id="getPrepaidChargeOrderSummary" resultType="com.xkeshi.pojo.po.PrepaidChargeOrderSummary">
+        SELECT
+            t.`code` orderNumber,
+        s.`name` shopName,
+        t.created_time tradeTime,
+        o.realName operatorName,
+        s.address,
+        s.contact,
+        t.is_initial isInitial,
+        t.member_id memberId,
+        t.shop_id shopId,
+        m.mobile,
+        t.actual_amount chargeAmount,
+        t.total_amount - t.actual_amount giftAmount,
+        p.balance
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN shop s on s.id = t.shop_id
+        LEFT JOIN operator o on o.id = t.operator_id
+        LEFT JOIN prepaid_card p on p.id = t.prepaid_card_id
+        LEFT JOIN member m on m.id = t.member_id
+        WHERE
+            t. CODE = #{orderNumber}
+        AND t.`status` = 1
+    </select>
+	
+</mapper>

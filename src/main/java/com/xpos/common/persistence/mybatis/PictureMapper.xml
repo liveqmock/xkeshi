@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.PictureMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Picture" >
+   
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Picture" >
+   		<id property="id" column="id"/>
+		<result property="pictureType" column="pictureType" />
+		<result property="path" column="path"/>
+		<result property="name" column="name"/>
+		<result property="createDate" column="createDate"/>
+		<result property="modifyDate" column="modifyDate"/>
+		<result property="originalName" column="originalName"/>
+		<result property="width" column="width"/>
+		<result property="height" column="height"/>
+		<result property="tag" column="tag"/>
+  </resultMap>
+  
+
+  <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from Picture where id=#{id}
+  </select>
+</mapper>

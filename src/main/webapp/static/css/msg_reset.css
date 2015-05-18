@@ -1,0 +1,48 @@
+.rwrap{
+	position: relative;
+}
+.tb_main tr td{
+	width: 896px;
+	padding: 17px 0 17px 30px;
+}
+.tb_list label{
+	width: 75px;
+	text-align: left;
+	display:inline-block;	
+}
+.input_box{
+	width: 300px;
+	height: 18px;
+	padding: 9px;
+	line-height: 18px;
+	border-radius: 3px;
+	border: 1px solid #c0c0c0;
+}
+.set_psw_btn{
+	margin: 35px 8px 0 256px;
+}
+.pop_div{
+	width: 340px;
+	height: 45px;
+	padding-left: 50px;
+	line-height: 45px;
+	border-radius: 3px;
+	position: absolute;
+	font-weight: bold;
+	left: 260px;
+	bottom: 200px;
+	background-repeat: no-repeat;
+	background-position: 20px 15px;
+}
+.pop_ok{
+	color: #93c737;
+	background-color: #eefdd6;
+	border: 1px solid #c9e29e;
+	background-image: url(img/admin_frame/msg_ok.png);
+}
+.pop_error{
+	color: #fe5454;
+	background-color: #fee4e3;
+	border: 1px solid #ff8182;
+	background-image: url(img/admin_frame/msg_error.png);
+}

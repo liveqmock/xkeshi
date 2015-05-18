@@ -1,0 +1,56 @@
+.mt{
+	margin-top: 20px;
+	border-top: 1px solid #e5e8e6;
+}
+.tb_main tr td{
+	width: 430px;
+}
+.tb_main .td_key{
+	width: 84px;
+}
+.sd_main{
+	margin-top: 20px;
+}
+a.state1{
+color: #79c447;
+background: #f5feed;
+border: 1px solid #9fc47f;
+}
+a.state2{
+color: #f55250;
+background: #fde8e8;
+border: 1px solid #f78483;
+/* .sd_mains{
+	border:1px solid #fbd5d5;
+}
+.sd_titles{
+	background: #fcebeb;
+}
+a.pub_btn{
+	width: 59px;
+	height: 25px;
+	float: none;
+	color: #79c346;
+	font-size: 12px;
+	line-height: 25px;
+	text-align: center;
+	border-radius: 4px;
+	background: #f3feee;
+	display: inline-block;
+	text-decoration: none;
+	border:1px solid #9dc483;
+}
+a.pub_btn_cur{
+	color: #ff5452;
+	background: #ffe8e8;
+	border:1px solid #fe8685;
+}
+a.pub_btn:hover{
+	text-decoration: none;
+} */
+.new_a{
+background: url(img/admin_frame/edit_a2.png) no-repeat 0 0;
+}
+.new_a:hover{
+background: url(img/admin_frame/edit_a2_hover.png) no-repeat 0 0;
+}

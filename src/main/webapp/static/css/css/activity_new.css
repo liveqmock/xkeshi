@@ -1,0 +1,33 @@
+.r_wrap{
+width: 800px;
+}
+.actnew_wrap{
+width: 750px;
+margin: 64px auto 0;
+overflow: hidden;
+}
+.actnew1, .actnew2{
+width: 277px;
+height: 56px;
+display: inline-block;
+font-size: 20px;
+color: #000;
+}
+.actnew1{
+background: url(img/actnew_text1.png) no-repeat 78px 16px;
+}
+.actnew2{
+width: 363px;
+background: url(img/actnew_text2.png) no-repeat 54px 16px;
+}
+.split{
+font-size: 22px;
+margin: 0 28px;
+vertical-align: 20px;
+}
+.actnew1:hover{
+background: url(img/activity_new_1.png) no-repeat 0 0;
+}
+.actnew2:hover{
+background: url(img/activity_new_2.png) no-repeat 0 0;
+}

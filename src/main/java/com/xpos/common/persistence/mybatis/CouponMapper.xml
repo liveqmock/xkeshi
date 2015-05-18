@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.CouponMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Coupon" >
+    <association property="couponInfo" column="couponInfo_id" select="com.xpos.common.persistence.mybatis.CouponInfoMapper.selectByPrimaryKey" />
+    <association property="parent" column="parent_id" select="com.xpos.common.persistence.mybatis.CouponInfoMapper.selectByPrimaryKey" />
+    <association property="payment" column="payment_id" select="com.xpos.common.persistence.mybatis.CouponPaymentMapper.selectByPrimaryKey" />
+    <association property="refund" column="refund_id" select="com.xpos.common.persistence.mybatis.RefundMapper.selectByPrimaryKey" />
+    <association property="operator" column="operator_id" select="com.xpos.common.persistence.mybatis.OperatorMapper.selectByPrimaryKey" />
+    <association property="user" column="user_id" select="com.xpos.common.persistence.mybatis.UserMapper.selectByPrimaryKey" /> 
+    <association property="member" column="member_id" select="com.xpos.common.persistence.mybatis.member.MemberMapper.selectById" /> 
+  </resultMap>
+  
+    <resultMap id="DetailMap" type="com.xpos.common.entity.Coupon" extends="ListMap">
+  	</resultMap>
+  
+    <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from Coupon where id=#{id}
+  	</select>
+  	
+	<select id="selectConsumeList" resultMap="DetailMap">
+		SELECT
+			c.id, c.businessId, c.modifyDate, c.consumeDate, c.parent_id, c.couponInfo_id, c.mobile, c.payment_id, c.operator_id, c.type
+		FROM
+			Coupon c
+			LEFT JOIN CouponPayment cp ON c.payment_id = cp.id
+			LEFT JOIN Shop s ON s.id = c.businessId
+			LEFT JOIN Operator o ON c.operator_id = o.id
+		WHERE
+			c.deleted = FALSE AND s.deleted = FALSE AND cp.deleted = FALSE AND o.deleted = FALSE
+		AND (c.businessType = 'SHOP' AND 
+			<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">c.businessId IN (SELECT ss.id FROM Shop ss WHERE ss.deleted = FALSE AND ss.merchant_id = #{searcher.business.selfBusinessId}))</if>
+			<if test="searcher.business.selfBusinessType.name() == 'SHOP'">c.businessId = #{searcher.business.selfBusinessId})</if>
+		AND c. STATUS = 'USED'
+		<if test="searcher.key != null and '' != searcher.key">AND ( 
+			c.couponInfo_id in (select ci.id from CouponInfo ci where ci.deleted = false and ci.name like CONCAT("%",replace(#{searcher.key},' ',''),"%")) 
+			or 
+			c.parent_id in (select ci.id from CouponInfo ci	where ci.deleted = false and ci.name like CONCAT("%",replace(#{searcher.key},' ',''),"%"))
+			)
+		</if>
+		<if test="searcher.startDate != null">AND c.consumeDate >= #{searcher.startDate}</if>
+		<if test="searcher.endDate != null">AND #{searcher.endDate} >= c.consumeDate</if>
+		<if test="searcher.mobile != null and searcher.mobile != ''">AND c.mobile = #{searcher.mobile}</if>
+		<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+			<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+			)
+		</if>
+		<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+		<if test="searcher.sourceSet != null">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+		<if test="searcher.nickName != null">AND s. NAME = #{searcher.nickName}</if>
+		<if test="searcher.operator != null">AND o.username = #{searcher.operator}</if>
+		ORDER BY c.consumeDate DESC
+		LIMIT #{pager.startNumber}, #{pager.endNumber}
+	</select>
+	
+	<select id="countConsumeList" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			Coupon c
+			LEFT JOIN CouponPayment cp ON c.payment_id = cp.id
+			LEFT JOIN Shop s ON s.id = c.businessId
+			LEFT JOIN Operator o ON c.operator_id = o.id
+		WHERE
+			c.deleted = FALSE AND s.deleted = FALSE AND cp.deleted = FALSE AND o.deleted = FALSE
+		AND (c.businessType = 'SHOP' AND 
+			<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">c.businessId IN (SELECT ss.id FROM Shop ss WHERE ss.deleted = FALSE AND ss.merchant_id = #{searcher.business.selfBusinessId}))</if>
+			<if test="searcher.business.selfBusinessType.name() == 'SHOP'">c.businessId = #{searcher.business.selfBusinessId})</if>
+		AND c. STATUS = 'USED'
+		<if test="searcher.key != null">AND( 
+			c.couponInfo_id in (select ci.id from CouponInfo ci where ci.deleted = false and ci.name like CONCAT("%",replace(#{searcher.key},' ',''),"%")) 
+			or 
+			c.parent_id in (select ci.id from CouponInfo ci	where ci.deleted = false and ci.name like CONCAT("%",replace(#{searcher.key},' ',''),"%"))
+			)
+		</if>
+		<if test="searcher.startDate != null">AND c.consumeDate >= #{searcher.startDate}</if>
+		<if test="searcher.endDate != null">AND #{searcher.endDate} >= c.consumeDate</if>
+		<if test="searcher.mobile != null and searcher.mobile != ''">AND c.mobile = #{searcher.mobile}</if>
+		<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+			<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+			)
+		</if>
+		<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+		<if test="searcher.sourceSet != null">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+		<if test="searcher.nickName != null">AND s. NAME = #{searcher.nickName}</if>
+		<if test="searcher.operator != null">AND o.username = #{searcher.operator}</if>
+	</select>
+	
+	<select id="countConsumeStatistics" resultType="java.math.BigDecimal">
+		SELECT
+			sum(TRUNCATE(cp.sum/cp.quantity, 2))
+		FROM
+			Coupon c
+			LEFT JOIN CouponPayment cp ON c.payment_id = cp.id
+			LEFT JOIN Shop s ON s.id = c.businessId
+			LEFT JOIN Operator o ON c.operator_id = o.id
+		WHERE
+			c.deleted = FALSE AND s.deleted = FALSE AND cp.deleted = FALSE AND o.deleted = FALSE
+		AND (c.businessType = 'SHOP' AND 
+			<if test="searcher.business.selfBusinessType.name() == 'MERCHANT'">c.businessId IN (SELECT ss.id FROM Shop ss WHERE ss.deleted = FALSE AND ss.merchant_id = #{searcher.business.selfBusinessId}))</if>
+			<if test="searcher.business.selfBusinessType.name() == 'SHOP'">c.businessId = #{searcher.business.selfBusinessId})</if>
+		AND c.STATUS = 'USED'
+		AND c.type = 'NORMAL' <!-- 套票子票无法统计价格，只统计普通优惠券 -->
+		<if test="searcher.key != null">AND( 
+			c.couponInfo_id in (select ci.id from CouponInfo ci where ci.deleted = false and ci.name like CONCAT("%",replace(#{searcher.key},' ',''),"%")) 
+			or 
+			c.parent_id in (select ci.id from CouponInfo ci	where ci.deleted = false and ci.name like CONCAT("%",replace(#{searcher.key},' ',''),"%"))
+			)
+		</if>
+		<if test="searcher.startDate != null">AND c.consumeDate >= #{searcher.startDate}</if>
+		<if test="searcher.endDate != null">AND #{searcher.endDate} >= c.consumeDate</if>
+		<if test="searcher.mobile != null and searcher.mobile != ''">AND c.mobile = #{searcher.mobile}</if>
+		<if test="searcher.type != null and searcher.type.size > 0">AND cp.type IN (
+			<foreach collection="searcher.type" item="type" separator=",">#{type.name}</foreach>
+			)
+		</if>
+		<if test="searcher.type != null and searcher.type.size == 0">AND cp.type IN ('UNKNOWN')</if>
+		<if test="searcher.sourceSet != null">AND cp.source IN (<foreach collection="searcher.sourceSet" item="source" separator=",">#{source.name}</foreach>)</if>
+		<if test="searcher.nickName != null">AND s. NAME = #{searcher.nickName}</if>
+		<if test="searcher.operator != null">AND o.username = #{searcher.operator}</if>
+	</select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.ItemInventoryChangeDetailMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.itemInventory.ItemInventoryChangeDetail" >
+ 	 	
+  	<result  property="inventoryType" column="inventory_type"  />  
+  	<result  property="beforeChangeQuantity" column="before_change_quantity"  />  
+  	<result  property="afterChangeQuantity" column="after_change_quantity"  />  
+  	<association property="item" column="item_id" select="com.xpos.common.persistence.mybatis.ItemMapper.selectByPrimaryKey" />
+ 
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.itemInventory.ItemInventoryChangeDetail" extends="ListMap">
+   </resultMap>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from item_inventory_change_detail where id=#{id}
+  </select>
+  
+  <insert id="insertChangeDetailList">
+  	insert into item_inventory_change_detail(item_inventory_change_record_id, item_id, inventory_type, 
+  	quantity, before_change_quantity, after_change_quantity)
+  	values
+  	<foreach collection="detailList" item="detail" separator=",">
+  		(#{detail.itemInventoryChangeRecord.id}, #{detail.item.id}, #{detail.inventoryType}, #{detail.quantity},
+  		#{detail.beforeChangeQuantity}, #{detail.afterChangeQuantity})
+  	</foreach>
+  </insert>
+  
+  
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.BalanceTransactionDAO">
+      <resultMap id="result" type="com.xkeshi.pojo.po.BalanceTransaction">
+        <id      property="id" column="id"/>
+        <result  property="balance"   column="balance"/>
+        <result  property="accountId"   column="account_id"/>
+        <result  property="businessId"   column="businessId"/>
+        <result  property="businessType"   column="businessType"/>
+        <result  property="type"   column="type"/>
+        <result  property="amount"   column="amount"/>
+        <result  property="description"   column="description"/>
+      </resultMap>
+    
+    <insert id="insertBalanceTransaction"  parameterType="com.xkeshi.pojo.po.BalanceTransaction">
+		INSERT INTO
+		     balancetransaction 
+		     ( `balance`,`account_id`,`businessId`,`businessType`,`type`,`amount` ,`description`)
+		VALUES
+		     ( #{balance},#{accountId},#{businessId},#{businessType},#{type},#{amount} ,#{description})	
+    </insert>
+
+	<select id="findBalanceByBusiness"  resultType="java.math.BigDecimal">
+		SELECT 
+		   IFNULL(SUM(b.amount),0.00)	 balance
+	    FROM 
+	       balancetransaction b 
+	   WHERE
+	       b.businessId   = #{businessId} 
+	   AND b.businessType = #{businessType}
+	   for update
+	</select>
+
+</mapper>

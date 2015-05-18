@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.MemberDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.Member">
+        <id column="id" property="id"/>
+        <result column="member_type_id" property="memberTypeId"/>
+        <result column="name" property="name"/>
+        <result column="nickname" property="nickname"/>
+        <result column="sex" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobileNumber"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="operator_session_code" property="operatorSessionCode"/>
+        <result column="user_unique_no" property="userUniqueNo"/>
+        <result column="businessId" property="businessId"/>
+        <result column="businessType" property="businessType"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="createDate" property="createdDate"/>
+        <result column="modifyDate" property="modifyDate"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <update id="updateMemberTypeIdByMemberId">
+        UPDATE member
+        SET member_type_id = #{memberTypeId}
+        WHERE id = #{memberId}
+    </update>
+    <update id="updateMemberTypeIdByPrepaidChargeCode">
+        update member
+        set member_type_id = #{memberTypeId}
+        WHERE id = (SELECT t.member_id from prepaid_card_charge_order t WHERE t.code = #{prepaidOrder})
+    </update>
+    <select id="getInfoByMobileNumberAndShopId" resultMap="result">
+        SELECT
+            t.id,
+            t.`name`,
+            t.sex,
+            t.member_type_id,
+            t.shop_id,
+            t.mobile
+        FROM
+            member t
+        WHERE
+           t.mobile = #{mobileNumber}
+        AND t.businessId = #{shopId}
+        and t.businessType = 'SHOP'
+        AND t.deleted = FALSE
+        LIMIT 1
+    </select>
+    <select id="getInfoByMobileNumberAndMerchantId" resultMap="result">
+        SELECT
+            t.id,
+            t.`name`,
+            t.sex,
+            t.member_type_id,
+            t.shop_id,
+            t.mobile
+        FROM
+            member t
+        WHERE
+           t.mobile = #{mobileNumber}
+        AND t.businessId = #{merchantId}
+        and t.businessType = 'MERCHANT'
+        AND t.deleted = FALSE
+        LIMIT 1
+    </select>
+    <select id="getMemberTypeIdById" resultType="java.lang.Long">
+        SELECT
+            t.member_type_id
+        FROM
+            member t
+        WHERE
+            t.id = #{memberId}
+        AND t.deleted = 0
+    </select>
+    <select id="getBusinessTypeById" resultType="java.lang.String">
+        SELECT
+            t.businessType
+        FROM
+            member t
+        WHERE
+            t.id = #{memberId}
+        AND t.deleted = 0
+    </select>
+    <select id="getBusinessIdById" resultType="java.lang.Long">
+        SELECT
+            t.businessId
+        FROM
+            member t
+        WHERE
+            t.id = #{memberId}
+    </select>
+    <select id="getMemberShopIdById" resultType="java.lang.Long">
+        SELECT
+            t.shop_id
+        FROM
+            member t
+        WHERE
+            t.id = #{memberId}
+        AND t.deleted = 0
+    </select>
+    <select id="getById" resultMap="result">
+        SELECT
+            t.id,
+            t.memberType_id,
+            t.member_type_id,
+            t.`name`,
+            t.nickname,
+            t.sex,
+            t.birthday,
+            t.email,
+            t.mobile,
+            t.`password`,
+            t.salt,
+            t.operator_id,
+            t.operator_session_code,
+            t.user_unique_no,
+            t.businessId,
+            t.businessType,
+            t.shop_id,
+            t.createDate,
+            t.modifyDate,
+            t.deleted
+        FROM
+            member t
+        WHERE
+            t.id = #{memberId}
+        AND t.deleted = 0
+    </select>
+
+
+</mapper>

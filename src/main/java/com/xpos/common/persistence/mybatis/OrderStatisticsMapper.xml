@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.OrderStatisticsMapper" >
+
+	<resultMap id="dateDetailList" type="com.xpos.common.entity.statistics.OrderTrendDateStatisticsDetail">
+		<result column="date" property="date" jdbcType="DATE" />
+		<result column="count" property="temp_amount" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="hourDetailList" type="com.xpos.common.entity.statistics.OrderTrendHourlyStatisticsDetail">
+		<result column="hr" property="hr" jdbcType="INTEGER" />
+		<result column="hour" property="hour" jdbcType="VARCHAR" />
+		<result column="date" property="date" jdbcType="DATE" />
+		<result column="count" property="temp_amount" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="shopRatioDetailList" type="com.xpos.common.entity.statistics.ShopOrderRatioStatisticsDetail">
+		<result column="shop_id" property="shop_id" jdbcType="BIGINT" />
+		<result column="shop_name" property="shop_name" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="INTEGER" />
+		<result column="sum" property="sum" jdbcType="DECIMAL" />
+		<result column="amount_ratio" property="amount_ratio" jdbcType="DECIMAL" />
+		<result column="sum_ratio" property="sum_ratio" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="categoryRatioDetailList" type="com.xpos.common.entity.statistics.CategoryRatioStatisticsDetail">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="amount_ratio" property="amount_ratio" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="itemSalesSummary" type="com.xpos.common.entity.statistics.ItemRatioStatistics">
+		<result column="salesTotalAmount" property="salesTotalAmount" jdbcType="DECIMAL" />
+		<result column="orderTotalAmount" property="orderTotalAmount" jdbcType="DECIMAL" />
+		<result column="orderTotalSum" property="orderTotalSum" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="itemRatioDetailList" type="com.xpos.common.entity.statistics.ItemRatioStatisticsDetail">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sales_amount" property="sales_amount" jdbcType="DECIMAL" />
+		<result column="order_amount" property="order_amount" jdbcType="DECIMAL" />
+		<result column="order_sum" property="order_sum" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<select id="querySpecifiedPeriodOrderAmount" resultType="decimal">
+		select count(*) from Orders
+		where createDate >= #{startDate} and #{endDate} > createDate and status = 'SUCCESS'
+		and businessType = 'SHOP' and businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)
+	</select>
+
+	<select id="querySpecifiedPeriodOrderSum" resultType="decimal">
+		select sum(IFNULL(totalAmount, 0)) from Orders
+		where createDate >= #{startDate} and #{endDate} > createDate and status = 'SUCCESS'
+		and businessType = 'SHOP' and businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)
+	</select>
+	
+	<select id="querySpecifiedPeriodItemSales" resultType="decimal">
+		<!--select
+			sum(IFNULL(oi.quantity, 0))
+		from
+		Orders o
+		LEFT JOIN OrderItem  oi on oi.order_id = o.id
+		where o.createDate >= #{startDate} and #{endDate} > o.createDate and o.status = 'SUCCESS'
+		and oi.createDate >= #{startDate}
+		and o.businessType = 'SHOP' and o.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)-->
+
+        select sum(IFNULL(oi.quantity,0))
+
+        from orderitem oi
+
+        where oi.order_id
+
+        in(
+            select o.id
+
+            from orders o
+
+            where o.businessType = 'SHOP'
+
+            and o.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)
+
+            and o.createDate >= #{startDate}
+
+            and  #{endDate} >= o.createDate
+
+            and o.status = 'SUCCESS'
+        )
+	</select>
+	
+	<select id="queryHourlyOrderTrendByOneDay" resultMap="hourDetailList">
+		select 
+			date_format(createDate, '%Y-%m-%d') as date,
+			date_format(createDate, '%k') as hr,
+			date_format(createDate, '%H') as hour,
+			<choose>
+				<when test="type == 'AMOUNT'">count(*) as count</when>
+				<when test="type == 'SUM'">sum(IFNULL(totalAmount, 0)) as count</when>
+			</choose>
+		from Orders
+		where 
+		(createDate >= #{date} and ADDDATE(#{date}, 1) > createDate 
+		or createDate >= ADDDATE(#{date}, -1) and #{date} > createDate 
+		or createDate >= ADDDATE(#{date}, -7) and ADDDATE(#{date}, -6) > createDate) 
+		and status = 'SUCCESS'
+		and businessType = 'SHOP' and businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)
+		group by date_format(createDate, '%Y-%m-%d'), date_format(createDate, '%H')
+	</select>
+	
+	<select id="queryDailyOrderTrendByMultiDays" resultMap="dateDetailList">
+		select 
+			date_format(createDate, '%Y-%m-%d') as date,
+			<choose>
+				<when test="type == 'AMOUNT'">count(*) as count</when>
+				<when test="type == 'SUM'">sum(IFNULL(totalAmount, 0)) as count</when>
+			</choose>
+		from Orders
+		where 
+		(createDate >= #{startDate} and ADDDATE(#{endDate}, 1) > createDate 
+		or createDate >= ADDDATE(#{startDate}, -1) and #{endDate} > createDate 
+		or createDate >= ADDDATE(#{startDate}, -7) and ADDDATE(#{endDate}, -6) > createDate) 
+		and status = 'SUCCESS'
+		and businessType = 'SHOP' and businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)
+		group by date_format(createDate, '%Y%m%d')
+	</select>
+	
+	<select id="queryShopOrderRatios" resultMap="shopRatioDetailList">
+		SELECT
+			o.businessId as shop_id,
+			s.name as shop_name,
+			SUM(IFNULL(o.totalAmount, 0)) sum,
+			count(o.businessId) amount,
+			ROUND(100 * SUM(IFNULL(o.totalAmount, 0)) / (SELECT SUM(IFNULL(c.totalAmount, 0)) FROM Orders c where c.status = 'SUCCESS' and c.createDate > #{startDate} and ADDDATE(#{endDate}, 1) > c.createDate
+				and c.businessType = 'SHOP'and c.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)), 2) AS sum_ratio,
+			ROUND(100 * IFNULL(count(*), 0) / (SELECT count(*) FROM Orders c where c.status = 'SUCCESS' and c.createDate > #{startDate} and ADDDATE(#{endDate}, 1) > c.createDate
+				and c.businessType = 'SHOP'and c.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)), 2) AS amount_ratio
+		FROM
+			Orders o
+		LEFT JOIN Shop s on o.businessId = s.id and s.deleted = false
+		where o.status = 'SUCCESS' and o.createDate > #{startDate} and ADDDATE(#{endDate}, 1) > o.createDate
+		and o.businessType = 'SHOP'and o.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)
+		GROUP BY
+			o.businessId
+		order by
+		<choose>
+			<when test="type == 'SUM'">sum desc</when>
+			<when test="type == 'AMOUNT'">amount desc</when>
+			<otherwise>shop_id desc</otherwise>
+		</choose>
+	</select>
+	
+	<select id="queryCategoryRatios" resultMap="categoryRatioDetailList">
+		SELECT
+		ic.name AS name,
+		SUM(<choose><when test="type=='SALES'">IFNULL(oi.quantity,0)</when><when test="type=='SUM'">IFNULL(oi.quantity,0)*IFNULL(oi.price,0)</when></choose>) as amount,
+		ROUND(100 * SUM(<choose><when test="type=='SALES'">IFNULL(oi.quantity,0)</when><when test="type=='SUM'">IFNULL(oi.quantity,0)*IFNULL(oi.price,0)</when></choose>) / 
+			(SELECT SUM(<choose><when test="type=='SALES'">IFNULL(oi2.quantity,0)</when><when test="type=='SUM'">IFNULL(oi2.quantity,0)*IFNULL(oi2.price,0)</when></choose>) 
+				FROM
+					Orders o2
+				LEFT JOIN OrderItem oi2 on o2.id = oi2.order_id
+				LEFT JOIN Item i2 on oi2.item_id = i2.id
+				LEFT JOIN ItemCategory ic2 on i2.category_id = ic2.id
+				WHERE 
+					o2.status = 'SUCCESS' and o2.createDate >= #{startDate} and ADDDATE(#{endDate}, 1) > o2.createDate 
+					and o2.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)), 2) AS amount_ratio
+		FROM
+		Orders o
+		LEFT JOIN OrderItem oi on o.id = oi.order_id
+		LEFT JOIN Item i on oi.item_id = i.id
+		LEFT JOIN ItemCategory ic on i.category_id = ic.id
+		WHERE o.status = 'SUCCESS' and o.createDate >= #{startDate} and ADDDATE(#{endDate}, 1) > o.createDate 
+			and o.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>)
+		GROUP BY ic.name
+		ORDER BY amount desc
+	</select>
+	
+	<select id="queryItemSalesSummary" resultMap="itemSalesSummary">
+		SELECT 
+			SUM(IFNULL(oi.quantity,0)) as salesTotalAmount,
+			count(oi.order_id) orderTotalAmount,
+			SUM(IFNULL(oi.quantity,0)*IFNULL(oi.price,0)) orderTotalSum
+		FROM Orders o LEFT JOIN OrderItem oi on o.id = oi.order_id LEFT JOIN Item i on oi.item_id = i.id WHERE o.status = 'SUCCESS'
+		and o.createDate >= #{startDate} and ADDDATE(#{endDate}, 1) > o.createDate 
+		and o.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>) 
+	</select>
+	
+	<select id="queryItemStatisticsDetail" resultMap="itemRatioDetailList">
+		SELECT 
+			i.name AS name ,
+			oi.id as id,
+			SUM(IFNULL(oi.quantity,0)) as sales_amount,
+			count(oi.order_id) as order_amount,
+			SUM(IFNULL(oi.quantity,0)*IFNULL(oi.price,0)) as order_sum
+		FROM Orders o LEFT JOIN OrderItem oi on o.id = oi.order_id LEFT JOIN Item i on oi.item_id = i.id
+		WHERE o.status = 'SUCCESS' 
+		and o.createDate >= #{startDate} and ADDDATE(#{endDate}, 1) > o.createDate and o.businessId in (<foreach collection="shopIds" item="shopId" separator=",">#{shopId}</foreach>) 
+		GROUP BY i.name
+		ORDER BY
+		<choose>
+			<when test="type == 'SALES'">sales_amount</when>
+			<when test="type == 'AMOUNT'">order_amount</when>
+			<when test="type == 'SUM'">order_sum</when>
+		</choose>
+		desc
+	</select>
+	
+</mapper>

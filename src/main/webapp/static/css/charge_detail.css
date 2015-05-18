@@ -1,0 +1,173 @@
+.pb_input{
+	background: url(img/tcal.png) no-repeat;
+	background-position: 70px;
+}
+.opt_wrap{
+height: 30px;
+line-height: 30px;
+font-size: 12px;
+font-weight: bold;
+padding: 0 16px;
+color: #666667;
+}
+.g_num{
+color: #009ce5;
+font-weight: bold;
+}
+.opt_wrap a{
+font-weight: bold;
+margin-left: 8px;
+}
+.date{
+width: 115px;
+}
+.wd80{
+	width: 80px;
+	width: 80px\9;
+}
+.wd70{
+	width: 60px;
+	width: 70px\9;
+}
+.r_num{
+color: #ff5454;
+font-weight: bold;
+}
+.change{
+width: 160px;
+}
+.remark{
+text-align: left;
+}
+.source{
+width: 160px;
+}
+.filter_a{
+margin-right: 0;
+}
+.pop_filter{
+border-top: none;
+}
+.pop_filter .pb_main{
+padding-top: 2px;
+padding-bottom: 0;
+}
+.pop_filter .pb_input{
+width: 80px;
+margin-top: 7px;
+}
+.pop_charge{
+width: 370px;
+}
+.pb_table td{
+height: 50px;
+vertical-align: middle;
+}
+.pb_table .td_key{
+width: 132px;
+text-align: right;
+color: #4b4b4b;
+font-weight: bold;
+padding-right: 30px;
+}
+.pb_table .r_num{
+font-size: 14px;
+}
+.pb_table .pb_input{
+width: 162px;
+}
+.pb_btn_wrap{
+text-align: center;
+border-top: 1px solid #EBEBEB;
+padding-top: 16px;
+}
+.pop_charge .pb_main{
+padding-bottom: 4px;
+}
+.pay_done, .pay_error{
+background: url(img/admin_frame/gantan.png) no-repeat 0 0;
+padding-left: 30px;
+height: 20px;
+line-height: 20px;
+display: block;
+color: #027dff;
+margin-top: 30px;
+margin-left: 6px;
+}
+.pay_error{
+background: url(img/admin_frame/wenhao.png) no-repeat 0 0;
+}
+.pop_charge_done{
+width: 370px;
+display: block;
+left: 50%;
+margin-left: -203px;
+top: 50%;
+height: 350px;
+margin-top: -193px;
+float: left;
+}
+.pop_charge_done .pb_main{
+padding-top: 0;
+}
+.trades{
+	border-radius:3px;
+}
+.tb_main tr td{
+	padding: 16px 10px 16px 20px;
+}
+.m_num{
+	color: #009ce5;
+	font-weight: bold;
+}
+.pb_item{
+	border-top:1px solid #ebebeb;
+	padding-top: 15px;
+    padding-bottom: 15px;
+}
+.pb_item_title{
+	padding-bottom: 10px;
+}
+.pb_btn{
+	margin-top: 0px;
+	margin-bottom: -5px;
+}
+.pop_freeze .pb_main,.pop_unfreeze .pb_main{
+	border-top: 1px solid #EBEBEB;
+	height: 100px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ff0c0c;
+}
+.pb_cate_name{
+	color: #4b4b4b;
+}
+.pb_form_btn{
+	background: #93c41a;
+    color: #fefefe;
+    border: 1px solid #8fc42f;
+    border-radius: 3px;
+    width: 150px;
+    height: 28px;
+    font-size: 12px;
+    margin-top: 6px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+.pb_buttons{
+	font-size: 12px;
+	color: #4b4b4b;
+}
+.pb_cancel_btn{
+	text-decoration: underline;
+    color: #027dff;
+    font-size: 12px;
+    border: none;
+    background: #fff;
+}
+.pb_input::-ms-clear{
+	display: none;
+}
+.pb_input::-ms-reveal{
+	display: none;
+}

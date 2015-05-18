@@ -1,0 +1,92 @@
+.rwrap{
+	position: relative;
+}
+.div_top{
+	font-size: 12px;
+}
+.check_li{
+	margin-left:10px; 
+	margin-top: 4px;
+	margin-right: 3px;
+	vertical-align: top;
+}
+.check_lis{
+	margin-left:10px; 
+	margin-top: 4px;
+	margin-right: 3px;
+	vertical-align: top;
+}
+thead th{
+	font-size: 12px;
+	color: #666667;
+	text-align: left;
+	padding: 20px 0 10px 10px;
+}
+thead .th th{
+	color: #333;
+}
+.tb_main tr td{
+	width: auto;
+	border: none;
+	padding: 14px 0 14px 10px;
+}
+.tr{
+	border-top: 1px solid #e5e8e6;
+}
+a.a_pop{
+	float: none;
+	margin-right: 5px;
+}
+a.afresh{
+	float: none;
+	margin-right: 5px;
+}
+.pb{
+	top: 200px;
+	left: 200px;
+}
+.tb_list{
+	width:894px;
+}
+.tb_wrap{
+	border:1px solid #E5E8E6;
+}
+.hiline{
+	height: 48px\9;
+}
+.tb_title {
+	border:none;
+	border-bottom:1px solid #E5E8E6;
+	/*background: url("img/tit_bg.png") repeat scroll 0 0 rgba(0, 0, 0, 0);*/
+    background-image: url("img/tit_bg.png");
+    background-repeat: repeat;
+    
+    font-weight: normal;
+    position: relative;
+}
+.remark_title{
+font-size: 12px;
+color: #666667;
+margin-top: 12px;
+display:block;
+}
+.check_li_title{
+float: left;
+margin-top: 12px;
+}
+.check_li_wrap{
+overflow: hidden;
+margin-left: -22px;
+margin-top: -12px;
+width: 746px;
+}
+.lb_cb, .lb_cb_on{
+margin-left: 32px;
+margin-top: 12px;
+}
+.reset_check_a{
+position: absolute;
+right: 16px;
+top: 28px;
+display: block;
+}

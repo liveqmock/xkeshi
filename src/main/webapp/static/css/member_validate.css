@@ -1,0 +1,7 @@
+.required_error{
+	color: #c00;
+	display: none;
+}
+.tb_main em{
+	display: inline-block;
+}

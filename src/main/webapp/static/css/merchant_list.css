@@ -1,0 +1,15 @@
+.pb_item{border-top:none;}
+.pb_main{padding: 2px 0 0 0;}
+.filter_a{margin:0 0 0 13px;}
+.r_title{padding-left: 0;}
+.tb_main tr td{padding: 14px 0 14px 16px;word-break:break-all;word-wrap: break-word;}
+.pb_input{
+ background: url(img/tcal.png) no-repeat;
+ background-position: 70px;
+ width: 80px;
+ margin-top: 10px;
+}
+.pb_input0::-ms-clear,
+.pb_input0::-ms-reveal{
+    display: none;
+}

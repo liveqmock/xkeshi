@@ -1,0 +1,172 @@
+<!doctype html>
+
+<head>
+<meta charset="utf-8">
+<title>全部消息</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_info.css" type="text/css">
+<link rel="stylesheet" href="css/add_seller_new.css" type="text/css">
+<link rel="stylesheet" href="css/add_ticket.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/back_base.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">2</span>
+		</a>
+		<div class="user">admin</div>		
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img1.png" class="lnav_img lnav_img1"><span class="lnav_text">POS机终端</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img2.png" class="lnav_img lnav_img2"><span class="lnav_text">商户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img4.png" class="lnav_img lnav_img4"><span class="lnav_text">活动</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">优惠券</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img6.png" class="lnav_img lnav_img6"><span class="lnav_text">订单</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img7.png" class="lnav_img lnav_img7"><span class="lnav_text">动态</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img8.png" class="lnav_img lnav_img8"><span class="lnav_text">账户</span></a>
+			<a class="lnav_item" href="javascript:"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img8"><span class="lnav_text">积分</span></a>
+			<a class="lnav_item lnav_now"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap">
+				<a class="lnav2_item" href="javascript:">普通样式</a>
+				<a class="lnav2_item" href="javascript:">滑动链接样式</a>
+				<a class="lnav2_item lnav2_now" href="javascript:">选中样式</a>
+				<div class="lnav2_bottom"></div>
+			</div>
+		</div>
+	</div>
+	<div class="rwrap">
+		<div class="r_title"><a href="javascript:" class="back_a"></a>套票创建</div>
+		<div class="tb_wrap">
+			<div class="tb_title">基本信息</div>
+			<table class="tb_main">
+				<tr>
+					<td class="ltd" colspan="2"><em>*</em><span class="td_key">名称</span><span class="td_val"><input class="ip1" type="text"></span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td class="ltd" colspan="2"><em>*</em><span class="td_key">简介</span><span class="td_val"><textarea></textarea></span></td>
+				</tr>
+				<tr>
+					<td class="std"><em>*</em><span class="td_key">Logo</span><span class="td_val"><input type="file" class="file_ip"></span></td>
+					<td class="std"><em class="v9">*</em><span class="td_key" style="width:47px;vertical-align:-9px;">列表用缩略图</span><span class="td_val"><input type="file" class="file_ip v9"></span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td><em>*</em><span class="td_key">有效期</span><span class="td_val"><input type="text" class="tcal dl_input"> - <input type="text" class="tcal dl_input"></span></td>
+					<td><em>&nbsp;</em><span class="td_key">服务保障</span><span class="td_val"><input type="checkbox" id="bz_cb1" class="bz_cb"><label for="bz_cb1" class="bz_lb">支持随时退款</label><input type="checkbox" id="bz_cb2" class="bz_cb"><label for="bz_cb2" class="bz_lb">支持过期退款</label></span></td>
+				</tr>
+				<tr>
+					<td class="ltd" colspan="2"><em>*</em><span class="td_key">描述详情</span><span class="td_val"><textarea></textarea></span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td class="ltd" colspan="2"><em>&nbsp;</em><span class="td_key">备注</span><span class="td_val"><input class="ip1" type="text"></span></td>
+				</tr>
+				<tr>
+					<td class="td"><em>&nbsp;</em><span class="td_key">总数限制</span><span class="td_val"><input type="radio" id="sp_rd1" class="sp_rd"><label for="sp_rd1" class="sp_lb">不限</label><input type="radio" id="sp_rd1" class="sp_rd"><label for="sp_rd1" class="sp_lb">限</label><input type="text" class="sp_input">份</span></td><td></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tb_wrap">
+			<div class="tb_title">获取条件</div>
+			<table class="tb_main">
+				<tr>
+					<td><em>&nbsp;</em><span class="td_key">售价</span><span class="td_val"><input type="text"></span></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="td"><em>&nbsp;</em><span class="td_key">起始<br>获取时间</span><span class="td_val"><input type="radio" id="sp_rd1" class="st_rd"><label for="st_rd1" class="st_lb">不限</label><input type="radio" id="st_rd1" class="st_rd"><label for="st_rd1" class="st_lb">自</label><input type="text" class="st_input tcal">止</span></td><td class="td"><em>&nbsp;</em><span class="td_key">获取<br>截止时间</span><span class="td_val"><input type="radio" id="sp_rd1" class="sp_rd"><label for="sp_rd1" class="sp_lb">不限</label><input type="radio" id="sp_rd1" class="sp_rd tcal"><label for="sp_rd1" class="sp_lb">自</label><input type="text" class="sp_input">止</span></td>
+				</tr>
+				<tr>
+					<td class="ltd" colspan="2"><em>&nbsp;</em><span class="td_key">限定获取用户</span><span class="td_val"><input type="radio" class="lm_rd" id="lm_rd1"><label for="lm_lb1" class="lm_lb">不限</label><input type="radio" class="lm_rd" id="lm_rd2"><label for="lm_lb2" class="lm_lb">指定用户分组<a href="javascript:" class="pop_a lm_a" data-pop="pop_group">设置</a></label><input type="radio" class="lm_rd" id="lm_rd3"><label for="lm_lb3" class="lm_lb">指定用户名单<a href="javascript:" class="pop_a lm_a" data-pop="pop_user">设置</a></label><input type="radio" class="lm_rd" id="lm_rd4"><label for="lm_lb4" class="lm_lb">指定异业消费获取<a href="javascript:" class="pop_a lm_a" data-pop="pop_seller">设置</a></label></span><span class="by_span"><input type="checkbox" id="by_cb1" class="by_cb"><label for="by_cb1" class="by_lb">每个用户限抢购</label><input type="text" class="by_input">份</span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td colspan='2'><p><a href="javascript:" class="phone_a">套票手机版预览</a></p><p><a href="javascript:" class="pc_a">套票网络版预览</a></p></td>
+				</tr>
+			</table>
+		</div>
+		<div class="btn_wrap"><button class="add_seller_btn">保存套票</button><span>或</span><a href="javascript:" class="cancel_a">取消</a></div>
+
+		<div class="pb pop_group">
+			<form>
+			<div class="pb_title">指定获取用户分组</div>
+			<div class="pb_main">
+				<div class="pb_rd_item"><input type="checkbox" class="pb_cb" id="pb_cb1"><label class="pb_lb" for="pb_cb1">普卡用户（1091名）</label></div>
+				<div class="pb_rd_item"><input type="checkbox" class="pb_cb" id="pb_cb2"><label class="pb_lb" for="pb_cb2">金卡用户（321名）</label></div>
+				<div class="pb_rd_item"><input type="checkbox" class="pb_cb" id="pb_cb3"><label class="pb_lb" for="pb_cb3">白金卡用户（122名）</label></div>
+			</div>
+			<button class="pb_btn pb_btn_s">确定</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+			</form>
+		</div>
+		<div class="pb pop_user">
+			<form>
+			<div class="pb_title">指定获取用户名单</div>
+			<div class="pb_main">
+				<div class="pb_user_filter"><a href="javascript:" class="b_a pb_user_filter_a">条件筛选</a><span>当前已选择：1021名</span></div>
+				<div class="pb_tb_th">
+					<span class="id">ID</span><span class="name">会员姓名</span><span class="phone">手机号码</span>
+				</div>
+				<div class="pb_tb_wrap">
+					<table class="pb_tb">
+						<tr class="tr tr_bg">
+							<td class="id">432424</td>
+							<td class="name">张八零</td>
+							<td class="phone">1345678900</td>
+						</tr>
+						<tr class="tr">
+							<td class="id">432424</td>
+							<td class="name">张八零</td>
+							<td class="phone">1345678900</td>
+						</tr>
+						<tr class="tr tr_bg">
+							<td class="id">432424</td>
+							<td class="name">张八零</td>
+							<td class="phone">1345678900</td>
+						</tr>
+						<tr class="tr">
+							<td class="id">432424</td>
+							<td class="name">张八零</td>
+							<td class="phone">1345678900</td>
+						</tr>
+						<tr class="tr tr_bg">
+							<td class="id">432424</td>
+							<td class="name">张八零</td>
+							<td class="phone">1345678900</td>
+						</tr>
+						<tr class="tr">
+							<td class="id">432424</td>
+							<td class="name">张八零</td>
+							<td class="phone">1345678900</td>
+						</tr>
+						<tr class="tr tr_bg">
+							<td class="id">432424</td>
+							<td class="name">张八零</td>
+							<td class="phone">1345678900</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<button class="pb_btn pb_btn_s">确定</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+			</form>
+		</div>
+		<div class="pb pop_seller">
+			<form>
+			<div class="pb_title">指定异业商户</div>
+			<div class="pb_main">
+				<div class="distance">在距离当前商户<select class="pb_sel"><option>100M</option></select><br>范围内的异业商户消费后可获取</div>
+				<div class="pb_seller_tip">当前商户地址:太平门直街260号太平门直街260号</div>
+			</div>
+			<button class="pb_btn pb_btn_s">确定</button><span class="pb_btn_split">或</span><a href="javascript:" class="pb_cancel_a">取消</a>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

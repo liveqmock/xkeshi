@@ -1,0 +1,31 @@
+.pb_item .pfck{
+margin-right: 8px;
+vertical-align: -2px;
+}
+.pb_item .pflb{
+font-size: 12px;
+color: #a7a7a7;
+margin: 8px 16px 0 0;
+}
+.yuan_input{
+width: 182px;
+margin-right: 9px;
+}
+.tb_main tr .time2{
+	width: 75px;
+	padding-right: 10px;
+}
+.tb_main tr .name2{
+	width: 50px;
+	padding-right: 10px;
+}
+.b_tit1{
+	float: none;
+	display: inline-block;
+}
+.report_a{
+width: 36px;
+height: 36px;
+display: inline-block;
+background: url(img/admin_frame/report_a.png) no-repeat 0 0;
+}

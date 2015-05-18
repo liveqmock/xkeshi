@@ -1,0 +1,122 @@
+.time{
+width: 140px;
+}
+.change{
+width: 80px;
+}
+.source{
+width: 260px;
+}
+.change em{
+font-weight: bold;
+font-size: 15px;
+}
+.red{
+color: #d20;
+}
+.green{
+color: #090;
+}
+.list_top_btn_wrap{
+font-size: 12px;
+}
+.score_info em{
+font-size: 18px;
+color: #63a004;
+margin-right: 10px;
+}
+.pop_score_charge, .pop_alipay_result, .pop_alipay_fail, .pop_score{
+width: 400px;
+margin-left: -236px;
+}
+.sc_tb .key{
+text-align: right;
+padding-right: 12px;
+width: 140px;
+}
+.sc_form{
+color: #666;
+}
+.btn_cancel, .seller_a{
+color: #0670f3;
+}
+.pop_form table select, .pop_form table input{
+margin-left: 0;
+}
+.need_pay{
+color:#d20;
+margin-right: 6px;
+}
+.sc_btn{
+width: 207px;
+height: 62px;
+background: url(img/alipay_pay.png) no-repeat 0 0;
+display: inline-block;
+border: none;
+vertical-align: middle;
+padding: 0;
+margin-right: 4px;
+}
+.alipay_fail p{
+padding-bottom: 8px;
+color: #666;
+font-size: 14px;
+line-height: 28px; 
+}
+.ar_success{
+width: 279px;
+height: 53px;
+background: url(img/pay_success.png) no-repeat 0 0;
+display: block;
+margin: 0 auto;
+}
+.ar_fail{
+color: #0670f3;
+text-decoration: underline;
+}
+.ar_fail:hover{
+text-decoration: underline;
+}
+.ar_p{
+text-align: center;
+margin-bottom: 22px;
+}
+.score_charge_a{
+background: url(img/score_charge_btn.png) no-repeat 0 0;
+width: 101px;
+height: 27px;
+display: inline-block;
+vertical-align: top;
+}
+.score_charge_a:hover{
+background: url(img/score_charge_btn_hover.png) no-repeat 0 0;
+}
+.charge_btn{
+width: 177px;
+height: 41px;
+background: url(img/sc_btn.png) no-repeat 0 0;
+display: inline-block;
+cursor: pointer;
+vertical-align: -15px;
+margin: 0 4px 0 28px;
+}
+.sc_ok_btn{
+width: 117px;
+height: 41px;
+background: url(img/sc_ok_btn.png) no-repeat 0 0;
+display: inline-block;
+cursor: pointer;
+vertical-align: 6px;
+margin: 0 4px 0 153px;
+border: none;
+}
+.remark_txt{
+padding: 4px;
+border: 1px solid #ccc;
+resize:none;
+height: 64px;
+color: #666;
+}
+.utb tr .seller{
+width: 90px;
+}

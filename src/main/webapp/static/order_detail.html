@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://localhost:8080/order/110610/detail/256321726580939 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta version="tag 1.0.5">
+<title>点单详情 - 爱客仕</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css">
+<link rel="stylesheet" href="css/admin_frame.css" type="text/css">
+<link rel="stylesheet" href="css/seller_list_new.css" type="text/css">
+<link rel="stylesheet" href="css/order_detail.css" type="text/css">
+<link rel="stylesheet" href="css/seller_info.css" type="text/css">
+<link rel="stylesheet" href="css/coupon_detail.css" type="text/css">
+<link rel="stylesheet" href="css/order_detail.css" type="text/css">
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/My97DatePicker/WdatePicker.js"></script>
+<script src="js/back_base.js"></script>
+</head>
+
+<body>
+<div class="top">
+	<div class="top_main">
+		<span class="logo"></span>
+		<a href="javascript:" class="msg">
+			<span class="msg_text">站内信</span><span class="msg_num">0</span>
+		</a>
+		<div class="user">apple<a href="http://localhost:8080/logout">退出</a></div>
+	</div>
+</div>
+<div class="wrapper">
+	<div class="lwrap">
+		<div class="lnav">
+			<div class="lnav_top"></div>
+
+
+
+			<a class="lnav_item " href="http://localhost:8080/shop/110610"><img src="css/img/admin_frame/lnav_img11.png" class="lnav_img lnav_img11"><span class="lnav_text">展示</span></a>
+			<div class="lnav2_wrap   ">
+				<a class="lnav2_item " href="http://localhost:8080/shop/110610">商户资料</a>
+				<a class="lnav2_item " href="http://localhost:8080/shop/110610/about">关于商户</a>
+				<a class="lnav2_item  " href="http://localhost:8080/album/list">相册</a>
+			</div>
+
+			<a class="lnav_item " href="http://localhost:8080/member/shop/list"><img src="css/img/admin_frame/lnav_img3.png" class="lnav_img lnav_img3"><span class="lnav_text">会员</span></a>
+			<div class="lnav2_wrap ">
+				<a class="lnav2_item " href="http://localhost:8080/member/shop/list">会员列表</a>
+				<a class="lnav2_item " href="http://localhost:8080/member/shop/type/list">会员类型</a>
+				<a class="lnav2_item " href="http://localhost:8080/member/shop/template/list">会员模板</a>
+			</div>
+                    <a class="lnav_item " href="http://localhost:8080/prepaid/card/list"><img src="css/img/admin_frame/lnav_img16.png" class="lnav_img lnav_img16"><span class="lnav_text">预付卡</span></a>
+                    <div class="lnav2_wrap ">
+                            <a class="lnav2_item " href="http://localhost:8080/prepaid/card/list">预付卡管理</a>
+                            <a class="lnav2_item " href="http://localhost:8080/prepaid/rule">充值规则管理</a>
+                    </div>
+			<a class="lnav_item " href="http://localhost:8080/coupon/couponInfo/list"><img src="css/img/admin_frame/lnav_img5.png" class="lnav_img lnav_img5"><span class="lnav_text">电子券&amp;套票</span></a>
+			<div class="lnav2_wrap ">
+				<a class="lnav2_item " href="http://localhost:8080/coupon/couponInfo/list">电子券列表</a>
+				<a class="lnav2_item " href="http://localhost:8080/coupon/couponInfoPackage/list">电子券套票列表</a>
+			</div>
+			<a class="lnav_item " href="http://localhost:8080/sms/task/list"><img src="css/img/admin_frame/lnav_img13.png" class="lnav_img lnav_img13"><span class="lnav_text">推广</span></a>
+			<div class="lnav2_wrap ">
+				<a class="lnav2_item " href="http://localhost:8080/sms/task/list">短信任务</a>
+			</div>
+					<a class="lnav_item " href="http://localhost:8080/item/list"><img src="css/img/admin_frame/lnav_img14.png" class="lnav_img lnav_img14"><span class="lnav_text">收银</span></a>
+					<div class="lnav2_wrap ">
+						<a class="lnav2_item " href="http://localhost:8080/item/list">商品管理</a>
+						<a class="lnav2_item " href="http://localhost:8080/item/category">分类管理</a>
+						<a class="lnav2_item " href="http://localhost:8080/inventory/recordlist">出入库记录</a>
+					</div>
+			<a class="lnav_item lnav_now" href="http://localhost:8080/statistics/order/analyze/trend"><img src="css/img/admin_frame/lnav_img15_w.png" class="lnav_img lnav_img15"><span class="lnav_text">统计&amp;明细</span></a>
+			<div class="lnav2_wrap lnav2_wrap_show">
+				<a class="lnav2_item " href="http://localhost:8080/statistics/order/analyze/trend">点单分析</a>
+				<a class="lnav2_item " href="http://localhost:8080/statistics/item/analyze">商品分析</a>
+				<a class="lnav2_item " href="http://localhost:8080/statistics/item_category/analyze">品类分析</a>
+				<a class="lnav2_item lnav2_now" href="http://localhost:8080/order/list">点单明细</a>
+				<a class="lnav2_item " href="http://localhost:8080/physical_coupon/used/list">实体券核销明细</a>
+				<a class="lnav2_item " href="http://localhost:8080/statistics/coupon/sales">电子券销售统计&amp;明细</a>
+				<a class="lnav2_item " href="http://localhost:8080/statistics/coupon/consume">电子券核销统计&amp;明细</a>
+				<a class="lnav2_item " href="http://localhost:8080/pos_transaction/bank_card/list">刷卡统计&amp;明细</a>
+				<a class="lnav2_item " href="http://localhost:8080/alipay_transaction/alipay_qrcode/list">扫码付统计&amp;明细</a>
+                <a class="lnav2_item " href="http://localhost:8080/prepaid/charge/list">预付卡充值统计&amp;明细</a>
+	               	 <a class="lnav2_item " href="http://localhost:8080/shift/list">交接班&amp;明细</a>
+			</div>
+			<a class="lnav_item " href="http://localhost:8080/balance/transaction/list"><img src="css/img/admin_frame/lnav_img9.png" class="lnav_img lnav_img9"><span class="lnav_text">账户</span></a>
+
+					<a class="lnav_item " href="http://localhost:8080/physical_coupon/shop/list"><img src="css/img/admin_frame/lnav_img18.png" class="lnav_img lnav_img18"><span class="lnav_text">实体券</span></a>
+					<div class="lnav2_wrap ">
+						<a class="lnav2_item " href="http://localhost:8080/physical_coupon/shop/list">实体券管理</a>
+					</div>
+
+
+
+			<a class="lnav_item " href="http://localhost:8080/shop/resetpwd"><img src="css/img/admin_frame/lnav_img10.png" class="lnav_img lnav_img8"><span class="lnav_text">设置</span></a>
+			<div class="lnav2_wrap lnav2_wrap ">
+				  <a class="lnav2_item  " href="http://localhost:8080/shop/resetpwd">登录密码修改</a>
+				  <a class="lnav2_item " href="http://localhost:8080/shop/110610/pos">终端账号管理</a>
+				  <a class="lnav2_item " href="http://localhost:8080/shop/shop_printer/list">打印档口设置</a>
+				  <a class="lnav2_item " href="http://localhost:8080/shop/shop_printer_service">打印服务设置</a>
+				  <a class="lnav2_item " href="http://localhost:8080/shift/shift_setting">交接班设置</a>
+                  <a class="lnav2_item " href="http://localhost:8080/shop/pay_setting">支付设置</a>
+			</div>
+
+
+			<div class="lnav2_bottom"></div>
+		</div>
+	</div>
+<div class="rwrap">
+	<p class="r_title"><a class="back_a" href="http://localhost:8080/order/list"></a>点单详情</p>
+	<div class="tb_wrap" style="border-top:1px solid #EBEBEB;margin-top:14px;">
+		<div class="tb_title">基本信息</div>
+		<table class="tb_main" style="margin-top:0px;">
+			<tbody>
+				<tr>
+					<td style="width:50%;"><span class="td_key font_Blank">消费商户</span><span class="td_val">爱客仕咖啡店</span></td>
+					<td><span class="td_key font_Blank">收银员</span><span class="td_val coupon_id">001</span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td style="width:50%;"><span class="td_key font_Blank">创建时间</span><span class="td_val">2015/02/18&nbsp;10:21:55</span></td>
+					<td><span class="td_key font_Blank">订单号</span><span class="td_val">2015060302</span></td>
+				</tr>
+				<tr class="">
+					<td style="width:50%;"><span class="td_key font_Blank">订单状态</span><span class="td_val">支付超时</span>
+					</td>
+					<td><span class="td_key font_Blank">会员手机</span><span class="td_val">-</span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="tb_wrap" style="border-top:1px solid #EBEBEB;margin-top:14px;">
+		<div class="tb_title" style="text-align:center;font-size:16px;padding:20px 0px;">订单金额 ￥200</div>
+		<div class="tb_title" style="border-top:1px solid #EBEBEB;color:#516372;">
+			<span class="td_key font_Blank" style="margin-right:11px;">收银员</span>
+			<span class="td_val coupon_id">￥200</span>
+		</div>
+		<table class="tb_main" style="margin-top:0px;">
+			<tbody>
+				<tr>
+					<td style="width:50%;"><span class="td_key font_Blank">银行卡收银</span><span class="td_val">￥10</span></td>
+					<td><span class="td_key font_Blank">预付卡收银</span><span class="td_val coupon_id">￥30</span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td style="width:50%;"><span class="td_key font_Blank">支付宝收银</span><span class="td_val">￥10</span></td>
+					<td><span class="td_key font_Blank">现金收银</span><span class="td_val">￥40</span></td>
+				</tr>
+				<tr class="">
+					<td style="width:50%;"><span class="td_key font_Blank">支付宝收银</span><span class="td_val">￥10</span>
+					</td>
+					<td><span class="td_key font_Blank"></span><span class="td_val"></span></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="tb_title" style="color:#516372;">
+			<span class="td_key font_Blank" style="margin-right:11px;">优惠金额</span>
+			<span class="td_val coupon_id">￥200</span>
+		</div>
+		<table class="tb_main" style="margin-top:0px;">
+			<tbody>
+				<tr>
+					<td style="width:50%;"><span class="td_key font_Blank">实体券</span><span class="td_val">5元代金券*5</span></td>
+					<td><span class="td_key font_Blank">电子券</span><span class="td_val coupon_id">咖啡买一送1券*1</span></td>
+				</tr>
+				<tr class="tr_bg">
+					<td style="width:50%;"><span class="td_key font_Blank">&nbsp;</span><span class="td_val">10元代金券*5</span></td>
+					<td><span class="td_key font_Blank">&nbsp;</span><span class="td_val">火腿鸡肉券券*1</span></td>
+				</tr>
+				<tr class="">
+					<td style="width:50%;"><span class="td_key font_Blank">&nbsp;</span><span class="td_val">30元代金券*1</span>
+					</td>
+					<td><span class="td_key font_Blank"></span><span class="td_val"></span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="tb_wrap tb_other" style="border-top:none;">
+		<table class="tb_main">
+			<tbody><tr class="th">
+				<td class="name">商品名称</td>
+				<td>数量</td>
+				<td>单价</td>
+				<td>优惠(折扣)</td>
+			</tr>
+			<tr class="tr_bg">
+				<td class="name names"><img src="css/img/icbc_ex1.png"><span class="pro_name">打火机</span></td>
+				<td>1</td>
+				<td>￥2</td>
+				<td class="state">
+					-
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+</div>
+
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+</body></html>

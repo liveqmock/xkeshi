@@ -1,0 +1,94 @@
+.activity_pic{
+width: 540px;
+display: block;
+margin: 12px 0 20px;
+}
+.activity_text{
+line-height: 22px;
+}
+.activity_text p{
+padding-bottom: 12px;
+font-size: 13px;
+}
+.side_slist{
+padding-bottom: 12px;
+}
+.side_slist img{
+width: 56px;
+height:56px;
+margin: 12px 0 0 12px;
+border-radius: 29px;
+display: inline-block;
+}
+.file_list{
+margin: 16px 16px 0 0;
+}
+.file_item{
+padding-left: 46px;
+margin:0 0 12px 12px;
+padding-bottom: 12px;
+border-bottom: 1px solid #e3e3e3;
+}
+.file_doc{
+background: url(img/file_doc.png) no-repeat 0 0;
+}
+.file_name{
+font-size: 13px;
+color: #000;
+padding-bottom: 4px;
+}
+.file_time{
+font-size: 13px;
+color: #999;
+}
+/*==============*/
+.coupon_type{
+background: #f8f8f8;
+padding: 8px 12px;
+}
+.ctcb{
+vertical-align: -1px;
+margin-right: 6px;
+}
+.ctlb{
+margin-right: 18px;
+}
+.cttb{
+margin-top: 22px;
+}
+.cttb tr td{
+padding:0 56px 18px 0;
+}
+.cttb tr td:last-child{
+padding-right: 0;
+}
+.cttb tr td{
+font-size: 13px;
+}
+.cttb .th td{
+font-size: 15px;
+padding-bottom: 22px;
+}
+.page_btn {
+background-color: #F0F0F0;
+border: 1px solid #D7D7D7;
+border-radius: 4px 4px 4px 4px;
+cursor: pointer;
+display: inline-block;
+font-size: 18px;
+line-height: 18px;
+margin-right: 6px;
+padding: 3px 14px;
+text-align: center;
+vertical-align: bottom;
+}
+.page_wrap {
+float: right;
+display: block;
+margin-top: -2px;
+}
+.page_text {
+color: #999999;
+margin-right: 12px;
+vertical-align: 3px;
+}

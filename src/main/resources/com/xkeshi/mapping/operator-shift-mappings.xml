@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+    http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <!-- API 离线 交接班上传-->
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.Operator</class-a>
+        <class-b>com.xkeshi.pojo.vo.offline.OffLineOperatorVO</class-b>
+
+        <field>
+            <a>createDate</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createdTime</b>
+        </field>
+
+        <field>
+            <a>id</a>
+            <b>operatorId</b>
+        </field>
+        <field>
+            <a>username</a>
+            <b>userName</b>
+        </field>
+
+    </mapping>
+
+</mappings>

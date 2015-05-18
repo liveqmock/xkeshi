@@ -1,0 +1,32 @@
+.CodeMirror {
+	border: 1px solid #E5E8E6;
+	margin: 5px 0px;
+}
+.closeHighlight {
+	display: none;
+	width: 130px;
+	height: 35px;
+	text-align: center;
+	background: #c0c0c0;
+	border: 1px solid #c0c0cc;
+	cursor: pointer;
+	vertical-align: -1px;
+	color: #fefefe;
+	font-size: 14px;
+	font-family: 'Microsoft Yahei';
+	border-radius: 4px;
+}
+
+.doHighlight {
+	width: 130px;
+	height: 35px;
+	text-align: center;
+	background: #8fc42f;
+	border: 1px solid #85b62c;
+	cursor: pointer;
+	vertical-align: -1px;
+	color: #fefefe;
+	font-size: 14px;
+	font-family: 'Microsoft Yahei';
+	border-radius: 4px;
+}

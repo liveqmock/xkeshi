@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.CouponDAO">
+      <resultMap id="result" type="com.xkeshi.pojo.po.Coupon">
+        <id property="id" column="id"/>
+      </resultMap>
+      
+    <insert id="insert"  parameterType="com.xkeshi.pojo.po.Coupon">
+		INSERT INTO 
+		coupon 
+		  ( `couponInfo_id`, `businessId`, `businessType`, `payment_id`, `refund_id`, `couponCode`, `unique_code`, `status`, `type`, `parent_id`, `packageSerial`, `member_id`, `mobile`  ) 
+		VALUES
+	      ( #{couponInfoId}, #{businessId}, #{businessType}, #{paymentId}, #{refundId},  #{couponCode}, #{uniqueCode}, #{status}, #{type}, #{parentId}, #{packageSerial}, #{memberId}, #{mobile}  ) 
+   </insert>
+    
+</mapper>

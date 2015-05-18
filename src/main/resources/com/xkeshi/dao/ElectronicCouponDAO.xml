@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.ElectronicCouponDAO">
+    <select id="getElectronicCouponCountByMobileNumberAndShopId" resultType="java.lang.Integer">
+        SELECT
+			COUNT(*)
+		FROM
+			coupon c
+		LEFT JOIN couponinfo_scope cs ON c.couponInfo_id = cs.couponInfo_id
+		WHERE
+			cs.businessId = #{shopId}
+		AND cs.businessType = 'SHOP'
+		AND cs.deleted = FALSE
+		AND c.mobile = #{mobileNumber}
+		AND c. STATUS = 'AVAILABLE'
+		AND c.deleted = FALSE
+
+    </select>
+    
+    <!-- 使用的电子优惠券 -->
+    <select id="getOrderTotalAmountByOperatorSessionCode" >
+    	   SELECT  0.00 totalAmount
+    </select>
+</mapper>

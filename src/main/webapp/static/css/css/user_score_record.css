@@ -1,0 +1,23 @@
+.data_tb{
+border: 1px solid #ccc;
+width: 752px;
+margin: 32px 24px;
+}
+.data_tb tr td{
+border: 1px solid #ccc;
+padding: 20px;
+font-size: 12px;
+background: #fff;
+width: 33.333%;
+}
+.data_tb em{
+font-size: 16px;
+color: #63a004;
+font-weight: bold;
+}
+.score_more{
+color: #63a004;
+}
+.score_less{
+color: #d20;
+}

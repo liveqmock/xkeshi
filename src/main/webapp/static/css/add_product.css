@@ -1,0 +1,19 @@
+.td_val .file_ip ,.td_val .ip1{
+	width: 265px;
+}
+.item_img{
+border: 1px solid #D5D5D5;
+box-shadow: -1px 1px 0 #CDCBCC;
+height: 180px;
+width: 180px;
+vertical-align: middle;
+}
+.tb_main tr .img_td{
+padding: 24px 0 24px 20px;
+}
+.td_val .selects{
+	width: 284px;
+}
+.file_ip1{
+	background: #fff;
+}

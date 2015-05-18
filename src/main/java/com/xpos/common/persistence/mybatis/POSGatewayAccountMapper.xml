@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.POSGatewayAccountMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.pos.POSGatewayAccount" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+   
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.pos.POSGatewayAccount" extends="ListMap">
+    <result column="id" property="id" jdbcType="BIGINT" />
+   
+  </resultMap>
+  
+   <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from POSGatewayAccount where id=#{id}
+  </select>
+   <select id="selectByShopId" resultMap="ListMap">
+  	select * from POSGatewayAccount where businessId = #{shopId} and businessType='SHOP' and deleted=false ORDER BY ID
+  </select>
+  
+  <select id="selectAlipayAccountByAccountAndShopId" resultMap="ListMap" >
+  	select * from posgatewayaccount where businessId = #{shopId} and businessType = 'SHOP' and account = #{account} 
+  	 and type = 'ALIPAY' and deleted = false
+  </select>
+  <select id="selectAlipayAccountByShopId" resultMap="ListMap" >
+  	select account from posgatewayaccount where businessId = #{shopId} and businessType = 'SHOP' 
+  	 and type = 'ALIPAY' and deleted = false
+  </select>
+</mapper>

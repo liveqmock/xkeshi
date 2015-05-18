@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.MemberTypeDAO">
+
+    <resultMap id="result" type="com.xkeshi.pojo.po.MemberType">
+        <id property="id" column="id"/>
+        <result column="name" property="name"/>
+        <result column="discount" property="discount"/>
+    </resultMap>
+
+    <select id="getMemberTypeListByMerchantId" resultType="com.xkeshi.pojo.po.MemberType">
+        SELECT
+            t.id,
+            t.`name`,
+            t.discount
+        FROM
+            merchant_member_type t
+        WHERE
+            t.merchant_id = #{merchantId}
+        AND t.`status` = 1
+    </select>
+    <select id="getCustomDiscountMemberTypeListByShopId" resultType="com.xkeshi.pojo.po.MemberType">
+        SELECT
+            mmt.id,
+            mmt.`name`,
+            t.discount
+        FROM
+            merchant_shop_member_discount t
+        LEFT JOIN merchant_member_type mmt ON mmt.id = t.merchant_member_type_id
+        WHERE
+            t.shop_id = #{shopId}
+        AND t.`status` = 1
+        AND mmt.`status` = 1
+    </select>
+    <select id="getMemberTypeListByShopId" resultType="com.xkeshi.pojo.po.MemberType">
+        SELECT
+            t.id,
+            t.`name`,
+            t.discount
+        FROM
+            shop_member_type t
+        WHERE
+            t.shop_id = #{shopId}
+        AND t.`status` = 1
+    </select>
+
+    <select id="checkCentralManagementMemberByShopId" resultType="java.lang.Boolean">
+        SELECT
+            IFNULL(
+                (
+                    SELECT
+                        m.memberCentralManagement
+                    FROM
+                        shop s
+                    LEFT JOIN merchant m ON m.id = s.merchant_id
+                    WHERE
+                        s.id = #{shopId}
+                ),
+                0
+            )
+    </select>
+    <select id="checkCentralManagementDiscountByShopId" resultType="java.lang.Boolean">
+        SELECT
+            IFNULL(
+                (
+                    SELECT
+                        m.discountCentralManagement
+                    FROM
+                        shop s
+                    LEFT JOIN merchant m ON m.id = s.merchant_id
+                    WHERE
+                        s.id = #{shopId}
+                ),
+                false
+            )
+    </select>
+
+    <select id="getMemberShopDiscount" resultType="java.math.BigDecimal">
+       SELECT
+            t.discount
+        FROM
+            merchant_shop_member_discount t
+        WHERE
+            t.merchant_member_type_id = #{memberTypeId}
+        AND t.shop_id = #{shopId}
+        LIMIT 1
+    </select>
+    <select id="getDiscountByShopMemberTypeId" resultType="java.math.BigDecimal">
+        SELECT
+            t.discount
+        FROM
+            shop_member_type t
+        WHERE
+           t.id = #{memberTypeId}
+        AND t.`status` = 1
+    </select>
+    <select id="getUnCentralManagementDiscount" resultType="java.math.BigDecimal">
+        SELECT
+            msmd.discount
+        FROM
+            member m
+        LEFT JOIN merchant_member_type mmt ON mmt.id = m.member_type_id
+        LEFT JOIN merchant_shop_member_discount msmd ON msmd.merchant_member_type_id = mmt.id
+        AND msmd.shop_id = #{shopId}
+        WHERE
+            m.id = #{memberId}
+        limit 1
+    </select>
+    <select id="getCentralManagementDiscount" resultType="java.math.BigDecimal">
+        SELECT
+            mmt.discount
+        FROM
+            member m
+        LEFT JOIN merchant_member_type mmt ON mmt.id = m.member_type_id
+        WHERE
+            m.id = #{memberId}
+        AND mmt.merchant_id = #{merchantId}
+        LIMIT 1
+
+    </select>
+    <select id="getDiscountByMerchantMemberTypeId" resultType="java.math.BigDecimal">
+        SELECT
+            t.discount
+        FROM
+            merchant_member_type t
+        WHERE
+            t.id = #{merchantMemberTypeId}
+        AND t.`status` = 1
+    </select>
+    <select id="getIdByMerchantId" resultType="java.lang.Long">
+        SELECT
+            t.id
+        FROM
+            merchant_member_type t
+        WHERE
+            t.merchant_id = #{merchantId}
+        AND t.`status` = 1
+        LIMIT 1
+    </select>
+    <select id="getMerchantShopDiscountByMemberTypeIdAndShopId" resultType="java.math.BigDecimal">
+        SELECT
+            t.discount
+        FROM
+            merchant_shop_member_discount t
+        WHERE
+            t.merchant_member_type_id = #{merchantMemberTypeId}
+        AND t.shop_id = #{shopId}
+        AND t.`status` = 1
+        LIMIT 1
+    </select>
+    <select id="getCentralManagementMemberTypeByMemberTypeId" resultMap="result">
+        SELECT
+            t.id,
+            t.`name`,
+            t.discount
+        FROM
+            merchant_member_type t
+        WHERE
+            t.id = #{memberTypeId}
+        AND t.`status` = 1
+    </select>
+    <select id="getNotCentralManagementMemberTypeByMemberTypeId" resultMap="result">
+        SELECT
+            t.id,
+            t.`name`,
+            t.discount
+        FROM
+            shop_member_type t
+        WHERE
+            t.id = #{memberTypeId}
+        AND t.`status` = 1
+    </select>
+    <select id="getMemberTypeIdByMemberId" resultType="java.lang.Long">
+
+        SELECT
+            t.member_type_id
+        FROM
+            member t
+        WHERE
+            t.id = #{memberId}
+        AND t.deleted = 0
+    </select>
+</mapper>

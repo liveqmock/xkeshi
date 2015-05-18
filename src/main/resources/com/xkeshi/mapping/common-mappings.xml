@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net   
+    http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<trim-strings>true</trim-strings>
+	</configuration>
+
+
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.MemberTypeVO</class-a>
+        <class-b>com.xkeshi.pojo.vo.PrepaidCardChargeRulesListVO</class-b>
+        <field>
+            <a>id</a>
+            <b>memberTypeId</b>
+        </field>
+        <field>
+            <a>name</a>
+            <b>memberTypeName</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.PrepaidCardChargeOrder</class-a>
+        <class-b>com.xkeshi.pojo.vo.PrepaidCardChargeVO</class-b>
+        <field>
+            <a>code</a>
+            <b>prepaidCardChargeCode</b>
+        </field>
+        <field>
+            <a>actualAmount</a>
+            <b>amount</b>
+        </field>
+        <field>
+            <a>chargeChannelStr</a>
+            <b>type</b>
+        </field>
+        <field>
+            <a>createdTime</a>
+            <b date-format="HH:mm">tradeTime</b>
+        </field>
+        <field>
+            <a>chargeStatusStr</a>
+            <b>status</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.PrepaidCard</class-a>
+        <class-b>com.xkeshi.pojo.vo.PrepaidCardListVO</class-b>
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy/MM/dd HH:mm:ss">createdTime</b>
+        </field>
+        <field>
+            <a>latestConsumeTime</a>
+            <b date-format="yyyy/MM/dd HH:mm:ss">latestConsumeTime</b>
+        </field>
+        <field custom-converter="com.xkeshi.common.convert.BigDecimalConverter">
+            <a>totalChargeAmount</a>
+            <b>totalChargeAmount</b>
+        </field>
+
+
+    </mapping>
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.PrepaidCard</class-a>
+        <class-b>com.xkeshi.pojo.vo.PrepaidCardInfoVO</class-b>
+        <field>
+            <a>expireDate</a>
+            <b date-format="yyyy-MM-dd">expireDate</b>
+        </field>
+    </mapping>
+
+
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.PrepaidCard</class-a>
+        <class-b>com.xkeshi.pojo.vo.PrepaidCardVO</class-b>
+        <field custom-converter="com.xkeshi.common.convert.BigDecimalConverter">
+            <a>balance</a>
+            <b>balance</b>
+        </field>
+        <field custom-converter="com.xkeshi.common.convert.BigDecimalConverter">
+            <a>initialChargeAmount</a>
+            <b>initialChargeAmount</b>
+        </field>
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy.MM.dd">createdDate</b>
+        </field>
+        <field>
+            <a>latestConsumeTime</a>
+            <b date-format="yyyy.MM.dd HH:mm">latestConsumeTime</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.PrepaidCardChargeOrder</class-a>
+        <class-b>com.xkeshi.pojo.vo.PrepaidCardChargeListVO</class-b>
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createTime</b>
+        </field>
+        <field>
+            <a>isInitial</a>
+            <b>initialCharge</b>
+        </field>
+        <field custom-converter="com.xkeshi.common.convert.BigDecimalConverter">
+            <a>actualAmount</a>
+            <b>chargeAmount</b>
+        </field>
+        <field custom-converter="com.xkeshi.common.convert.MetaConvert">
+            <a>chargeChannelId</a>
+            <b>chargeChannel</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.ShopPrepaidCardInfo</class-a>
+        <class-b>com.xkeshi.pojo.vo.ShopPrepaidCardVO</class-b>
+        <field>
+            <a>hasPrepaidCardRules</a>
+            <b>hasChargeRules</b>
+        </field>
+        <field custom-converter="com.xkeshi.common.convert.BigDecimalConverter">
+            <a>prepaidCardChargeAmount</a>
+            <b>chargeAmount</b>
+        </field>
+    </mapping>
+    <mapping>
+    	<class-a>com.xkeshi.pojo.po.UnpaidOrderList</class-a>
+    	<class-b>com.xkeshi.pojo.vo.UnpaidOrderListVO</class-b>
+    	<field>
+    		<a>createdTime</a>
+    		<b date-format="yyyy-MM-dd HH:mm:ss">createdTime</b>
+    	</field>
+    </mapping>
+    <mapping>
+    	<class-a>com.xkeshi.pojo.po.OrderTransaction</class-a>
+    	<class-b>com.xkeshi.pojo.vo.OrderTransactionVO</class-b>
+    	<field>
+    		<a>createdTime</a>
+    		<b date-format="yyyy-MM-dd HH:mm:ss">createdTime</b>
+    	</field>
+    </mapping>
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.PrepaidChargeOrderSummary</class-a>
+        <class-b>com.xkeshi.pojo.vo.PrepaidChargeOrderSummaryVO</class-b>
+        <field>
+            <a>tradeTime</a>
+            <b date-format="yyyy/MM/dd HH:mm">tradeTime</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.PrepaidCardChargeRulesVO</class-a>
+        <class-b>com.xkeshi.pojo.vo.ResultPrepaidCardChargeRuleVO</class-b>
+        <field>
+            <a>ruleId</a>
+            <b>id</b>
+        </field>
+    </mapping>
+
+    <!--优惠卡po-->
+    <mapping>
+        <class-a>com.xkeshi.pojo.po.ShopDiscountSetting</class-a>
+        <class-b>com.xkeshi.pojo.vo.ShopDiscountSettingVO</class-b>
+        <field custom-converter="com.xkeshi.common.convert.MetaConvert">
+            <a>discountWayNameId</a>
+            <b>discountWayName</b>
+        </field>
+    </mapping>
+
+</mappings>  

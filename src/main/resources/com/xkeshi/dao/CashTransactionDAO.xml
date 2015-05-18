@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.CashTransactionDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.CashTransaction">
+        <id property="id" column="id"/>
+        <result property="comment" column="comment"/>
+        <result property="status" column="status"/>
+        <result column="serial" property="serial"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="third_order_code" property="thirdOrderCode"/>
+        <result column="prepaid_card_charge_order_code" property="prepaidCardChargeOrderCode"/>
+        <result column="amount" property="amount"/>
+        <result column="received" property="received"/>
+        <result column="cash_payment_status_id" property="cashPaymentStatusId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+    <update id="refundCashTransaction">
+        UPDATE cash_transaction
+        SET cash_payment_status_id = 7
+        WHERE
+            serial = #{serial}
+        AND `status` = 1
+    </update>
+
+
+    <select id="getPayTransactionGroupByOrderNumber"  resultType="com.xkeshi.pojo.vo.transaction.CashTransactionVO">
+	  	SELECT 
+		   SUM(COALESCE(t.amount , 0.00))  amount,
+		   IFNULL(SUM(t.received), 0) received,
+		   IFNULL(SUM(t.returned), 0) returned 
+		FROM
+			cash_transaction  t 
+	    WHERE
+	    	t.order_number = #{orderNumber}  AND t.`status`  = 1 AND t.cash_payment_status_id in(1,7) 
+		GROUP BY  t.order_number
+   </select>
+   
+   <!-- 官方订单现金支付 -->
+	<select id="getOrderTotalAmountByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.CashPayTransactionVO">
+		SELECT
+			SUM(COALESCE(t.amount , 0.00)) totalAmount
+		FROM
+			cash_transaction t
+			LEFT OUTER JOIN Orders o ON t.order_number = o.orderNumber
+		WHERE 
+		    o.operator_session_code = #{operatorSessionCode}
+		AND	t.status = 1
+		AND t.cash_payment_status_id  =1  
+		AND o.status = 'SUCCESS'
+			GROUP BY o.operator_session_code
+	</select>
+	
+   <!-- 第三方订单现金支付 -->
+	<select id="getThirdOrderTotalAmountByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.CashPayTransactionVO">
+		SELECT
+			SUM(COALESCE(t.amount , 0.00)) totalAmount
+		FROM
+			cash_transaction t
+			LEFT OUTER JOIN third_order o ON t.third_order_code = o.third_order_code
+		WHERE 
+		    o.operator_session_code = #{operatorSessionCode}
+		AND t.cash_payment_status_id  = 1  
+		AND o.third_order_payment_status_id  = 1 
+		AND	t.status = 1
+			GROUP BY o.operator_session_code
+	</select>
+   
+   <select id="countByOperatorAndType" resultType="int">
+       select 
+       	count(*) 
+       from 
+       	cash_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+   
+   <select id="getAmountByOperatorAndType" resultType="java.math.BigDecimal">
+       select 
+      	 IFNULL(SUM(ct.amount),0)
+       from 
+       	cash_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+    <select id="getBySerial" resultMap="result">
+        SELECT
+            t.id,
+            t.serial,
+            t.order_number,
+            t.third_order_code,
+            t.prepaid_card_charge_order_code,
+            t.amount,
+            t.received,
+            t.returned,
+            t.cash_payment_status_id,
+            t.created_time,
+            t.updated_time,
+            t.`comment`,
+            t.`status`
+        FROM
+            cash_transaction t
+        WHERE
+            t.serial = #{serial}
+        AND t.`status` = 1
+    </select>
+	
+	<insert id="insertOrUpdate" keyColumn="id" useGeneratedKeys="true" parameterType="com.xkeshi.pojo.po.CashTransaction">
+		insert into cash_transaction(serial, order_number, amount, received, returned, cash_payment_status_id, created_time, updated_time)
+		value (#{serial}, #{orderNumber}, #{amount}, #{received}, #{returned}, #{cashPaymentStatusId}, #{createdTime}, #{updatedTime})
+		on duplicate key update amount = #{amount}, received = #{received}, returned = #{returned}, cash_payment_status_id = #{cashPaymentStatusId}, 
+		created_time = #{createdTime}, updated_time = #{updatedTime}
+	</insert>
+</mapper>

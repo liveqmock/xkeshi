@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.OrderItemDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.OrderItem">
+    	 <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="item_id" property="itemId"/>
+        <result column="itemName" property="itemName"/>
+        <result column="price" property="price"/>
+        <result column="quantity" property="quantity"/>
+        <result column="createDate" property="createDate"/>
+        <result column="modifyDate" property="modifyDate"/>
+    </resultMap>
+    
+    
+  <update id="returnItemInventory">
+  		update item_inventory SET inventory = 
+  		inventory + #{quantity}
+  		 where  item_id = #{itemId} and deleted = false 
+  </update>
+    
+    <select id="getOrderItemByOrderId" resultMap="result">
+    	select 
+			*
+    	from orderitem o 
+    	where o.order_id = #{orderId}
+    </select>
+    
+    <insert id="batchInsert">
+	    INSERT INTO orderitem (
+			order_id,
+			item_id,
+			itemName,
+			price,
+			quantity)
+		VALUES
+		<foreach collection="orderItemList" item="orderItem" separator=",">
+			(#{orderItem.orderId}, #{orderItem.itemId}, #{orderItem.itemName}, #{orderItem.price}, #{orderItem.quantity})
+		</foreach>
+    </insert>
+</mapper>

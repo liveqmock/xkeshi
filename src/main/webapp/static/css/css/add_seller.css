@@ -1,0 +1,67 @@
+.long_save{
+background: url(img/long_save_btn.png) no-repeat 0 0;
+width: 212px;
+height: 32px;
+border: none;
+cursor: pointer;
+}
+.long_save:hover{
+background: url(img/long_save_btn_hover.png) no-repeat 0 0;
+}
+.table{
+color: #666;
+margin-top: 16px;
+}
+.table td{
+padding: 6px 0;
+}
+.table input{
+width: 636px;
+border: 1px solid #dcdcdc;
+padding: 2px 8px;
+margin-left: 12px;
+}
+.table .phone1, .table .phone2{
+width: 108px;
+}
+.table .phone2{
+margin-left: 0;
+}
+.table .phone3{
+width: 358px;
+margin-left: 0;
+}
+.td_title{
+width: 108px;
+text-align: right;
+}
+.table select{
+width: 212px;
+padding: 2px 8px;
+border: 1px solid #dcdcdc;
+margin-left: 6px;
+color: #666;
+background-image: linear-gradient(bottom, #FAFAFA 14%, #FFFFFF 70%);
+background-image: -o-linear-gradient(bottom, #FAFAFA 14%, #FFFFFF 70%);
+background-image: -moz-linear-gradient(bottom, #FAFAFA 14%, #FFFFFF 70%);
+background-image: -webkit-linear-gradient(bottom, #FAFAFA 14%, #FFFFFF 70%);
+background-image: -ms-linear-gradient(bottom, #FAFAFA 14%, #FFFFFF 70%);
+
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.14, #FAFAFA),
+	color-stop(0.7, #FFFFFF)
+);
+}
+.table select:first-child{
+margin-left: 12px;
+}
+.btn_wrap{
+margin-top: 32px;
+text-align: center;
+}
+.r_wrap{
+width:800px;
+}

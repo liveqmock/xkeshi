@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+    http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <!-- API 离线 订单数据上传-->
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.offline.OfflineOrderDetailVO</class-a>
+        <class-b>com.xkeshi.pojo.po.Order</class-b>
+
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createdDate</b>
+        </field>
+
+        <field>
+            <a>updatedTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">modifyDate</b>
+        </field>
+        
+        <field custom-converter="com.xkeshi.common.convert.OrderStatusConvert">
+        	<a>status</a>
+        	<b>status</b>
+        </field>
+
+    </mapping>
+    
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.offline.CashTransactionDetailVO</class-a>
+        <class-b>com.xkeshi.pojo.po.CashTransaction</class-b>
+
+        <field>
+            <a>status</a>
+            <b>cashPaymentStatusId</b>
+        </field>
+        
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createdTime</b>
+        </field>
+        
+        <field>
+            <a>updatedTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">updatedTime</b>
+        </field>
+        
+    </mapping>
+    
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.offline.POSTransactionDetailVO</class-a>
+        <class-b>com.xpos.common.entity.pos.POSTransaction</class-b>
+        <field>
+            <a>amount</a>
+            <b>sum</b>
+        </field>
+        <field>
+            <a>serial</a>
+            <b>code</b>
+        </field>
+        <field>
+            <a>externalSerial</a>
+            <b>serial</b>
+        </field>
+        <field custom-converter="com.xkeshi.common.convert.POSTransactionStatusConvert">
+            <a>status</a>
+            <b>status</b>
+        </field>
+        <field>
+            <a>externalSerial</a>
+            <b>serial</b>
+        </field>
+        <field custom-converter="com.xkeshi.common.convert.GatewayTypeConvert">
+            <a>gatewayType</a>
+            <b>gatewayType</b>
+        </field>
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createDate</b>
+        </field>
+        <field>
+            <a>tradeTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">tradeDate</b>
+        </field>
+        <field>
+            <a>updatedTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">modifyDate</b>
+        </field>
+        
+    </mapping>
+    
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.offline.NFCTransactionDetailVO</class-a>
+        <class-b>com.xkeshi.pojo.po.BankNFCTransaction</class-b>
+        <field>
+            <a>status</a>
+            <b>paymentStatus</b>
+        </field>
+        <field>
+            <a>posChannelId</a>
+            <b>posChannel</b>
+        </field>
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createdTime</b>
+        </field>
+        <field>
+            <a>tradeTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">tradeTime</b>
+        </field>
+        <field>
+            <a>updatedTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">updatedTime</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.offline.PrepaidCardTransactionDetailVO</class-a>
+        <class-b>com.xkeshi.pojo.po.PrepaidCardTransaction</class-b>
+        <field>
+            <a>status</a>
+            <b>prepaidCardPaymentStatusId</b>
+        </field>
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createdTime</b>
+        </field>
+        <field>
+            <a>updatedTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">updatedTime</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>com.xkeshi.pojo.vo.offline.AlipayTransactionDetailVO</class-a>
+        <class-b>com.xkeshi.pojo.po.alipay.AlipayTransaction</class-b>
+        <field>
+            <a>createdTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">createdTime</b>
+        </field>
+        <field>
+            <a>updatedTime</a>
+            <b date-format="yyyy-MM-dd HH:mm:ss">updatedTime</b>
+        </field>
+    </mapping>
+      
+</mappings>

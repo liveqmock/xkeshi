@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.physicalCoupon.PhysicalCouponOrderMapper" >
+  
+  <resultMap id="BasicMap" type="com.xpos.common.entity.physicalCoupon.PhysicalCouponOrder" >
+    <id property="id" column="id"/>
+    <result property="third_order_code" column="third_order_code"/>
+    <result property="physicalCouponName" column="physical_coupon_name"/>
+    <result property="amount" column="amount"/>
+    <result property="createdTime" column="created_time"/>
+    <association property="physicalCoupon" column="physical_coupon_id" select="com.xpos.common.persistence.mybatis.physicalCoupon.PhysicalCouponMapper.selectById" /> 
+    <association property="order" column="order_number" select="com.xpos.common.persistence.mybatis.OrderMapper.getOrderByOrderNumber" /> 
+  </resultMap>
+  <resultMap id="physicalMap" type="com.xpos.common.entity.physicalCoupon.PhysicalCouponOrder">
+  	<id property="id" column="id"/>
+  	<result property="physicalCouponName" column="physical_coupon_name"/>
+  	<result property="counts" column="counts"/>
+  </resultMap>
+  
+  <resultMap type="com.xkeshi.pojo.vo.physicalCoupon.PhysicalCouponWriteOffVO" id="physicalCouponMap">
+  	<result property="operatorName" column="username"/>
+  	<result property="writeOffTime" column="created_time"/>
+  	<result property="physicalCouponName" column="physical_coupon_name"/>
+  	<result property="amount" column="amount"/>
+  	<result property="orderNumber" column="order_number"/>
+  	<result property="status" column="status"/>
+  	<result property="shopName" column="name"/>
+  </resultMap>
+  
+    <select id="selectById" resultMap="BasicMap">
+ 		select * from physical_coupon_order where id = #{id}
+ 	 </select>
+  
+  <select id="findOrderPhysicalCouponList"  resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		physical_coupon_order
+	WHERE
+		order_number in 
+		(
+			select orderNumber from Orders where businessType='SHOP'
+			<choose>
+				<when test="searcher.shopIds != null">
+					and businessId in 
+					<foreach collection="searcher.shopIds" open="(" close=")" separator="," item="shopId">
+					 #{shopId}
+					</foreach>
+				</when>
+				<otherwise>
+					and businessId = -1
+				</otherwise>
+			</choose>
+			<if test="searcher.operatorSessionCode != null">
+	  			and operator_session_code = #{searcher.operatorSessionCode}
+	  		</if>
+			<if test="searcher.status != null">
+				and status = #{searcher.status.name}
+			</if>
+			<if test="searcher.operatorName != null">
+				and operator_id in (select id from Operator where userName like CONCAT("%",replace(#{searcher.operatorName},' ',''),"%") )
+			</if>
+			<if test="searcher.orderNumber != null">
+				and orderNumber like  CONCAT("%",replace(#{searcher.orderNumber},' ',''),"%") 
+			</if>
+		)
+		and status = 1 
+		<if test="searcher.date != null">
+			and (created_time >= #{searcher.date} and ADDDATE(#{searcher.date}, 1) > created_time)
+		</if>
+		<if test="searcher.physicalCouponId != null">
+			and physical_coupon_id = #{searcher.physicalCouponId}
+		</if>
+		<if test="searcher.name != null">
+			and physical_coupon_id  in (select id from physical_coupon where name like CONCAT("%",replace(#{searcher.name},' ',''),"%") )
+		</if>
+		<if test="searcher.amount != null">
+			and amount = #{searcher.amount}
+		</if>
+		<if test="searcher.startTime != null">AND created_time >= #{searcher.startTime}</if>
+		<if test="searcher.endTime != null">AND #{searcher.endTime} >= created_time</if>
+ 		order by created_time desc , amount desc 
+ 		
+ 		<if test="pager != null">
+			LIMIT #{pager.startNumber}, #{pager.pageSize}
+		</if>
+  </select>
+  
+   <select id="countOrderPhysicalCoupon"  resultType="int">
+	select count(*) from (
+		SELECT
+			*
+		FROM
+			physical_coupon_order
+		WHERE
+			order_number in 
+			(
+				select orderNumber from Orders where businessType='SHOP'
+				<choose>
+					<when test="searcher.shopIds != null">
+						and businessId in 
+						<foreach collection="searcher.shopIds" open="(" close=")" separator="," item="shopId">
+						 #{shopId}
+						</foreach>
+					</when>
+					<otherwise>
+						and businessId = -1
+					</otherwise>
+				</choose>
+				<if test="searcher.status != null">
+					and status = #{searcher.status.name}
+				</if>
+				<if test="searcher.operatorName != null">
+					and operator_id in (select id from Operator where userName like   CONCAT("%",replace(#{searcher.operatorName},' ',''),"%") )
+				</if>
+				<if test="searcher.orderNumber != null">
+					and orderNumber like  CONCAT("%",replace(#{searcher.orderNumber},' ',''),"%") 
+				</if>
+			)
+			and status = 1 
+			<if test="searcher.date != null">
+				and (created_time >= #{searcher.date} and ADDDATE(#{searcher.date}, 1) > created_time)
+			</if>
+			<if test="searcher.physicalCouponId != null">
+				and physical_coupon_id = #{searcher.physicalCouponId}
+			</if>
+			<if test="searcher.name != null">
+				and physical_coupon_id  in (select id from physical_coupon where name like CONCAT("%",replace(#{searcher.name},' ',''),"%") )
+			</if>
+			<if test="searcher.amount != null">
+				and amount = #{searcher.amount}
+			</if>
+			<if test="searcher.startTime != null">AND created_time >= #{searcher.startTime}</if>
+			<if test="searcher.endTime != null">AND #{searcher.endTime} >= created_time</if>
+				group by order_number
+			)a
+  </select>
+  
+  
+  <select id="orderPhysicalCouponTotalAmount"  resultType="BigDecimal">
+		SELECT
+			SUM(amount)
+		FROM
+			physical_coupon_order
+		WHERE
+			order_number in 
+			(
+				select orderNumber from Orders where businessType='SHOP'
+				<choose>
+					<when test="searcher.shopIds != null">
+						and businessId in 
+						<foreach collection="searcher.shopIds" open="(" close=")" separator="," item="shopId">
+						 #{shopId}
+						</foreach>
+					</when>
+					<otherwise>
+						and businessId = -1
+					</otherwise>
+				</choose>
+				
+				<if test="searcher.status != null">
+					and status = #{searcher.status.name}
+				</if>
+				<if test="searcher.operatorName != null">
+					and operator_id in (select id from Operator where userName like  CONCAT("%",replace(#{searcher.operatorName},' ',''),"%") )
+				</if>
+				<if test="searcher.orderNumber != null">
+					and orderNumber like CONCAT("%",replace(#{searcher.orderNumber},' ',''),"%") 
+				</if>
+			)
+			and status = 1 
+			<if test="searcher.date != null">
+				and (created_time >= #{searcher.date} and ADDDATE(#{searcher.date}, 1) > created_time)
+			</if>
+			<if test="searcher.physicalCouponId != null">
+				and physical_coupon_id = #{searcher.physicalCouponId}
+			</if>
+			<if test="searcher.name != null">
+				and physical_coupon_id  in (select id from physical_coupon where name like CONCAT("%",replace(#{searcher.name},' ',''),"%") )
+			</if>
+			<if test="searcher.amount != null">
+				and amount = #{searcher.amount}
+			</if>
+			<if test="searcher.startTime != null">AND created_time >= #{searcher.startTime}</if>
+			<if test="searcher.endTime != null">AND #{searcher.endTime} >= created_time</if>
+  </select>
+  
+  <select id="findPhysicalCouponOrderByOrderNum" resultMap="physicalMap">
+  	select count(p.amount) counts, p.physical_coupon_name from physical_coupon_order p where p.order_number=#{orderNumber} GROUP BY p.amount
+  </select>
+  <select id="calculatePhyAmount" resultType="decimal">
+  	select case when SUM(amount) is null then 0 else SUM(amount) end total from physical_coupon_order where order_number=#{orderNum}
+  </select>
+  <select id="getPhysicalAmount" resultType="decimal">
+  	SELECT IFNULL(sum(amount), 0) FROM physical_coupon_order
+  	WHERE order_number IN(
+  		SELECT o.orderNumber FROM Orders o 
+  		LEFT JOIN Member m 
+  		ON m.id = o.member_id
+  		LEFT JOIN order_member_discount d 
+  		ON o.orderNumber = d.order_number
+  		WHERE o.businessType = 'SHOP'
+  		<if test="business.selfBusinessType.name() == 'MERCHANT'">
+  			AND (o.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{business.selfBusinessId}
+		  		<!-- 集团能搜索子商户简称 -->
+  				<if test="searcher.nickName != null and searcher.nickName != ''">and name like '%${searcher.nickName}%'</if>))
+  		</if>
+  		<if test="business.selfBusinessType.name() == 'SHOP'">
+  			AND (o.businessId = #{business.selfBusinessId})
+  		</if>
+  		<if test="searcher.startDateTime != null">
+  			AND o.createDate >= #{searcher.startDateTime}
+  		</if>
+  		<if test="searcher.endDateTime != null">
+  			AND #{searcher.endDateTime} >= o.createDate
+  		</if>
+  		<if test="searcher.minAmount != null">
+  			AND o.totalAmount >= #{searcher.minAmount}
+  		</if>
+  		<if test="searcher.maxAmount != null">
+  			AND #{searcher.maxAmount} >= o.totalAmount
+  		</if>
+  		<if test="searcher.orderNumber != null and searcher.orderNumber != ''">
+  			AND o.orderNumber = #{searcher.orderNumber}
+  		</if>
+  		<if test="searcher.status != null">
+  			AND o.status = #{searcher.status.name}
+  		</if>
+  		<if test="searcher.operatorId != null">
+  			AND o.operator_id = #{searcher.operatorId}
+  		</if>
+  		<if test="searcher.operatorSessionCode != null">
+  			AND o.operator_session_code = #{searcher.operatorSessionCode}
+  		</if>
+  		<if test="searcher.typeSet != null and searcher.typeSet.size &gt; 0">
+  			AND o.type in (<foreach collection="searcher.typeSet" item="type" separator=",">#{type}</foreach>)
+  		</if>
+  		<if test="searcher.mobileNumber != null and searcher.mobileNumber != ''">
+  			AND m.mobile = #{searcher.mobileNumber}
+  		</if>
+  		)
+  </select>
+  <select id="getOrderPhysicalCouponList" resultMap="physicalCouponMap">
+  	SELECT 
+  		t.created_time,t.physical_coupon_name,t.amount,t.order_number,o.`status`,op.username,s.`name`
+	FROM(
+		  	SELECT 
+				created_time,physical_coupon_name,amount,order_number
+			FROM 
+				physical_coupon_order 
+			WHERE
+				order_number in 
+				(
+					select orderNumber from Orders where businessType='SHOP'
+					<choose>
+						<when test="searcher.shopIds != null">
+							and businessId in 
+							<foreach collection="searcher.shopIds" open="(" close=")" separator="," item="shopId">
+							 #{shopId}
+							</foreach>
+						</when>
+						<otherwise>
+							and businessId = -1
+						</otherwise>
+					</choose>
+					<if test="searcher.operatorSessionCode != null">
+			  			and operator_session_code = #{searcher.operatorSessionCode}
+			  		</if>
+					<if test="searcher.status != null">
+						and status = #{searcher.status.name}
+					</if>
+					<if test="searcher.operatorName != null and searcher.operatorName !=''" >
+						and operator_id in (select id from Operator where userName like CONCAT("%",replace(#{searcher.operatorName},' ',''),"%") )
+					</if>
+					<if test="searcher.orderNumber != null and searcher.orderNumber != ''">
+						and orderNumber like  CONCAT("%",replace(#{searcher.orderNumber},' ',''),"%") 
+					</if>
+				)
+			and status = 1 
+			<if test="searcher.date != null">
+				and (created_time >= #{searcher.date} and ADDDATE(#{searcher.date}, 1) > created_time)
+			</if>
+			<if test="searcher.physicalCouponId != null">
+				and physical_coupon_id = #{searcher.physicalCouponId}
+			</if>
+			<if test="searcher.name != null and searcher.name != ''">
+				and physical_coupon_name  like (CONCAT("%",replace(#{searcher.name},' ',''),"%"))
+			</if>
+			<if test="searcher.amount != null">
+				and amount = #{searcher.amount}
+			</if>
+			<if test="searcher.startTime != null">AND created_time >= #{searcher.startTime}</if>
+			<if test="searcher.endTime != null">AND #{searcher.endTime} >= created_time</if>
+			
+		 	order by created_time desc, amount  desc
+		 		
+		 	<if test="pager != null">
+				LIMIT #{pager.startNumber}, #{pager.pageSize}
+			</if>
+		) t
+  		LEFT JOIN orders o ON o.orderNumber = t.order_number
+		LEFT JOIN operator op ON op.id = o.operator_id
+		LEFT JOIN shop s ON s.id = o.businessId
+		
+		order by created_time desc, amount  desc
+		
+  </select> 
+  		
+		
+  
+  <select id="getOrderPhysicalCouponListCount" resultType="int">
+  	SELECT 
+		count(t.physical_coupon_name)
+	FROM 
+		physical_coupon_order t
+	WHERE
+		t.order_number in 
+		(
+			select orderNumber from Orders where businessType='SHOP'
+			<choose>
+				<when test="searcher.shopIds != null">
+					and businessId in 
+					<foreach collection="searcher.shopIds" open="(" close=")" separator="," item="shopId">
+					 #{shopId}
+					</foreach>
+				</when>
+				<otherwise>
+					and businessId = -1
+				</otherwise>
+			</choose>
+			<if test="searcher.operatorSessionCode != null">
+	  			and operator_session_code = #{searcher.operatorSessionCode}
+	  		</if>
+			<if test="searcher.status != null">
+				and status = #{searcher.status.name}
+			</if>
+			<if test="searcher.operatorName != null">
+				and operator_id in (select id from Operator where userName like CONCAT("%",replace(#{searcher.operatorName},' ',''),"%") )
+			</if>
+			<if test="searcher.orderNumber != null">
+				and orderNumber like  CONCAT("%",replace(#{searcher.orderNumber},' ',''),"%") 
+			</if>
+		)
+		and t.status = 1 
+		<if test="searcher.date != null">
+			and (created_time >= #{searcher.date} and ADDDATE(#{searcher.date}, 1) > created_time)
+		</if>
+		<if test="searcher.physicalCouponId != null">
+			and physical_coupon_id = #{searcher.physicalCouponId}
+		</if>
+		<if test="searcher.name != null">
+			and physical_coupon_name   like (CONCAT("%",replace(#{searcher.name},' ',''),"%"))
+		</if>
+		<if test="searcher.amount != null">
+			and amount = #{searcher.amount}
+		</if>
+		<if test="searcher.startTime != null">AND created_time >= #{searcher.startTime}</if>
+		<if test="searcher.endTime != null">AND #{searcher.endTime} >= created_time</if>
+  </select>
+  
+</mapper>

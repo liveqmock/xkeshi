@@ -1,0 +1,70 @@
+.main_block{
+background: #fafafa;
+font-size: 12px;
+color: #666;
+margin: 6px 10px 0 20px;
+}
+.l_block, .r_block{
+border: 1px solid #d2d4d3;
+float: left;
+height: 120px;
+margin-left: 24px;
+margin-top: 24px;
+}
+.l_block{
+width: 240px;
+}
+.r_block{
+width: 445px;
+}
+.title{
+font-weight: bold;
+background: #eceff4;
+height: 32px;
+line-height: 32px;
+padding-left: 12px;
+}
+.score{
+font-size: 24px;
+color: #63a004;
+margin-bottom: 4px;
+}
+.l_cont, .r_cont{
+float: left;
+margin: 12px;
+}
+.r_cont{
+border-left: 1px dotted #bbb;
+margin-left: 72px;
+}
+.time{
+padding: 6px 12px 12px 24px;
+}
+.limit{
+padding: 0 12px 6px 24px;
+}
+.remark{
+clear: both;
+padding: 24px;
+}
+.remark p{
+margin-bottom: 10px;
+}
+.r_head{
+margin: 0 10px 0 20px;
+padding:16px 0;
+border-bottom: 1px solid #000;
+width: 736px;
+}
+.r_title{
+color: #000;
+font-size: 14px;
+font-weight: bold;
+}
+.edit_a{
+font-size: 12px;
+color: #999;
+float: right;
+display: block;
+margin-top: 6px;
+}

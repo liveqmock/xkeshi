@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.physicalCoupon.PhysicalCouponMapper" >
+  
+  <resultMap id="BasicMap" type="com.xpos.common.entity.physicalCoupon.PhysicalCoupon" >
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="amount" column="amount"/>
+    <result property="business_id" column="business_id"/>
+    <result property="business_type" column="business_type"/>
+    <result property="weight" column="weight"/>
+    <result property="enable" column="enable"/>
+  </resultMap>
+  
+    <select id="selectById" resultMap="BasicMap">
+ 		select * from physical_coupon where id = #{id}
+ 	 </select>
+  
+  
+  <select id="findAvailablePhysicalCouponListByShopId" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		physical_coupon
+	WHERE
+		enable = true and status = 1 
+		and id in (select physical_coupon_id from physical_coupon_shop where shop_id = #{shopId} and status = 1)
+ 		order by weight desc , created_time desc 
+  </select>
+  
+  <select id="findPhysicalCouponList" resultMap="BasicMap">
+	SELECT
+	pc.*, pcs.shop_id,
+	COUNT(*) as shopCount,
+	CASE WHEN pc.business_type = 'MERCHANT' then '集团' 
+				WHEN pc.business_type = 'SHOP' then (SELECT name from Shop s where s.id = pc.business_id)
+				ELSE '未知来源'
+				END  shopName 
+	FROM
+		physical_coupon pc
+	LEFT JOIN physical_coupon_shop pcs ON pc.id = pcs.physical_coupon_id
+	WHERE
+		pc.status = 1 
+		<if test="searcher.name !=null">
+			and pc.name like  CONCAT("%",replace(#{searcher.name},' ',''),"%")
+		</if>
+		<if test="searcher.businessType != null">
+			and pc.business_type = #{searcher.businessType}
+		</if>
+		<if test="searcher.businessId != null">
+			and pc.business_id = #{searcher.businessId}
+		</if>
+		<if test="searcher.enables != null">
+			and enable in
+			<foreach collection="searcher.enables" open="(" close=")" separator="," item="enable">
+				#{enable}
+			</foreach>
+		</if>
+		
+		and pc.id IN 
+		(
+			SELECT
+				physical_coupon_id
+			FROM
+				physical_coupon_shop
+			WHERE
+				<choose>
+					<when test="searcher.shopIds != null">
+						shop_id in 
+						<foreach collection="searcher.shopIds" separator="," open="(" close=")" item="shopId">
+							#{shopId}
+						</foreach>
+					</when>
+					<otherwise>
+						shop_id = -1
+					</otherwise>
+				</choose>
+			AND STATUS = 1
+		)
+	GROUP BY
+		pc.id
+	ORDER BY
+		pc.business_type, pc.weight desc , pc.created_time desc 
+		<if test="pager != null">
+			LIMIT #{pager.startNumber}, #{pager.pageSize}
+		</if>
+  </select>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xpos.common.entity.physicalCoupon.PhysicalCoupon">
+  
+  	INSERT INTO physical_coupon(name,amount,business_id,business_type,weight,enable) 
+  	VALUES 
+  	(
+  		#{name},#{amount},#{business_id},
+  		#{business_type},#{weight},false
+  	)
+  </insert>
+  
+  <update id="update"  parameterType="com.xpos.common.entity.physicalCoupon.PhysicalCoupon">
+  	update physical_coupon set name = #{physicalCoupon.name},amount = #{physicalCoupon.amount},
+  	business_id = #{physicalCoupon.business_id},business_type = #{physicalCoupon.business_type},
+  	weight = #{physicalCoupon.weight},enable = #{physicalCoupon.enable}
+  	<if test="physicalCoupon.status != null ">
+	  	,status = #{physicalCoupon.status}
+  	</if>
+	where id = #{physicalCoupon.id} 
+  </update>
+  
+  
+  
+  
+  
+  
+  
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.RefundMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Refund" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <association property="coupon" column="coupon_id" select="com.xpos.common.persistence.mybatis.CouponMapper.selectByPrimaryKey" />
+    <association property="payment" column="payment_id" select="com.xpos.common.persistence.mybatis.CouponPaymentMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Refund" extends="ListMap">
+  </resultMap>
+  
+   <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from Refund where id=#{id}
+  </select>
+</mapper>

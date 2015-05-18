@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.OrderMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Order" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+   	<result column="operator_session_code" property="operatorSessionCode"/>
+   	<result column="device_number" property="deviceNumber"/>
+    <association  column="member_id" property="member" select="com.xpos.common.persistence.mybatis.member.MemberMapper.selectById" />
+    <association  column="operator_id" property="operator" select="com.xpos.common.persistence.mybatis.OperatorMapper.selectByPrimaryKey" />
+    <association  column="posTransaction_id" property="posTransaction" select="com.xpos.common.persistence.mybatis.POSTransactionMapper.selectById" />
+    <collection property="items"  column="id" select="com.xpos.common.persistence.mybatis.OrderItemMapper.selectByOrderId" />
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Order" extends="ListMap">
+    <result column="id" property="id" jdbcType="BIGINT" />
+  </resultMap>
+   <resultMap id="SimpleMap" type="com.xpos.common.entity.Order" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+   	<result column="operator_session_code" property="operatorSessionCode"/>
+    <association  column="operator_id" property="operator" select="com.xpos.common.persistence.mybatis.OperatorMapper.selectByPrimaryKey" />
+  </resultMap>
+  <resultMap id="OrderDetailMap" type="com.xpos.common.entity.Order" extends="ListMap">
+  	<result column="discount" property="discount"/>
+  	<result column="totalAmount" property="totalAmount"/>
+  	<result column="orderNumber" property="orderNumber"/>
+  	<result column="createDate" property="createDate"/>
+  	<result column="status" property="status"/>
+  </resultMap>
+  
+  <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.xpos.common.entity.Order" >
+  	INSERT INTO Orders (orderNumber,device_number,businessId,businessType,totalAmount,actuallyPaid,status,operator_id,operator_session_code) VALUES 
+  	(#{orderNumber},#{deviceNumber},#{businessId},#{businessType},#{totalAmount},#{actuallyPaid},#{status},#{operator.id},#{operatorSessionCode}) 
+  </insert>
+  
+   <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from Orders where id=#{id}
+  </select>
+
+   <select id="getOrderByOrderNumber" resultMap="SimpleMap">
+  	select * from Orders where orderNumber = #{orderNumber}
+  </select>
+  
+  <select id="queryOrderList" resultMap="DetailMap">
+  	SELECT 
+  		o.id,
+		o.orderNumber,
+		o.businessType,
+		o.businessId,
+		o.totalAmount,
+		o.actuallyPaid,
+		IF(o.type = '',null , o.type)  type ,
+		IF(o.status  = '' , null ,o.status) status,
+		o.operator_id,
+		o.member_id,
+		o.operator_session_code,
+		o.identifier,
+		o.peoples,
+		o.takeAway,
+		d.discount discount,
+		o.posTransaction_id,
+		o.counter,
+		o.createDate,
+		o.modifyDate
+  	FROM Orders o
+  	LEFT JOIN Member m ON m.id  = o.member_id
+  	LEFT JOIN order_member_discount d ON o.orderNumber = d.order_number
+  	where o.businessType = 'SHOP'
+  		<if test="business.selfBusinessType.name() == 'MERCHANT'">
+  			AND (o.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{business.selfBusinessId}
+		  		<!-- 集团能搜索子商户简称 -->
+  				<if test="searcher.nickName != null and searcher.nickName != ''">and name like '%${searcher.nickName}%'</if>))
+  		</if>
+  		<if test="business.selfBusinessType.name() == 'SHOP'">
+  			AND (o.businessId = #{business.selfBusinessId})
+  		</if>
+  		<if test="searcher.startDateTime != null">
+  			AND o.createDate >= #{searcher.startDateTime}
+  		</if>
+  		<if test="searcher.endDateTime != null">
+  			AND #{searcher.endDateTime} >= o.createDate
+  		</if>
+  		<if test="searcher.minAmount != null">
+  			AND o.totalAmount >= #{searcher.minAmount}
+  		</if>
+  		<if test="searcher.maxAmount != null">
+  			AND #{searcher.maxAmount} >= o.totalAmount
+  		</if>
+  		<if test="searcher.orderNumber != null and searcher.orderNumber != ''">
+  			AND o.orderNumber = #{searcher.orderNumber}
+  		</if>
+  		<if test="searcher.status != null">
+  			AND o.status = #{searcher.status.name}
+  		</if>
+  		<if test="searcher.operatorId != null">
+  			AND o.operator_id = #{searcher.operatorId}
+  		</if>
+  		<if test="searcher.operatorSessionCode != null">
+  			AND o.operator_session_code = #{searcher.operatorSessionCode}
+  		</if>
+  		<if test="searcher.typeSet != null and searcher.typeSet.size &gt; 0">
+  			AND o.type in (<foreach collection="searcher.typeSet" item="type" separator=",">#{type}</foreach>)
+  			AND o.status &lt;&gt; 'UNPAID'
+  		</if>
+  		<if test="searcher.mobileNumber != null and searcher.mobileNumber != ''">
+  			AND m.mobile = #{searcher.mobileNumber}
+  		</if>
+  		ORDER BY o.createDate desc
+  		LIMIT #{pager.startNumber}, #{pager.endNumber}
+  </select>
+  
+  <select id="countOrders" resultType="int">
+  	select count(*)
+  	from Orders o
+  	left join Member m on m.id  = o.member_id  
+  	where o.businessType = 'SHOP'
+  		<if test="business.selfBusinessType.name() == 'MERCHANT'">
+  			AND (o.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{business.selfBusinessId}
+		  		<!-- 集团能搜索子商户简称 -->
+  				<if test="searcher.nickName != null and searcher.nickName != ''">and name like '%${searcher.nickName}%'</if>))
+  		</if>
+  		<if test="business.selfBusinessType.name() == 'SHOP'">
+  			AND (o.businessId = #{business.selfBusinessId})
+  		</if>
+  		<if test="searcher.startDateTime != null">
+  			AND o.createDate >= #{searcher.startDateTime}
+  		</if>
+  		<if test="searcher.endDateTime != null">
+  			AND #{searcher.endDateTime} >= o.createDate
+  		</if>
+  		<if test="searcher.minAmount != null">
+  			AND o.totalAmount >= #{searcher.minAmount}
+  		</if>
+  		<if test="searcher.maxAmount != null">
+  			AND #{searcher.maxAmount} >= o.totalAmount
+  		</if>
+  		<if test="searcher.orderNumber != null and searcher.orderNumber != ''">
+  			AND o.orderNumber = #{searcher.orderNumber}
+  		</if>
+  		<if test="searcher.status != null">
+  			AND o.status = #{searcher.status.name}
+  		</if>
+  		<if test="searcher.operatorId != null">
+  			AND o.operator_id = #{searcher.operatorId}
+  		</if>
+  		<if test="searcher.operatorSessionCode != null">
+  			AND o.operator_session_code = #{searcher.operatorSessionCode}
+  		</if>
+  		<if test="searcher.typeSet != null and searcher.typeSet.size &gt; 0">
+  			AND o.type in (<foreach collection="searcher.typeSet" item="type" separator=",">#{type}</foreach>)
+  		</if>
+  		<if test="searcher.mobileNumber != null and searcher.mobileNumber != ''">
+  			AND m.mobile = #{searcher.mobileNumber}
+  		</if>
+  </select>
+  
+  <select id="getOrderAmount" resultType="decimal">
+  	select IFNULL(sum(o.actuallyPaid), 0)
+  	from Orders o
+  	left join Member m on m.id  = o.member_id  
+  	where o.businessType = 'SHOP'
+  		<if test="business.selfBusinessType.name() == 'MERCHANT'">
+  			AND (o.businessId in (select s.id from Shop s where s.deleted = false and s.merchant_id = #{business.selfBusinessId}
+		  		<!-- 集团能搜索子商户简称 -->
+  				<if test="searcher.nickName != null and searcher.nickName != ''">and name like '%${searcher.nickName}%'</if>))
+  		</if>
+  		<if test="business.selfBusinessType.name() == 'SHOP'">
+  			AND (o.businessId = #{business.selfBusinessId})
+  		</if>
+  		<if test="searcher.startDateTime != null">
+  			AND o.createDate >= #{searcher.startDateTime}
+  		</if>
+  		<if test="searcher.endDateTime != null">
+  			AND #{searcher.endDateTime} >= o.createDate
+  		</if>
+  		<if test="searcher.minAmount != null">
+  			AND o.totalAmount >= #{searcher.minAmount}
+  		</if>
+  		<if test="searcher.maxAmount != null">
+  			AND #{searcher.maxAmount} >= o.totalAmount
+  		</if>
+  		<if test="searcher.orderNumber != null and searcher.orderNumber != ''">
+  			AND o.orderNumber = #{searcher.orderNumber}
+  		</if>
+  		<if test="searcher.status != null">
+  			AND o.status = #{searcher.status.name}
+  		</if>
+  		<if test="searcher.operatorId != null">
+  			AND o.operator_id = #{searcher.operatorId}
+  		</if>
+  		<if test="searcher.operatorSessionCode != null">
+  			AND o.operator_session_code = #{searcher.operatorSessionCode}
+  		</if>
+  		<if test="searcher.typeSet != null and searcher.typeSet.size &gt; 0">
+  			AND o.type in (<foreach collection="searcher.typeSet" item="type" separator=",">#{type}</foreach>)
+  		</if>
+  		<if test="searcher.mobileNumber != null and searcher.mobileNumber != ''">
+  			AND m.mobile = #{searcher.mobileNumber}
+  		</if>
+  </select>
+  
+  <insert id="initOrderShopCounter">
+	INSERT INTO order_shop_counter (shop_id, counter)
+	VALUES (#{shopId}, 1)
+	ON DUPLICATE KEY UPDATE counter = 1
+  </insert>
+  
+  <select id="requireOrderCounter" resultType="int">
+    select counter from order_shop_counter where shop_id = #{shopId}
+  </select>
+  
+  <update id="increaseOrderCounter">
+    update order_shop_counter set counter = #{currentCounter} + 1 where counter = #{currentCounter} and shop_id = #{shopId}
+  </update>
+  
+  <select id="findTransactionListByOrderNumber" resultType="com.xkeshi.pojo.po.OrderTransaction">
+  	SELECT
+		c.*
+	FROM
+	(
+		SELECT
+			t.order_number orderNumber,
+			null authCode,
+			null transNo,
+			null referenceNumber,
+			t.serial serial,
+			'CASH' transactionType,
+			t.cash_payment_status_id status,
+			t.created_time createdTime,
+			t.amount amount
+		FROM
+			cash_transaction t
+		WHERE
+			order_number = #{orderNumber}
+		UNION
+			SELECT
+				t.order_number orderNumber,
+				t.authCode authCode,
+				t.traceNo transNo,
+				t.refNo referenceNumber,
+				t.code serial,
+				'BANKCARD' transactionType,
+				CASE
+			WHEN t.`status` = 'PAID_SUCCESS' THEN
+				1
+			WHEN t.`status` = 'UNPAID' THEN
+				2
+			WHEN t.`status` = 'PAID_FAIL' THEN
+				3
+			WHEN t.`status` = 'PAID_TIMEOUT' THEN
+				4
+			WHEN t.`status` = 'PAID_REVOCATION' THEN
+				5
+			WHEN t.`status` = 'PAID_REFUND' THEN
+				7
+			ELSE
+				- 1
+			END status,
+			t.createDate createdTime,
+			t.sum amount
+		FROM
+			postransaction t
+		WHERE
+			order_number = #{orderNumber}
+		UNION
+			SELECT
+				t.order_number orderNumber,
+				null authCode,
+				null transNo,
+				null referenceNumber,
+				t.serial serial,
+				'ALIPAY_QRCODE' transactionType,
+				t.alipay_payment_status_id status,
+				t.created_time createdTime,
+				t.amount amount
+			FROM
+				alipay_transaction t
+			WHERE
+				order_number = #{orderNumber}
+			UNION
+				SELECT
+					t.order_number orderNumber,
+					null authCode,
+					null transNo,
+					null referenceNumber,
+					t.out_trade_no serial,
+					'WXPAY_QRCODE' transactionType,
+					t.wxpay_payment_status_id status,
+					t.created_time createdTime,
+					COALESCE(round(t.total_fee/100,2) , 0.00) amount
+				FROM
+					wxpay_transaction t
+				WHERE
+					order_number = #{orderNumber}
+				UNION
+					SELECT
+						t.order_number orderNumber,
+						null authCode,
+						null transNo,
+						null referenceNumber,
+						t.serial serial,
+						'PREPAID' transactionType,
+						t.prepaid_card_payment_status_id status,
+						t.created_time createdTime,
+						t.amount amount
+					FROM
+						prepaid_card_transaction t
+					WHERE
+						order_number = #{orderNumber}
+					UNION
+						SELECT
+							t.order_number orderNumber,
+							null authCode,
+							null transNo,
+							null referenceNumber,
+							t.serial serial,
+							'BANK_NFC_CARD' transactionType,
+							t.nfc_payment_status_id status,
+							t.created_time createdTime,
+							t.amount amount
+						FROM
+							bank_nfc_transaction t
+						WHERE
+							order_number = #{orderNumber}
+			)c
+		ORDER BY c.createdTime
+  </select>
+  
+  <delete id="deleteById" >
+  DELETE
+	FROM
+		orders
+	WHERE
+		id = #{id}
+  </delete>
+  <select id="findByOrderNumber" resultMap="OrderDetailMap">
+  	SELECT o.id, 
+  		o.businessType,
+  		o.totalAmount, 
+  		o.orderNumber,
+  		o.actuallyPaid, 
+  		o.createDate, 
+  		o.status, 
+  		o.member_id, 
+  		o.businessId,
+  		o.operator_id, 
+  		o.posTransaction_id,
+  		d.discount discount
+  	FROM Orders o 
+  	LEFT JOIN order_member_discount d 
+  	ON  o.orderNumber = d.order_number 
+  	WHERE orderNumber = #{orderNumber} 
+  </select>
+  <select id="getActuallyPaid" resultType = "decimal">
+  	SELECT actuallyPaid FROM orders WHERE ordernumber=#{orderNum} AND status &lt;&gt; 'UNPAID'
+  </select>
+</mapper>

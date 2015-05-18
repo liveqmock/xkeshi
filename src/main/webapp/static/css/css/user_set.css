@@ -1,0 +1,111 @@
+.post_nav{
+color: #000;
+font-size: 16px;
+margin-bottom: 16px;
+}
+.post_title{
+border: 1px solid #DCDCDC;
+height: 20px;
+padding: 4px;
+width: 530px;
+margin-bottom: 12px;
+}
+.post_text{
+padding: 4px;
+height: 200px;
+width: 530px;
+}
+.r_main{
+background: #f8f8f8;
+}
+.r_side{
+background: #fff;
+}
+.side_title{
+margin-top: 0;
+color: #63a004;
+}
+.branch_list{
+border-top: 1px solid #ccc;
+margin-top: 8px;
+}
+.short_btn, .post_sub_btn{
+background: #7fbc22;
+border-radius: 4px;
+color: #fff;
+}
+.short_btn:hover, .post_sub_btn:hover{
+background: #7fbc22;
+}
+.fp{
+margin-bottom: 16px;
+}
+.lb{
+color: #000;
+margin-right: 20px;
+font-size: 15px;
+}
+.fp input{
+border: 1px solid #D4D4D4;
+border-radius: 3px;
+color: #666;
+font-size: 14px;
+padding: 3px 4px;
+}
+.domain_span{
+color: #000;
+margin-left: 4px;
+}
+.domain_input{
+width: 310px;
+}
+.name_input{
+width: 400px;
+}
+.file_input{
+width: 400px;
+}
+.big_green_btn{
+width: 160px;
+height: 65px;
+background: url(img/big_green_btn.png) no-repeat 0 0;
+border: none;
+cursor: pointer;
+margin: 32px auto 0;
+display: block;
+}
+.r_score, .r_pos{
+margin-top: 12px;
+}
+.user_score{
+color: #63a004;
+font-size: 20px;
+margin-left: 26px;
+}
+.score_rc tr td{ 
+color: #666;
+padding:0 32px 12px 0;
+font-size: 13px;
+}
+.pos_wrap{
+margin-bottom: 32px;
+}
+.pos_p{
+margin-bottom: 8px;
+}
+.pos_p label{
+width: 100px;
+display: inline-block;
+}
+.pos_edit{
+text-align:right;
+padding-right: 8px;
+}
+.pos_add_a, .pos_edit_a, .account_edit_a, .account_add_a{
+margin-left: 12px;
+color: #3D83F8;
+text-decoration: underline;
+}
+.pos_add_a:hover, .pos_edit_a:hover, .account_edit_a:hover, .account_add_a:hover{
+text-decoration: underline;
+}

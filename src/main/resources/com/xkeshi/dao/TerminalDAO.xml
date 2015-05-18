@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.TerminalDAO">
+
+
+    <select id="getDeviceValidInfo" resultType="com.xkeshi.pojo.po.Terminal">
+    SELECT
+        t.id,
+        t.deviceNumber,
+        t.deviceSecret deviceSecret,
+        t.shop_id shopId
+    FROM
+        `terminal` t
+    INNER JOIN operator o ON o.shop_id = t.shop_id
+    WHERE
+        t.shop_id = #{mid}
+    AND t.deviceNumber = #{deviceNumber}
+    AND o.id = #{operatorId}
+    AND t.deleted = 0
+    AND o.deleted = 0
+
+    </select>
+</mapper>

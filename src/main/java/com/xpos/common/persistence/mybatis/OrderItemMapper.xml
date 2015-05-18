@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.OrderItemMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.OrderItem" >
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.OrderItem" extends="ListMap">
+    <result property="amount" column="amount"/>
+    <association property="item" column="item_id" select="com.xpos.common.persistence.mybatis.ItemMapper.selectByPrimaryKey"/>
+   </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="DetailMap">
+  	select * from OrderItem where id=#{id}
+  </select>
+  
+  <delete id="deleteById">
+		DELETE
+		FROM
+			orderitem
+		WHERE
+			id = #{id}
+  </delete>
+</mapper>

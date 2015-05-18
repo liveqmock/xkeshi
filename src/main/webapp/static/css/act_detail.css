@@ -1,0 +1,21 @@
+.pop_bind_coupon .pb_main, .pop_status_edit .pb_main{
+border-top: none;
+padding: 0;
+}
+.pop_bind_coupon .pfrd, .pop_status_edit .pfrd{
+vertical-align: -2px;
+margin-right: 8px;
+}
+.pop_bind_coupon .pb_item .pfsel{
+border: 1px solid #ccc;
+border-radius: 3px;
+margin-left: 21px;
+width: 192px;
+}
+.pb_item:last-child{
+border-bottom:none;
+margin-bottom:0;
+}
+.pop_cancel_bind .pb_coupon_name{
+margin-top:12px;
+}

@@ -1,0 +1,33 @@
+.td_tit{
+	font-weight: bold;
+}
+.tb_main .th td{
+	border-top: 1px solid #ddd;
+}
+.s_span{
+	padding-left: 30px;
+	display: inline-block;
+}
+.tb_main tr td.date_h{
+	width: 410px;
+	height: 40px;
+	padding-left: 32px;
+	border-right: 1px solid #e5e8e6;
+}
+.td_tit{
+	color: #1e1e1e;
+	font-size: 14px;
+}
+.tb_main{
+	margin-top: 20px;
+}
+.tb_mains{
+	margin-top: 10px;
+}
+.item_img{
+	width: 48px;
+	height: 48px;
+	padding-left: 55px;
+	vertical-align: middle;
+	display: inline-block;
+}

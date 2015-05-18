@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.AccountMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.security.Account" >
+    
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.security.Account" extends="ListMap">
+    
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="DetailMap">
+  select * from Account where id=#{id}
+  </select>
+  
+  <update id="discardAccountByBusiness">
+	UPDATE account
+	SET deleted = TRUE
+	WHERE
+		businessId = #{businessId}
+	AND businessType = #{businessType}
+	AND deleted = false
+  </update>
+
+  <insert id="insertAccountRole" keyColumn="id" useGeneratedKeys="true"  >
+    insert into Account_Role(account_id,role_id) values (#{accountId},#{accountRole})
+  </insert>
+  
+</mapper>

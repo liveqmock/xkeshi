@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.OperatorShiftMapper" >
+ 
+    
+    <insert id="insertOperatorShift" useGeneratedKeys="true"  keyProperty="operatorShift.id">
+	insert into operator_shift (
+		`operator_id` , `operator_real_name` , `operator_session_code` ,
+		`total_physical_coupon_amount`, `total_receivable_amount`,
+		`total_order_count` , `total_order_item_count` ,
+		`total_coupon_consume_count` ,`shop_id`,
+		`total_member_count` , `total_order_amount` , `total_actually_amount` ,
+		`total_difference_cash_amount`,
+		`shifted_start_time` , `shifted_end_time` , `created_time`,prepaidcard_total_presented_amount,
+		prepaidcard_total_reality_recharge_amount,prepaidcard_recharge_amount_count)
+	values (
+		#{operatorShift.operatorId},#{operatorShift.operatorRealName},
+		#{operatorShift.operatorSessionCode},#{operatorShift.totalPhysicalCouponAmount},
+		#{operatorShift.totalReceivableAmount},#{operatorShift.totalOrderCount},
+		#{operatorShift.totalOrderItemCount},#{operatorShift.totalConsumeCount},
+		#{operatorShift.shopId},#{operatorShift.totalMemberCount},
+		#{operatorShift.totalOrderAmount},#{operatorShift.totalActuallyAmount},
+		#{operatorShift.totalDifferenceCashAmount},#{operatorShift.shiftedStartTime},
+		#{operatorShift.shiftedEndTime},#{operatorShift.createdTime},#{operatorShift.prepaidcardTotalPresentedAmount},
+		#{operatorShift.prepaidcardtotalRealityRechargeAmount},#{operatorShift.prepaidcardRechargeAmountCount}
+	)
+    </insert>
+    
+    <select id="findOperatorConsumeCoupon"  resultType="java.lang.Integer">
+    	SELECT
+			COALESCE(count(c.id), 0)   
+		FROM
+			Coupon  c  
+		where c.operator_session_code  = #{operatorSessionCode}
+			and c.deleted  = 0 
+			and c.status   = 'USED'
+    </select>
+    
+    <select id="findOperatorMemberCount"  resultType = "java.lang.Integer">
+   		 SELECT
+			COALESCE(count(m.id), 0)  
+		FROM
+			Member  m  
+		where m.operator_session_code  = #{operatorSessionCode}
+			and m.deleted  = 0 
+    </select>
+    
+    <!-- 官方销售成功的，总销售数 -->
+    <select id="getTotalOrderItemCount" resultType = "java.lang.Integer">
+      SELECT
+	    IFNULL(
+		(
+			SELECT
+				SUM(oi.quantity)
+			FROM
+				OrderItem oi
+			LEFT OUTER JOIN Orders o ON o.id = oi.order_id
+			WHERE
+				o.operator_session_code = #{operatorSessionCode}  
+			AND o. STATUS = "SUCCESS"
+		), 0
+	)
+    </select>
+    
+    <!-- 第三方销售成功的，总销售数 -->
+    <select id="getTotalThirdOrderGoodsCount" resultType = "java.lang.Integer">
+      SELECT
+	    IFNULL(
+		(
+    	  SELECT 
+    		 SUM(oi.quantity)
+    	 FROM
+			third_order_goods  tog  
+		LEFT OUTER JOIN  
+			third_order   o   ON  o.third_order_code  =  tog.third_order_code 
+		WHERE 
+			o.operator_session_code  = #{operatorSessionCode} 
+		AMD o.third_order_payment_status_id  = 1 
+		AND o.status   = 1
+		AND tog.status = 1 
+		), 0
+	)
+    </select>
+    
+    <!-- 获取客户端上操作员的最后一个交班记录 -->
+    <select id="findOperatorShiftInfo"  resultType="com.xpos.common.entity.pos.POSOperationLog">
+    	SELECT 
+			t.logined,
+			t.shift,
+			t.operator_id operatorId
+		FROM
+		POSOperationLog t
+			LEFT OUTER JOIN Operator o ON o.id = t.operator_id
+		WHERE
+			t.deviceNumber =  #{deviceNumber}
+			AND o.deleted = 0
+			AND t.deleted = 0
+		ORDER BY
+			t.createDate DESC
+		LIMIT 0,  1
+    </select>
+    
+    <select id="getOrderPhysicalCouponAmount"  resultType="java.math.BigDecimal" >
+    	SELECT
+		 	IFNULL(SUM(COALESCE(opc.amount,0)) , 0.00)
+		FROM
+			physical_coupon_order opc
+		LEFT OUTER JOIN Orders o ON o.orderNumber = opc.order_number
+		WHERE 
+		  o.operator_session_code = #{operatorSessionCode}
+		AND o. STATUS = 'SUCCESS'
+		AND opc.`status`   =1 
+    </select>
+    
+    <select id="findOperatorShiftCount"  resultType = "java.lang.Integer">
+    	SELECT 
+    		COUNT(id) FROM operator_shift t
+    	WHERE
+			t. STATUS = 1
+		<if test="operatorShiftSearcher.key  != null and operatorShiftSearcher.key != ''">
+			AND t.operator_real_name LIKE  CONCAT(CONCAT('%', #{operatorShiftSearcher.key}),'%') 
+		</if>
+		<if  test="businessType  == 'MERCHANT' ">
+	    	<if test="operatorShiftSearcher.shopId != null ">
+	    		AND t.shop_id   =  #{operatorShiftSearcher.shopId}
+	    	</if>
+			<if test="operatorShiftSearcher.shopId == null">
+			   AND t.shop_id   in ( select s.id  from Shop s  where s.merchant_id  = #{businessId} )
+			</if>	    	 
+		</if>
+		<if test="businessType  == 'SHOP' ">
+			AND t.shop_id   =  #{businessId}
+		</if>
+		<if test="operatorShiftSearcher.shiftedStartTime != null and operatorShiftSearcher.shiftedStartTime != ''">
+			AND t.shifted_start_time  <![CDATA[  >= ]]>   #{operatorShiftSearcher.shiftedStartTime}
+		</if>
+		<if test="operatorShiftSearcher.shiftedEndTime != null and operatorShiftSearcher.shiftedEndTime != ''">
+			AND t.shifted_end_time  <![CDATA[  <= ]]>  #{operatorShiftSearcher.shiftedEndTime}
+		</if>
+		 
+    </select>
+    
+    <select id="findOperatorShiftList"  resultType = "com.xkeshi.pojo.vo.shift.OperatorShiftVO">
+    	SELECT
+			t.shifted_start_time shiftedStartTime,
+			t.shifted_end_time shiftedEndTime,
+			t.total_order_count totalOrderCount,
+			t.total_order_item_count totalOrderItemCount,
+			t.total_order_amount totalOrderAmount,
+			t.total_physical_coupon_amount totalPhysicalCouponAmount,
+			t.total_receivable_amount totalReceivableAmount,
+			t.total_actually_amount totalActuallyAmount,
+			t.total_difference_cash_amount totalDifferenceCashAmount,
+			t.operator_real_name operatorRealName,
+			t.operator_session_code  operatorSessionCode ,
+		  	s.name shopName
+		FROM
+			operator_shift t
+		LEFT OUTER JOIN  Shop s  ON 
+			s.id  =  t.shop_id
+		WHERE
+			t. STATUS = 1
+		<if test="operatorShiftSearcher.key  != null and operatorShiftSearcher.key != ''">
+			AND t.operator_real_name LIKE    CONCAT(CONCAT('%', #{operatorShiftSearcher.key}),'%') 
+		</if>
+		<if  test="businessType  == 'MERCHANT' ">
+	    	<if test="operatorShiftSearcher.shopId != null ">
+	    		AND t.shop_id   =  #{operatorShiftSearcher.shopId}
+	    	</if>
+			<if test="operatorShiftSearcher.shopId == null">
+			   AND t.shop_id   in ( select s.id  from Shop s  where s.merchant_id = #{businessId} )
+			</if>	    	 
+		</if>
+		<if test="businessType  == 'SHOP' ">
+			AND t.shop_id   =  #{businessId}
+		</if>
+		<if test="operatorShiftSearcher.shiftedStartTime != null and operatorShiftSearcher.shiftedStartTime != ''">
+			AND t.shifted_start_time  <![CDATA[  >= ]]>   #{operatorShiftSearcher.shiftedStartTime}
+		</if>
+		<if test="operatorShiftSearcher.shiftedEndTime != null and operatorShiftSearcher.shiftedEndTime != ''">
+			AND t.shifted_end_time  <![CDATA[  <= ]]>  #{operatorShiftSearcher.shiftedEndTime}
+		</if>
+		ORDER BY t.created_time desc
+		<if test="pager  != null  ">
+			LIMIT #{pager.startNumber}, #{pager.pageSize}
+		</if>
+    </select>
+    
+    <select id="findOperatorOrderItemCount"  resultType = "java.lang.Integer">
+    	SELECT  
+       	 COUNT(t.name)
+       	FROM 
+	       	(
+		    	SELECT
+					oi.itemName name,
+					COALESCE (oi.price, 0.00) price,
+					SUM(COALESCE(oi.quantity, 0)) quantity,
+					SUM( COALESCE (oi.price, 0.00) * COALESCE (oi.quantity, 0) ) totalAmount
+				FROM
+					OrderItem oi
+					LEFT OUTER JOIN orders o ON o.id = oi.order_id
+				WHERE
+					o.operator_session_code = #{operatorSessionCode}  
+				AND 
+					o.status = 'SUCCESS'
+				GROUP BY
+					oi.item_id
+				ORDER BY
+					quantity DESC,
+					oi.item_id DESC
+	       	) t
+    </select>
+    
+    
+    <select id="findOperatorShiftOrderItemList" resultType ="com.xkeshi.pojo.vo.shift.ShiftItemVO" >
+       	SELECT  
+       	  t.name ,
+       	  t.price ,
+       	  t.quantity , 
+       	  t.totalAmount
+       	FROM 
+       	(
+	    	SELECT
+				oi.itemName name,
+				COALESCE (oi.price, 0.00) price,
+				SUM(COALESCE(oi.quantity, 0)) quantity,
+				SUM( COALESCE (oi.price, 0.00) * COALESCE (oi.quantity, 0) ) totalAmount
+			FROM
+				OrderItem oi
+				LEFT OUTER JOIN orders o ON o.id = oi.order_id
+			WHERE
+				o.operator_session_code = #{operatorSessionCode}  
+			AND 
+				o.status = 'SUCCESS'
+			GROUP BY
+				oi.item_id
+			ORDER BY
+				quantity DESC,
+				oi.item_id DESC
+       	) t
+		<if test="pager  != null  ">
+			LIMIT #{pager.startNumber}, #{pager.pageSize}
+		</if>
+    </select>
+    
+    <select id="findOperatorShift" resultType = "com.xkeshi.pojo.vo.shift.OperatorShiftVO">
+    	SELECT
+            t.id  id ,
+			t.shifted_start_time shiftedStartTime,
+			t.shifted_end_time shiftedEndTime,
+			t.total_order_count totalOrderCount,
+			t.total_order_item_count totalOrderItemCount,
+			t.total_order_amount totalOrderAmount,
+			t.total_physical_coupon_amount totalPhysicalCouponAmount,
+			t.total_receivable_amount totalReceivableAmount,
+			t.total_actually_amount totalActuallyAmount,
+			t.total_difference_cash_amount totalDifferenceCashAmount,
+			t.operator_real_name operatorRealName,
+			t.operator_session_code  operatorSessionCode ,
+		  	s.name shopName,
+		  	t.prepaidcard_total_presented_amount,
+		  	t.prepaidcard_total_reality_recharge_amount,
+		  	t.prepaidcard_recharge_amount_count
+
+		FROM
+			operator_shift t
+		LEFT OUTER JOIN  Shop s  ON 
+			s.id  =  t.shop_id
+		WHERE
+			t. STATUS = 1 
+		AND t.operator_session_code = #{operatorSessionCode}  
+		ORDER BY t.created_time desc limit 0,1
+    </select>
+    
+</mapper>

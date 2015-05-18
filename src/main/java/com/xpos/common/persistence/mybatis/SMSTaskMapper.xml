@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.SMSTaskMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.SMSTask" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.SMSTask" extends="ListMap">
+  </resultMap>
+  
+   <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from SMSTask where id=#{id}
+  </select>
+</mapper>

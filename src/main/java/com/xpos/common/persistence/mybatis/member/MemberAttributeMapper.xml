@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.member.MemberAttributeMapper" >
+  
+  <resultMap id="BasicMap" type="com.xpos.common.entity.member.MemberAttribute">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="attributeType" column="attributeType"/>
+    <result property="isRequired" column="required"/>
+    <result property="isEnabled" column="enabled"/>
+    <result property="sequence" column="sequence"/>
+    <result property="optionalValues" column="attributeOptionStore"/>
+    <result property="storedValue" column="storedValue"/>
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.member.MemberAttribute" extends="BasicMap">
+    <association property="memberAttributeTemplate" column="memberTemplate_id" select="com.xpos.common.persistence.mybatis.member.MemberAttributeTemplateMapper.selectById"/>
+  </resultMap>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xpos.common.entity.member.MemberAttribute">
+	INSERT INTO MemberAttribute (
+		memberTemplate_id,
+		name,
+		attributeType,
+		attributeOptionStore,
+		required,
+		enabled,
+		sequence
+	)
+	VALUES
+		(
+			#{memberAttributeTemplate.id},
+			#{name}, #{attributeType},
+			#{optionalValues},
+			#{isRequired},
+			#{isEnabled},
+			#{sequence}
+		)
+  </insert>
+  
+  <insert id="saveAttributeStoredValues">
+	INSERT INTO MemberAttributeMapStore(
+		member_id,
+		element,
+		mapkey_id
+	)
+	VALUES
+	<foreach collection="attributeList" separator="," item="attribute">
+		(
+		#{member.id},
+		#{attribute.storedValue},
+		#{attribute.id}
+		)
+	</foreach>
+  </insert>
+  
+  <update id="updateAttributeStoredValues">
+	INSERT INTO MemberAttributeMapStore (
+		member_id,
+		element,
+		mapkey_id
+	)
+	VALUES
+		<foreach collection="attributeList" separator="," item="attribute" >
+			(
+			#{member.id},
+			#{attribute.storedValue},
+			#{attribute.id}
+			)
+		</foreach>
+	ON DUPLICATE KEY UPDATE `element` = VALUES(`element`)
+  </update>
+  
+  <select id="selectById" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		MemberAttribute
+	WHERE
+		id = #{id} and deleted = false
+  </select>
+  
+  <select id="selectByTemplateId" resultMap="BasicMap">
+    SELECT
+		*
+	FROM
+		MemberAttribute
+	WHERE
+		memberTemplate_id = #{templateId} and enabled = true and deleted = false
+	ORDER BY
+		sequence desc, createDate desc
+  </select>
+  
+  <select id="selectByTemplateIdIgnoreEnabled" resultMap="BasicMap">
+	SELECT
+		*
+	FROM
+		MemberAttribute
+	WHERE
+		deleted = FALSE 
+	<if test="searcher != null and searcher.key != null">
+		AND name LIKE CONCAT("%",replace(#{searcher.key},' ',''),"%")
+	</if>
+	<if test="searcher != null and searcher.memberAttributeTemplateId != null">
+		AND memberTemplate_id = #{searcher.memberAttributeTemplateId}
+	</if>
+	ORDER BY
+		sequence desc, createDate desc
+	<if test="pager != null">
+		LIMIT #{pager.startNumber}, #{pager.pageSize}
+	</if>
+  </select>
+  
+  <select id="countByTemplateIdIgnoreEnabled" resultType="int">
+	SELECT
+		count(*)
+	FROM
+		MemberAttribute
+	WHERE
+		deleted = FALSE 
+	<if test="searcher != null and searcher.key != null">
+		AND name LIKE CONCAT("%",replace(#{searcher.key},' ',''),"%")
+	</if>
+	<if test="searcher != null and searcher.memberAttributeTemplateId != null">
+		AND memberTemplate_id = #{searcher.memberAttributeTemplateId}
+	</if>
+  </select>
+  
+  <select id="selectByMemberAndTemplateWithStoreValue" resultMap="DetailMap">
+	SELECT
+		ma.*, mams.element AS storedValue
+	FROM
+		MemberAttribute ma
+	LEFT JOIN MemberAttributeMapStore mams ON ma.id = mams.mapkey_id and mams.member_id = #{memberId}
+	WHERE
+		ma.memberTemplate_id = #{templateId} and ma.enabled = true and ma.deleted = false
+	ORDER BY
+		sequence desc, createDate desc
+  </select>
+  
+  <update id="update" parameterType="com.xpos.common.entity.member.MemberAttribute">
+	UPDATE 
+		MemberAttribute
+	SET name = #{name}, attributeType = #{attributeType}, attributeOptionStore = #{optionalValues},
+	required = #{isRequired}, enabled = #{isEnabled}, sequence = #{sequence}
+	WHERE
+		id = #{id} and deleted = false
+  </update>
+  
+  <update id="delete" parameterType="com.xpos.common.entity.member.MemberAttribute">
+	UPDATE 
+		MemberAttribute
+	SET deleted = TRUE
+	WHERE
+		id = #{id}
+  </update>
+</mapper>

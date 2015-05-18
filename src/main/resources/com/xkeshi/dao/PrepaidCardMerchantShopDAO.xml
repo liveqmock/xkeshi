@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.PrepaidCardMerchantShopDAO">
+    <insert id="insert">
+        INSERT INTO prepaid_card_merchant_shop (merchant_id,shop_id) VALUES (#{merchantId},#{shopId})
+    </insert>
+    <delete id="deleteShopsByMerchantId">
+        DELETE
+        FROM
+            prepaid_card_merchant_shop
+        WHERE
+            merchant_id = #{merchantId}
+    </delete>
+
+
+    <select id="hasShopsByMerchantId" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_merchant_shop t
+        WHERE
+            t.merchant_id = #{merchantId}
+    </select>
+    <select id="getShopListByMerchantId" resultType="com.xkeshi.pojo.vo.ShopLiteVO">
+        SELECT
+            t.shop_id id,
+            s.`name`
+        FROM
+            prepaid_card_merchant_shop t
+        LEFT JOIN shop s ON s.id = t.shop_id
+        WHERE
+            t.merchant_id = #{merchantId}
+    </select>
+    <select id="checkMerchantShop" resultType="Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_merchant_shop t
+        WHERE
+            t.merchant_id = #{merchantId}
+        AND t.shop_id = #{shopId}
+    </select>
+</mapper>

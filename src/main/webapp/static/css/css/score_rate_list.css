@@ -1,0 +1,18 @@
+.utb .tr .name, .utb .th .name{
+width: 105px;
+}
+.id{
+width:40px;
+}
+.self_use{
+width: 40px;
+}
+.other_use{
+width: 40px;
+}
+.use_date{
+width: 160px;
+}
+.remain{
+width: 100px;
+}

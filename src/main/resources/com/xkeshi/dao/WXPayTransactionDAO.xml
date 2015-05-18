@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.WXPayTransactionDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.WXPayTransaction">
+        <id property="id" column="id"/>
+        <result property="status" column="status"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="third_order_code" property="thirdOrderCode"/>
+        <result column="prepaid_card_charge_order_code" property="prepaidCardChargeOrderCode"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+		
+	<select id="getOrderTotalAmountByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.WXPayTransactionVO">
+		SELECT
+		   SUM(COALESCE(wx.total_fee , 0.00)) totalAmount
+		FROM
+			wxpay_transaction wx
+		LEFT OUTER JOIN orders o ON wx.order_number = o.orderNumber
+		WHERE
+			wx.status = 1
+		AND wx.wxpay_payment_status_id = 1 
+		AND o.status =  'SUCCESS'  
+		AND o.operator_session_code = #{operatorSessionCode}
+	</select>		
+	
+	<select id="getThirdOrderTotalAmountByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.WXPayTransactionVO">
+		SELECT
+		   SUM(COALESCE(wx.total_fee , 0.00)) totalAmount
+		FROM
+			wxpay_transaction wx
+		LEFT OUTER JOIN third_order o ON wx.order_number = o.orderNumber
+		WHERE
+			wx.status = 1
+		AND wx.wxpay_payment_status_id = 1 
+		AND o.third_order_payment_status_id =  1 
+		AND o.operator_session_code = #{operatorSessionCode}
+	</select>		
+	
+	 <select id="getPayTransactionGroupByOrderNumber"  resultType="com.xkeshi.pojo.vo.transaction.WXPayTransactionVO">
+	  	SELECT 
+		   SUM(COALESCE(t.total_fee , 0.00))  amount 
+		FROM
+			wxpay_transaction  t 
+	    WHERE
+	    	t.order_number = #{orderNumber}  AND t.`status`  = 1 AND t.wxpay_payment_status_id = 1
+		GROUP BY  t.order_number
+   </select>
+   
+   <select id="countByOperatorAndType" resultType="int">
+       select 
+       	count(*) 
+       from 
+       	wxpay_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+   
+   <select id="getAmountByOperatorAndType" resultType="java.math.BigDecimal">
+       select 
+      	 IFNULL(SUM(COALESCE(ct.total_fee , 0.00)),0)
+       from 
+       	wxpay_transaction ct
+       <choose>
+           <when test="orderType == 'XPOS_ORDER'"> join orders o on o.orderNumber = ct.order_number and o.operator_id = #{operatorId}</when>
+           <when test="orderType == 'THIRD_ORDER'"> join third_order tt on tt.third_order_code = ct.third_order_code and tt.operator_id = #{operatorId}</when>
+       </choose>
+       where 
+        ct.created_time >= #{startTime} 
+       and #{endTime} >= ct.created_time
+       and o.status = #{orderStatus}
+   </select>
+</mapper>

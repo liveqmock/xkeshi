@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+.tb_main .th td.td_w1,.tb_main .th td.td_w2,.tb_main .th td.td_w3,.tb_main .th td.td_w4,.tb_main .th td.td_w5{ color:#666667;}
+.tb_main .th td.td_w1{ width:270px;}
+.tb_main .th td.td_w2{ width:500px;}
+.tb_main .th td.td_w3{ width:65px;}
+.tb_main .th td.td_w4{ width:240px;}
+.tb_main .th td.td_w5{ width:520px;}
+.tb_main .th td.td_w6{ width:85px;}
+.tb_main .th td.td_w7{ width:145px;}
+.tb_main .th td.td_w8{ width:150px;}
+.tb_main .th td.td_w9{ width:100px;}
+.tb_main .th td.td_w10{ width:120px;}
+.tb_main .th td.td_w11{ width:71px;}
+.div_cl{ clear:both;}
+.pb_btn.pos_btn1{ margin-right:13px;}
+.pb_btn.pos_btn1,.pb_btn.pos_btn2{ width:101px;}
+.pb_btn.pos_btn2{ background:#EB5348;border: 1px solid #EB5348;}
+.pb_rd_item_w label,.pb_rd_item_w2 label{color:#666667; font-size:12px; line-height:16px;}
+.pb_rd_item_w{ float:left; width:106px;}
+
+
+
+
+
+
+
+
+
+
+
+
+

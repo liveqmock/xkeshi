@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.RefundLogMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.RefundLog" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.RefundLog" extends="ListMap">
+    <association property="refund" column="refund_id" select="com.xpos.common.persistence.mybatis.RefundMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+   <select id="selectByPrimaryKey" resultMap="ListMap">
+  	select * from RefundLog where id=#{id}
+  </select>
+</mapper>

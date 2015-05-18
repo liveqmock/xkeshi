@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.PrepaidCardTransactionDAO">
+
+    <resultMap id="result" type="com.xkeshi.pojo.po.PrepaidCardTransaction">
+        <id property="id" column="id"/>
+        <result property="comment" column="comment"/>
+        <result property="status" column="status"/>
+        <result column="prepaid_card_id" property="prepaidCardId"/>
+        <result column="serial" property="serial"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="third_order_code" property="thirdOrderCode"/>
+        <result column="amount" property="amount"/>
+        <result column="prepaid_card_payment_status_id" property="prepaidCardPaymentStatusId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+    <update id="refundTransaction">
+        UPDATE prepaid_card_transaction
+        SET prepaid_card_payment_status_id = 7
+        WHERE
+            serial = #{serial} and order_number = #{orderNumber}
+        AND `status` = 1
+    </update>
+    <select id="getConsumeCountByPrepaidCardId" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            prepaid_card_transaction t
+        WHERE
+            t.prepaid_card_id = #{prepaidCardId}
+        AND t.prepaid_card_payment_status_id = 1
+        AND t.`status` = 1
+    </select>
+
+	<select id="getPayTransactionGroupByOrderNumber" resultType="com.xkeshi.pojo.vo.transaction.PrepaidCardTransactionVO">
+	  	SELECT 
+		   SUM(COALESCE(t.amount , 0.00))  amount 
+		FROM
+			prepaid_card_transaction  t 
+	    WHERE
+	    	t.order_number = #{orderNumber}  
+	    AND t.`status`  = 1 
+	    AND t.prepaid_card_payment_status_id in (1,7)
+		GROUP BY  t.order_number
+   </select>
+    <select id="sumAmountByOrderNumber" resultType="java.math.BigDecimal">
+        SELECT
+        IFNULL(
+            (
+                SELECT
+                    SUM(t.amount)
+                FROM
+                    prepaid_card_transaction t
+                WHERE
+                    t.order_number = #{orderNumber}
+                AND t.prepaid_card_payment_status_id = 1
+                AND t.`status` = 1
+            ),
+            0
+        )
+
+    </select>
+     <select id="sumRefundAmountByOrderNumber" resultType="java.math.BigDecimal">
+        SELECT
+        IFNULL(
+            (
+                SELECT
+                    SUM(t.amount)
+                FROM
+                    prepaid_card_transaction t
+                WHERE
+                    t.order_number = #{orderNumber}
+                AND t.prepaid_card_payment_status_id = 7
+                AND t.`status` = 1
+            ),
+            0
+        )
+
+    </select>
+    <select id="checkAvailableRefund" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            prepaid_card_charge_order t
+        WHERE
+            t.`code` = #{orderNumber}
+        AND t.charge_status_id = 1
+        AND t.`status` = 1
+    </select>
+    <select id="getBySerial" resultMap="result">
+        SELECT
+            t.id,
+            t.prepaid_card_id,
+            t.serial,
+            t.order_number,
+            t.third_order_code,
+            t.amount,
+            t.prepaid_card_payment_status_id,
+            t.created_time,
+            t.updated_time,
+            t.`comment`,
+            t.`status`
+        FROM
+            prepaid_card_transaction t
+        WHERE
+            t.serial = #{serial}
+        AND t.`status` = 1
+    </select>
+    <select id="getByOrderNumberAndSerial" resultMap="result">
+		SELECT
+			*
+		FROM
+			prepaid_card_transaction
+		WHERE
+			serial = #{serial} and order_number = #{orderNumber}
+			AND STATUS = 1
+  </select>
+</mapper>

@@ -1,0 +1,103 @@
+.main_wrap{
+border: 1px solid #eee;
+margin: 16px;
+overflow: hidden;
+padding: 16px 16px 22px;
+}
+.user_block{
+width: 240px;
+height: 290px;
+background: url(img/user_block_bg.png) no-repeat 0 0;
+float: left;
+margin-right: 8px;
+}
+.order_block{
+width: 240px;
+height: 290px;
+background: url(img/order_block_bg.png) no-repeat 0 0;
+float: left;
+margin-right: 8px;
+}
+.score_block{
+float: left;
+width: 238px;
+height: 290px;
+}
+.bk_title{
+margin: 32px 0 0 16px;
+}
+.bk_num{
+margin: 12px 0 0 16px;
+font-size: 42px;
+line-height: 42px;
+font-family: trebuchet ms;
+}
+.user_block .bk_title, .user_block .bk_num{
+color: #fff;
+}
+.user_list_a{
+text-decoration: underline;
+display: inline-block;
+margin: 28px 0 0 16px;
+color: #0670f3;
+}
+.user_list_a:hover{
+text-decoration: underline;
+}
+.order_num_title{
+margin: 28px 0 0 16px;
+}
+.order_num_val{
+margin: 12px 0 0 16px;
+font-size: 24px;
+line-height: 24px;
+font-family: trebuchet ms;
+color: #63a004;
+}
+.order_list_a{
+width: 200px;
+height: 45px;
+background: url(img/big_order_list.png) no-repeat 0 0;
+display: inline-block;
+margin: 22px 0 0 16px;
+}
+.add_user_a{
+width: 200px;
+height: 45px;
+background: url(img/big_add_user.png) no-repeat 0 0;
+display: inline-block;
+margin: 57px 0 0 16px;
+}
+.seller_name{
+margin-top: 32px;
+padding-left: 54px;
+font-weight: bold;
+background: url(img/start_ball.png) no-repeat 22px 6px;
+}
+.seller_info_a, .charge_a{
+margin: 16px 0 0 54px;
+font-size: 12px;
+text-decoration: underline;
+color: #0670f3;
+display: inline-block;
+}
+.seller_info_a:hover, .charge_a:hover{
+text-decoration: underline;
+}
+.score_split{
+border-bottom: 1px dashed #ccc;
+margin: 32px 22px;
+}
+.score_title{
+width: 120px;
+padding: 0 0 0 54px; 
+display: inline-block;
+margin-bottom: 12px;
+}
+.score_val{
+color: #63A004;
+font-weight: bold;
+}
+.ok_score .score_title{
+background: url(img/start_ball.png) no-repeat 22px 6px;
+}

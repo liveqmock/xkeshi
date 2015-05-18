@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.PrepaidDAO">
+
+    <resultMap id="result" type="com.xkeshi.pojo.po.PrepaidCard">
+        <id property="id" column="id"/>
+        <result property="comment" column="comment"/>
+        <result property="status" column="status"/>
+        <result column="member_id" property="memberId"/>
+        <result column="business_id" property="businessId"/>
+        <result column="business_type_id" property="businessTypeId"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="balance" property="balance"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="expire_date" property="expireDate"/>
+        <result column="initial_charge_amount" property="initialChargeAmount"/>
+        <result column="total_charge_amount" property="totalChargeAmount"/>
+        <result column="total_charge_times" property="totalChargeTimes"/>
+        <result column="latest_charge_time" property="latestChargeTime"/>
+        <result column="total_consume_amount" property="totalConsumeAmount"/>
+        <result column="total_consume_times" property="totalConsumeTimes"/>
+        <result column="latest_consume_time" property="latestConsumeTime"/>
+        <result column="enable" property="enable"/>
+        <result column="initial_rule_id" property="initialRuleId"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="mobileNO" property="mobileNO"/>
+        <result column="memberTypeName" property="memberTypeName"/>
+    </resultMap>
+    <update id="updatePasswordByShopId">
+        UPDATE prepaid_card
+        SET `password` = #{password},
+         salt = #{salt}
+        WHERE
+            member_id = #{memberId}
+        AND business_id = #{shopId}
+        AND business_type_id = 2
+        AND status = 1
+    </update>
+    <update id="updatePasswordByMerchantId">
+        UPDATE prepaid_card
+        SET `password` = #{password},
+         salt = #{salt}
+        WHERE
+            member_id = #{memberId}
+        AND business_id = #{merchantId}
+        AND business_type_id = 1
+        AND status = 1
+    </update>
+    <update id="updatePrepaidCardEnable">
+        UPDATE prepaid_card
+        SET `enable` = #{enable}
+        WHERE id = #{prepaidCardId}
+        AND `status` = 1
+    </update>
+    <update id="initPrepaidCardPassword">
+        UPDATE prepaid_card
+        SET `password` = #{password} ,
+        salt = #{salt}
+        WHERE id= #{prepaidCardId}
+    </update>
+    <update id="updateStatusByChargeOrderCode">
+        UPDATE prepaid_card
+        SET `status` = #{status}
+        WHERE
+            id = (
+                SELECT
+                    prepaid_card_id
+                FROM
+                    prepaid_card_charge_order
+                WHERE
+                    `code` = #{orderNumber}
+            )
+    </update>
+
+    <select id="countAllPrepaidList" resultType="java.lang.Integer">
+        SELECT
+           COUNT(*)
+        FROM
+            prepaid_card t
+        LEFT JOIN member m ON m.id = t.member_id
+        LEFT JOIN `user` u ON u.uniqueNo = m.user_unique_no
+        LEFT JOIN merchant_member_type mmt ON mmt.id = m.member_type_id
+        LEFT JOIN shop_member_type smt ON smt.id = m.member_type_id
+        WHERE
+            m.businessId = #{param.businessId}
+        AND m.businessType = #{param.businessType}
+        and (mmt.`name` is not null or smt.`name` is not null)
+        and m.deleted = 0
+        and t.status = 1
+    </select>
+
+    <select id="queryMemberCentralPrepaidList" resultMap="result">
+        SELECT
+            t.id,
+            m.mobile mobileNO,
+            mmt.`name` memberTypeName,
+            t.created_time,
+            t.total_charge_times,
+            t.total_charge_amount,
+            t.total_consume_times,
+            t.latest_consume_time,
+            t.balance,
+            t.`enable`
+        FROM
+            prepaid_card t
+        LEFT JOIN member m ON m.id = t.member_id
+        LEFT JOIN merchant_member_type mmt ON mmt.id = m.member_type_id
+        WHERE
+        	t.business_id = #{param.businessId}
+        AND t.business_type_id = 1
+        <if test="param.param != null and param.param != ''">
+            AND m.mobile like CONCAT('%', #{param.param}, '%')
+        </if>
+        <if test="param.beginDate != null and param.beginDate != ''">
+            AND t.created_time > #{param.beginDate}
+        </if>
+        <if test="param.endDate != null and param.endDate != ''">
+            <![CDATA[
+              AND t.created_time < #{param.endDate}
+            ]]>
+        </if>
+        <if test="param.memberTypeId != null">
+            AND m.member_type_id = #{param.memberTypeId}
+        </if>
+        <if test="param.enable != null">
+            AND t.`enable` = #{param.enable}
+        </if>
+        and mmt.`name` is not null
+        and m.deleted = 0
+        AND t. STATUS = 1
+
+    </select>
+
+    <select id="queryNotMemberCentralPrepaidList" resultMap="result">
+        SELECT
+            t.id,
+            m.mobile mobileNO,
+            smt.`name` memberTypeName,
+            t.created_time,
+            t.total_charge_times,
+            t.total_charge_amount,
+            t.total_consume_times,
+            t.latest_consume_time,
+            t.balance,
+            t.`enable`
+        FROM
+            prepaid_card t
+        LEFT JOIN member m ON m.id = t.member_id
+        LEFT JOIN shop_member_type smt ON smt.id = m.member_type_id
+        WHERE
+            t.business_id = #{param.businessId}
+        AND t.business_type_id = 2
+        <if test="param.param != null and param.param != ''">
+            AND m.mobile = #{param.param}
+        </if>
+        <if test="param.beginDate != null and param.beginDate != ''">
+            AND t.created_time > #{param.beginDate}
+        </if>
+        <if test="param.endDate != null and param.endDate != ''">
+            <![CDATA[
+              AND t.created_time < #{param.endDate}
+            ]]>
+        </if>
+        <if test="param.memberTypeId != null">
+            AND m.member_type_id = #{param.memberTypeId}
+        </if>
+        <if test="param.enable != null">
+            AND t.`enable` = #{param.enable}
+        </if>
+        and smt.`name` is not null
+        and m.deleted = 0
+        AND t. STATUS = 1
+    </select>
+
+    <select id="getBalanceByMobileNumberAndShopId" resultType="java.math.BigDecimal">
+       SELECT
+            p.balance
+        FROM
+            prepaid_card p
+        LEFT JOIN member m ON m.id = member_id
+        WHERE
+            p.`status` = 1 AND p.enable = 1
+        AND m.businessType = 'SHOP'
+        AND m.businessId = #{shopId}
+        AND m.deleted = FALSE
+        AND m.mobile = #{mobileNumber}
+        LIMIT 1
+    </select>
+    <select id="getBalanceByMobileNumberAndMerchantId" resultType="java.math.BigDecimal">
+       SELECT
+            p.balance
+        FROM
+            prepaid_card p
+        LEFT JOIN member m ON m.id = member_id
+        WHERE
+            p.`status` = 1 AND p.enable = 1
+        AND m.businessType = 'MERCHANT'
+        AND m.businessId = #{merchantId}
+        AND m.deleted = FALSE
+        AND m.mobile = #{mobileNumber}
+        LIMIT 1
+    </select>
+
+
+    <select id="countPrepaidCardChargeRecordList" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            prepaid_card_charge_order t
+        WHERE
+            t.shop_id = #{shopId}
+        AND TO_DAYS(t.created_time) = TO_DAYS(#{date})
+        AND t.`status` = 1
+    </select>
+    <select id="getPrepaidCardInfoByMemberIdAndShopId" resultMap="result">
+        SELECT
+            t.id,
+            t.balance,
+            t.expire_date
+        FROM
+            prepaid_card t
+        WHERE
+            t.member_id = #{id}
+        AND t.business_id = #{shopId}
+        AND t.business_type_id = 2
+        AND t.`status` = 1
+        AND t.enable = 1
+    </select>
+     <select id="getPrepaidCardInfoByMemberIdAndMerchantId" resultMap="result">
+        SELECT
+            t.id,
+            t.balance,
+            t.expire_date
+        FROM
+            prepaid_card t
+        WHERE
+            t.member_id = #{id}
+        AND t.business_id = #{merchantId}
+        AND t.business_type_id = 1
+        AND t.`status` = 1
+        AND t.enable = 1
+    </select>
+    <select id="sumPrepaidCardChargeRecordList" resultType="java.math.BigDecimal">
+         SELECT
+            IFNULL(
+                (
+                    SELECT
+                        SUM(t.actual_amount)
+                    FROM
+                        prepaid_card_charge_order t
+                    WHERE
+                        t.shop_id = #{shopId}
+                    AND TO_DAYS(t.created_time) = TO_DAYS(#{date})
+                    AND t.`status` = 1
+                ),
+                0
+            )
+    </select>
+
+    <select id="countAllMemberCentralPrepaidList" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            prepaid_card t
+        LEFT JOIN member m ON m.id = t.member_id
+        WHERE
+        t.business_id = #{param.businessId}
+        AND t.business_type_id = 1
+        <if test="param.param != null and param.param != ''">
+            AND m.mobile = #{param.param}
+        </if>
+        <if test="param.beginDate != null and param.beginDate != ''">
+            AND t.created_time > #{param.beginDate}
+        </if>
+        <if test="param.endDate != null and param.endDate != ''">
+            <![CDATA[
+              AND t.created_time < #{param.endDate}
+            ]]>
+        </if>
+        <if test="param.memberTypeId != null">
+            AND m.member_type_id = #{param.memberTypeId}
+        </if>
+        <if test="param.enable != null">
+            AND t.`enable` = #{param.enable}
+        </if>
+        and m.deleted = 0
+        AND t.`status` = 1
+    </select>
+    <select id="countAllNotMemberCentralPrepaidList" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+        prepaid_card t
+        LEFT JOIN member m ON m.id = t.member_id
+        WHERE
+            t.business_id = #{param.businessId}
+        AND t.business_type_id = 2
+        <if test="param.param != null and param.param != ''">
+            AND m.mobile = #{param.param}
+        </if>
+        <if test="param.beginDate != null and param.beginDate != ''">
+            AND t.created_time > #{param.beginDate}
+        </if>
+        <if test="param.endDate != null and param.endDate != ''">
+            <![CDATA[
+              AND t.created_time < #{param.endDate}
+            ]]>
+        </if>
+        <if test="param.memberTypeId != null">
+            AND m.member_type_id = #{param.memberTypeId}
+        </if>
+        <if test="param.enable != null">
+            AND t.`enable` = #{param.enable}
+        </if>
+        and m.deleted = 0
+        AND t.`status` = 1
+    </select>
+    <select id="getIdByMemberIdAndShopId" resultType="java.lang.Long">
+        SELECT
+            t.id
+        FROM
+            prepaid_card t
+        WHERE
+            t.business_id = #{shopId}
+        AND t.business_type_id = 2
+        AND t.member_id = #{memberId}
+        AND t.`status` = 1
+    </select>
+      <select id="getIdByMemberIdAndMerchantId" resultType="java.lang.Long">
+        SELECT
+            t.id
+        FROM
+            prepaid_card t
+        WHERE
+            t.business_id = #{merchantId}
+        AND t.business_type_id = 1
+        AND t.member_id = #{memberId}
+        AND t.`status` = 1
+    </select>
+    <select id="getSaltById" resultType="java.lang.String">
+        SELECT
+            t.salt
+        FROM
+            prepaid_card t
+        WHERE
+            t.id = #{prepaidCardId}
+        AND t.`status` = 1
+    </select>
+    <select id="getIdByPrepaidCardChargeOrderNumber" resultType="java.lang.Long">
+        SELECT
+            pc.id
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN prepaid_card pc ON pc.id = t.prepaid_card_id
+        WHERE
+            t.`code` = #{orderNumber}
+    </select>
+    <select id="getMemberMobileNumberById" resultType="java.lang.String">
+        SELECT
+            m.mobile
+        FROM
+            prepaid_card p
+        LEFT JOIN member m ON m.id = p.member_id
+        WHERE
+            p.id = #{prepaidCardId}
+    </select>
+    <select id="getByMemberId" resultMap="result">
+        SELECT
+            t.id,
+            t.member_id,
+            t.business_id,
+            t.business_type_id,
+            t.balance,
+            t.`password`,
+            t.salt,
+            t.created_time,
+            t.expire_date,
+            t.initial_charge_amount,
+            t.total_charge_amount,
+            t.total_charge_times,
+            t.latest_charge_time,
+            t.total_consume_amount,
+            t.total_consume_times,
+            t.latest_consume_time,
+            t.`enable`,
+            t.updated_time,
+            t.`comment`,
+            t.`status`
+        FROM
+            prepaid_card t
+        LEFT JOIN member m ON m.id = t.member_id
+        AND t.business_id = m.businessId
+        AND (
+            t.business_type_id =
+            IF (
+                m.businessType = 'MERCHANT',
+                1,
+                2
+            )
+        )
+        WHERE
+            m.id = #{memberId}
+        AND m.deleted = 0
+        AND t.`status` = 1
+    </select>
+    <select id="getByPrepaidCardChargeOrderNumber" resultMap="result">
+        SELECT
+            pc.id,
+            pc.member_id,
+            pc.business_id,
+            pc.business_type_id,
+            pc.balance,
+            pc.`password`,
+            pc.salt,
+            pc.created_time,
+            pc.expire_date,
+            pc.initial_charge_amount,
+            pc.total_charge_amount,
+            pc.total_charge_times,
+            pc.latest_charge_time,
+            pc.total_consume_amount,
+            pc.total_consume_times,
+            pc.latest_consume_time,
+            pc.`enable`,
+            pc.updated_time,
+            pc.`comment`,
+            pc.`status`
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN prepaid_card pc ON pc.id = t.prepaid_card_id
+        WHERE
+            t.`code` = #{orderNumber}
+    </select>
+    <select id="getByOrderNumber" resultMap="result">
+        SELECT
+            pc.id,
+            pc.member_id,
+            pc.business_id,
+            pc.business_type_id,
+            pc.balance,
+            pc.`password`,
+            pc.salt,
+            pc.created_time,
+            pc.expire_date,
+            pc.initial_charge_amount,
+            pc.total_charge_amount,
+            pc.total_charge_times,
+            pc.latest_charge_time,
+            pc.total_consume_amount,
+            pc.total_consume_times,
+            pc.latest_consume_time,
+            pc.`enable`,
+            pc.updated_time,
+            pc.`comment`,
+            pc.`status`
+        FROM
+            prepaid_card_transaction t
+        LEFT JOIN prepaid_card pc ON pc.id = t.prepaid_card_id
+        WHERE
+            t.order_number = #{orderNumber}
+    </select>
+    <select id="sumChargeAmountByMobileNumberAndShopId" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(t.total_amount)
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN prepaid_card pc ON pc.id = t.prepaid_card_id
+        LEFT JOIN member m ON m.id = pc.member_id
+        WHERE
+            pc.`status` = 1
+        AND m.businessType = 'SHOP'
+        AND m.businessId = #{shopId}
+        AND m.deleted = FALSE
+        AND m.mobile = #{mobileNumber}
+        AND m.deleted = 0
+        AND t.charge_status_id = 1
+        AND t.`status` = 1
+    </select>
+
+    <select id="sumChargeAmountByMobileNumberAndMerchantId" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(t.total_amount)
+        FROM
+            prepaid_card_charge_order t
+        LEFT JOIN prepaid_card pc ON pc.id = t.prepaid_card_id
+        LEFT JOIN member m ON m.id = pc.member_id
+        WHERE
+            pc.`status` = 1
+        AND m.businessType = 'MERCHANT'
+        AND m.businessId = #{merchantId}
+        AND m.deleted = FALSE
+        AND m.mobile = #{mobileNumber}
+        AND m.deleted = 0
+        AND t.charge_status_id = 1
+        AND t.`status` = 1
+    </select>
+
+
+</mapper>

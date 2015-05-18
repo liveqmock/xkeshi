@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.member.MemberMapper" >
+  
+  <resultMap id="ListMap" type="com.xpos.common.entity.member.Member">
+    <id property="id" column="id"/>
+    <result property="mobile" column="mobile"/>
+    <result property="name" column="name"/>
+    <result property="password" column="password"/>
+    <result property="salt" column="salt"/>
+    <result property="nickName" column="nickname"/>
+    <result property="gender" column="sex"/>
+    <result property="birthday" column="birthday"/>
+    <result property="email" column="email"/>
+    <result property="businessId" column="businessId"/>
+    <result property="businessType" column="businessType"/>
+    <result property="operatorSessionCode" column="operator_session_code"/>
+    <association property="shop" column="shop_id" select="com.xpos.common.persistence.mybatis.ShopMapper.selectByPrimaryKey" />
+    <association property="operator" column="operator_id" select="com.xpos.common.persistence.mybatis.OperatorMapper.selectByPrimaryKey"/>
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.member.Member">
+    <discriminator javaType="string" column="businessType">
+      <case value="MERCHANT" resultMap="MerchantMemberDetailMap"/>
+      <case value="SHOP" resultMap="ShopMemberDetailMap"/>
+    </discriminator>
+  </resultMap>
+  
+  <resultMap type="com.xpos.common.entity.member.Member" extends="ListMap" id="MerchantMemberDetailMap">
+        <association property="memberType" column="member_type_id" select="com.xpos.common.persistence.mybatis.member.MerchantMemberTypeMapper.selectDetailById"/>
+  </resultMap>
+  <resultMap type="com.xpos.common.entity.member.Member" extends="ListMap" id="ShopMemberDetailMap">
+        <association property="memberType" column="member_type_id" select="com.xpos.common.persistence.mybatis.member.ShopMemberTypeMapper.selectDetailById"/>
+  </resultMap>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xpos.common.entity.member.Member">
+    INSERT INTO Member (
+		member_type_id,
+		name,
+		nickname,
+		sex,
+		birthday,
+		email,
+		mobile,
+		password,
+		salt,
+		businessId,
+		businessType,
+		shop_id
+	)
+	VALUES
+	(
+		#{memberType.id},
+		#{name},
+		#{nickName},
+		#{gender},
+		#{birthday},
+		#{email},
+		#{mobile},
+		#{password},
+		#{salt},
+		#{businessId},
+		#{businessType},
+		<choose>
+			<when test = "shop == null" > NULL </when>
+			<when test = "shop != null" > #{shop.id}</when>
+		</choose>
+	)
+  </insert>
+  
+  <update id="update" parameterType="com.xpos.common.entity.member.Member">
+  	UPDATE Member
+  	SET
+  		<if test="memberType != null">member_type_id = #{memberType.id},</if>
+		<if test="name != null and name != ''">name = #{name},</if>
+		<if test="nickName != null">nickname = #{nickName},</if>
+		<if test="gender != null">sex = #{gender},</if>
+		<if test="birthday != null">birthday = #{birthday},</if>
+		<if test="email != null">email = #{email},</if>
+		<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+		modifyDate = now()
+  	WHERE
+  		id = #{id} and deleted = false
+  </update>
+  
+  <update id="deleteById">
+    UPDATE Member
+	SET deleted = TRUE
+	WHERE
+	id = #{id}
+  </update>
+  
+  <select id="selectById" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		Member m
+	WHERE
+		id = #{id} 
+		AND deleted = false
+  </select>
+  
+  <select id="selectByUser" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		Member m
+	WHERE
+		user_unique_no = #{uniqueNo}
+		AND deleted = false
+  </select>
+  
+  <select id="selectByUserAndBusiness" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		Member
+	WHERE
+		user_unique_no = #{uniqueNo} and businessId = #{businessId} and businessType = #{businessType} and deleted = false
+  </select>
+  
+  <select id="countMemberByMemberType" resultType="int"> 
+	SELECT
+		count(*)
+	FROM
+		Member
+	WHERE
+		member_type_id = #{memberTypeId} and businessType= #{businessType} and deleted = false
+  </select>
+  
+  <select id="selectBySearcher" resultMap="DetailMap">
+    select * from Member
+    where deleted = false
+    <if test="searcher != null">
+      <if test="searcher.key != null and searcher.key != ''"> and (name like CONCAT("%",replace(#{searcher.key},' ',''),"%") or nickname like CONCAT("%",replace(#{searcher.key},' ',''),"%") or email like CONCAT("%",replace(#{searcher.key},' ',''),"%"))</if>
+      <if test="searcher.memberId != null">and id = #{searcher.memberId}</if>
+      <if test="searcher.mobile != null and searcher.mobile != ''">and mobile = #{searcher.mobile}</if>
+      <if test="searcher.businessId != null">and businessId = #{searcher.businessId}</if>
+      <if test="searcher.businessType != null">and businessType = #{searcher.businessType}</if>
+      <if test="searcher.createStartDate != null">and createDate >= #{searcher.createStartDate}</if>
+      <if test="searcher.createEndDate != null">and #{searcher.createEndDate} >= createDate</if>
+      <if test="searcher.birthday != null">and birthday = #{searcher.birthday}</if>
+      <if test="searcher.gender != null and searcher.gender != ''">and sex = #{searcher.gender}</if>
+      <if test="searcher.shop != null and searcher.shop.id != null">and shop_id = #{searcher.shop.id}</if>
+      <if test="searcher.shopIds != null">
+        and businessId in <foreach collection="searcher.shopIds" open="(" close=")" separator="," item="shopId">#{shopId}</foreach>
+      </if>
+      <if test="searcher.memberType != null and searcher.memberType.id != null">and member_type_id = #{searcher.memberType.id}</if>
+    </if>
+    order by createDate DESC
+    <if test="pager != null">
+    	LIMIT #{pager.startNumber}, #{pager.pageSize}
+    </if>
+  </select>
+  
+  <select id="countBySearcher" resultType="int">
+	select count(*) from Member
+	where deleted = false
+	<if test="searcher != null">
+		<if test="searcher.key != null and searcher.key != ''"> and (name like CONCAT("%",replace(#{searcher.key},' ',''),"%") or nickname like CONCAT("%",replace(#{searcher.key},' ',''),"%") or email like CONCAT("%",replace(#{searcher.key},' ',''),"%"))</if>
+		<if test="searcher.memberId != null">and id = #{searcher.memberId}</if>
+		<if test="searcher.mobile != null and searcher.mobile != ''">and mobile = #{searcher.mobile}</if>
+		<if test="searcher.businessId != null">and businessId = #{searcher.businessId}</if>
+		<if test="searcher.businessType != null">and businessType = #{searcher.businessType}</if>
+		<if test="searcher.createStartDate != null">and createDate >= #{searcher.createStartDate}</if>
+		<if test="searcher.createEndDate != null">and #{searcher.createEndDate} >= createDate</if>
+		<if test="searcher.birthday != null">and birthday = #{searcher.birthday}</if>
+		<if test="searcher.gender != null and searcher.gender != ''">and sex = #{searcher.gender}</if>
+		<if test="searcher.shop != null and searcher.shop.id != null">and shop_id = #{searcher.shop.id}</if>
+		<if test="searcher.shopIds != null">
+			and businessId in <foreach collection="searcher.shopIds" open="(" close=")" separator="," item="shopId">#{shopId}</foreach>
+		</if>
+	    <if test="searcher.operatorId != null">and operator_id = #{searcher.operatorId}</if>
+		<if test="searcher.memberType != null and searcher.memberType.id != null">and member_type_id = #{searcher.memberType.id}</if>
+	</if>
+  </select>
+
+  <select id="checkMobileRegisted" resultType="java.lang.Boolean">
+	SELECT
+		count(*) > 0
+	FROM
+		Member
+	WHERE
+		businessId = #{businessId}
+	AND businessType = #{businessType}
+	AND mobile = #{mobile}
+	AND deleted = FALSE
+  </select>
+
+</mapper>

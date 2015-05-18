@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.ShopDAO">
+
+
+    <select id="hasMerchant" resultType="java.lang.Boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            shop t
+        WHERE
+            t.id = #{shopId}
+        AND t.deleted = 0
+        AND t.merchant_id IS NOT NULL
+    </select>
+    <select id="getMerchantId" resultType="java.lang.Long">
+        SELECT
+            t.merchant_id
+        FROM
+            shop t
+        WHERE
+            t.id = #{shopId}
+        AND t.deleted = 0
+    </select>
+    <select id="getShopsByMerchantId" resultType="com.xkeshi.pojo.vo.ShopLiteVO">
+        SELECT
+            t.id,
+            t.`name`
+        FROM
+            shop t
+        WHERE
+            t.merchant_id = #{merchantId}
+        AND t.deleted = 0
+    </select>
+    <select id="getShopByShopId"  resultType="com.xkeshi.pojo.po.Shop">
+    	SELECT 
+    		t.id ,
+    		t.merchant_id  merchantId,
+    		t.enable_shift  enableShift,
+    		t.visible_shift_receivable_data   visibleShiftReceivableData,
+    		t.enable_multiple_payment enableMultiplePayment,
+    		t.deleted
+		FROM
+			shop  t
+		WHERE
+			t.id  =  #{shopId}
+		AND t.deleted = 0
+    </select>
+    <select id="getNameById" resultType="java.lang.String">
+        SELECT
+            t.fullName
+        FROM
+            shop t
+        WHERE
+            t.id = #{shopId}
+    </select>
+    <select id="getShopLiteById" resultType="com.xkeshi.pojo.po.Shop">
+        SELECT
+            t.id,
+            t.fullName name,
+            t.contact,
+            t.merchant_id merchantId
+        FROM
+            shop t
+        WHERE
+            t.id = #{shopId}
+    </select>
+    <update id="updateShopByShift"  >
+    	UPDATE
+    		shop
+    	SET 
+    		enable_shift = #{shop.enableShift},     
+    		visible_shift_receivable_data = #{shop.visibleShiftReceivableData}
+		WHERE
+			id = #{shop.id}
+		AND deleted = 0     		
+    </update>
+    <update id="updateShopByMultiplePayment" >
+        UPDATE
+            shop
+        SET
+            enable_multiple_payment = #{shop.enableMultiplePayment}
+        WHERE
+            id = #{shop.id}
+        AND deleted = 0
+    </update>
+    
+    <select id="selectShopByShopId" resultType="com.xkeshi.pojo.po.Shop">
+    	select 
+    		s.merchant_id merchantId,
+    		s.deleted
+    	from 
+    		shop s
+    	where 
+    		s.id=#{businessId}
+    </select>
+</mapper>

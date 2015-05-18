@@ -1,0 +1,209 @@
+$(function(){
+	var flag1,flag2,flag3;
+	$('.pop_a').click(function(){
+		var self = $(this),
+			left = self.offset().left,
+			top = self.offset().top,
+			text = self.text(),
+			pop
+		if(self.hasClass('pop_account')){
+			var account = $(this).parent().parent().find("td").eq(1).html();			
+			pop = $('.edit_account');
+			pop.find('#name_account').val(account);
+		}else if(self.hasClass('pop_realname')){
+			var suffixname = $(this).parent().parent().find("td").eq(1).html();
+			var realName = $(this).parent().parent().find("td").eq(3).html();
+			var userId = $(this).data("userid");
+			pop = $('.edit_opt')
+			pop.find("#name_suffix").val(suffixname);
+			pop.find("#realname").val(realName);
+			pop.find("input[name^='username']").val(suffixname);
+			pop.find("input[name^='realName']").val(realName);
+			pop.find("input[name^='id']").val(userId);
+		}else if(text=='添加'||text=='添加POS终端'){
+			pop = $('.add_pos')
+		}else if(text=='添加操作员账号'){
+			pop = $('.add_opt')
+			var list_size=$('.pop_a').data('sizeofoperatorslist');
+			if (list_size==0) {
+				// $('select option[value="OPERATOR"]').hide();
+			}else{
+				$('select option[value="OPERATOR"]').show();
+			}
+		}else if(text=='编辑') {
+			var username = $(this).parent().parent().find("td").eq(0).html();
+			var realName = $(this).parent().parent().find("td").eq(1).html();
+			var comName = $(this).parent().parent().find("td").eq(2).html();
+			var userId = $(this).data("userid");
+			pop = $('.edit_opt')
+			pop.find("input[name^='username']").val(username);
+			pop.find("input[name^='realName']").val(realName);
+
+			if(comName=='收银员'){
+				pop.find("select option[value='OPERATOR']").attr('selected','true');
+			}else{
+				pop.find("select option[value='MANAGER']").attr('selected','true');
+			}
+			pop.find("input[name^='id']").val(userId);
+
+			if ($(this).parent().parent().index()==1) {
+				// pop.find('.pb_s_del').hide();
+				// pop.find('select option[value="OPERATOR"]').hide();
+			}else{
+				pop.find('.pb_s_del').show();
+				pop.find('select option[value="OPERATOR"]').show();
+			}
+            if($(this).parent().parent().find("td").eq(2).html()=='收银员'){
+                pop.find('.pb_s_del').show();
+                pop.find('select option[value="OPERATOR"]').show();
+            }
+
+		}else if(text=='修改') {
+			var username = $(this).parent().parent().find("td").eq(0).html();
+			var realName = $(this).parent().parent().find("td").eq(1).html();
+			var comName = $(this).parent().parent().find("td").eq(2).html();
+			var remarkName = $(this).parent().parent().find("td").eq(3).html();
+			var signKeyName = $(this).parent().parent().find("td").eq(4).html();
+
+			var userId = $(this).data("userid");
+			pop = $('.edit_pos')
+			pop.find("input[name^='terminal']").val(username);
+			pop.find("select option[value='BOC']").attr('selected','true');
+			if (realName=='联动优势') {
+				pop.find("select option[value='UMPAY']").attr('selected','true');
+			}else if(realName=='中国银行'){
+				pop.find("select option[value='BOC']").attr('selected','true');
+			}else if(realName=='盛付通'){
+				pop.find("select option[value='SHENGPAY']").attr('selected','true');
+			}else if(realName=='支付宝'){
+				pop.find("select option[value='ALIPAY']").attr('selected','true');
+			}
+			pop.find("input[name^='account']").val(comName);
+			pop.find("input[name^='remark']").val(remarkName);
+			pop.find("input[name^='signKey']").val(signKeyName);
+
+		}else if(text=='解除绑定'){
+			var deviceNumber = $(this).parent().parent().find("td").eq(0).html();
+			var termainlId = $(this).data("termainlid");
+			pop = $('.del_pos');
+			pop.find("#deviceNumber").val(deviceNumber);
+			pop.find("input[name^='id']").val(termainlId);
+		}
+		if(self.hasClass('pop_as0')){
+			var deviceNumber = $(this).parent().parent().find("td").eq(0).html();
+			var pay_type = $(this).parent().parent().find("td").eq(1).html();
+			var commer_number = $(this).parent().parent().find("td").eq(2).html();
+			var remark = $(this).parent().parent().find("td").eq(3).html();
+			var signKey = $(this).parent().parent().find("td").eq(4).html();
+			//var termainlId = $(this).data("termainlid");
+
+			pop = $('.edit_pos')
+			pop.find("#deviceNumber").val(deviceNumber);
+			pop.find("#pay_type").val(pay_type);
+			pop.find("#commer_number").val(commer_number);
+			pop.find("#remark").val(remark);
+			pop.find("#signKey").val(signKey);
+			$('#actEdit').val($(this).parent().parent().data('id'));
+			//pop.find("input[name^='id']").val(termainlId);
+			
+		}else if(self.hasClass('pop_as1')){
+			var deviceNumber = $(this).parent().parent().find("td").eq(0).html();
+			pop = $('.del_pos');
+			pop.find(".deviceNumber").text(deviceNumber);
+			$('#actDel').val($(this).parent().parent().data('id'));
+		}
+		$('.add_opt, .edit_opt, .add_pos, .del_pos').hide()
+		pop.css({'top':top+16, 'left':left-243+self.width()}).show()
+	})
+	$('.pb_close , .a_cancel').click(function(){
+		var self = $(this);
+		self.parents('.pb').hide();
+	})
+
+	$('.pb_btn1').click(function(){
+		if($("#password2").val()!=$("#password").val()){
+			alert("两次密码不一致!");
+			return false;
+		}
+		$('#form1').submit()
+	})
+	$('.pb_btn2').click(function(){
+		$('#form2').submit()
+	})
+	$('.pb_btn3').click(function(){
+		var self=$(this),flag5=false;
+		add_pos(self) 
+
+	})
+	$('.pb_btn4').click(function(){
+		var self=$(this);
+		add_pos(self) 
+	})	
+	$('.pb_btn5').click(function(){
+		$('.pop_as1').parent().parent().remove();
+		$(this).parents('.pb').hide();
+		$('#form5').submit();
+	})
+	
+	$('.pb_s_del').click(function() {
+		var opId = $('.edit_opt').find("input[name^='id']").val();
+		if(confirm("确定要清空数据吗？"))
+	   	{
+				$.ajax({
+					url: '/shop/operator/delete/'+opId,
+					type:'delete',
+					dataType:'json',
+					success:function(data){
+						if(data.status=='success')
+							location.reload();
+					}
+				});
+		}else{
+			return false
+		}
+	})
+})
+
+function saveOp() {
+	flag1 = false;
+	if ( $("#name_account").val()=="" || $("#password2").val()=="" || $("#password").val()=="") {
+		alert("请将信息填写完整");
+		flag1 = true;
+		return false;
+	}
+	flag2 = false;
+	if($("#password2").val()!=$("#password").val()){
+		alert("两次密码不一致");
+		flag2 = true;
+		return false;
+	}
+	if (flag1 || flag2) {
+		return false;
+	}else{
+		$('#form1').submit()
+	};
+}
+function editOp() {
+	// if($("#password4").val()==''||$("#password3").val()=='') {
+	// 	alert("请将信息填写完整");
+	// 	return false;
+	// }
+	if($("#password4").val()!=$("#password3").val()){
+		alert("两次密码不一致");
+		return false;
+	}
+	$('#form2').submit()
+}
+function add_pos(self){
+	flag3 = false;
+	self.parent().find('.required').each(function(){
+		if ($(this).val() == ''){
+			alert("请将信息填写完整");
+			flag3 = true;
+			return false;
+		};
+	})
+	if (!flag3) {
+		self.parent('form').submit();
+	};
+}

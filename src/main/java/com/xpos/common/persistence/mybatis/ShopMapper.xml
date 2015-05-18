@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.ShopMapper" >
+  <resultMap id="ListMap" type="com.xpos.common.entity.Shop" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+   	<id property="printerIp" column="printer_ip"/>
+   	<id property="printerPort" column="printer_port"/>
+   	<id property="printerEnable" column="printer_enable"/>
+   	<id property="enableMultiplePayment" column="enable_multiple_payment"/>
+    <!-- Brand/Merchant -->
+    <association property="category" column="category_id" select="com.xpos.common.persistence.mybatis.CategoryMapper.selectByPrimaryKey" />
+    <association property="region" column="region_id" select="com.xpos.common.persistence.mybatis.RegionMapper.selectByPrimaryKey" /> 
+    <association property="banner" column="banner_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" /> 
+    <association property="avatar" column="avatar_id" select="com.xpos.common.persistence.mybatis.PictureMapper.selectByPrimaryKey" />
+    <association property="merchant" column="merchant_id" select="com.xpos.common.persistence.mybatis.MerchantMapper.selectByPrimaryKey" />
+    <association property="position" column="position_id" select="com.xpos.common.persistence.mybatis.PositionMapper.selectByPrimaryKey" />    
+  </resultMap>
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.Shop" extends="ListMap">
+    <association property="merchant" column="merchant_id" select="com.xpos.common.persistence.mybatis.MerchantMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="DetailMap">
+  	select * from Shop where id=#{id} and deleted = false
+  </select>
+  
+  <select id="selectShopIdsByMerchantId" resultType="long">
+  	select id from Shop
+  	where merchant_id = #{merchantId}
+  	<if test="!isVisibleIgnore">and visible = true</if>
+  	and deleted = false
+  </select>
+  
+  <select id="selectShopListByMerchantId" resultMap="DetailMap">
+  	select * from Shop
+  	where merchant_id = #{merchantId}
+  	<if test="!isVisibleIgnore">and visible = true</if>
+  	and deleted = false
+  </select>
+  
+  <select id="selectNormalCouponInfoShopListByCouponInfoId" resultMap="ListMap">
+  	select
+  		DISTINCT a.* 
+  	from Shop a 
+  	where a.deleted = false and a.id in (select b.businessId from CouponInfo_Scope b where b.couponInfo_id = #{couponInfoId} and b.businessType='SHOP' and b.deleted = false and b.weight=1)
+	union
+	select
+		DISTINCT a.* 
+	from Shop a 
+	where a.deleted = false and a.id in (select b.businessId from CouponInfo_Scope b where b.couponInfo_id = #{couponInfoId}  and b.businessType='SHOP' and b.deleted = false and b.weight=0)
+  </select>
+  
+  <select id="selectPackageCouponInfoShopListByCouponInfoId" resultMap="ListMap">
+  	SELECT * 
+  	FROM Shop a 
+  	WHERE a.deleted = false 
+  	and EXISTS (
+  		SELECT 1 
+  		FROM CouponInfo_Scope b 
+  		WHERE b.businessId = a.id AND b.businessType = 'SHOP' AND b.deleted = false 
+  			and EXISTS (SELECT 1 FROM CouponInfo_Package c WHERE c.parent_id = #{couponInfoId} AND c.item_id = b.couponInfo_id AND c.deleted = false )
+  	)
+  </select>
+
+  <select id="selectSameFullName" resultType="int">
+    SELECT count(*) FROM Shop where fullName = #{fullName}
+    <if test="shopId != '' and shopId != null">
+        and id != #{shopId}
+    </if>
+  </select>
+  
+  <update id="updateShopPrinterServer" parameterType="com.xpos.common.entity.Shop" >
+  	update Shop set 
+  	printer_enable = #{printerEnable},
+  	printer_ip = #{printerIp},
+  	printer_port = #{printerPort}
+  	where id = #{id}
+  </update>
+  
+  <update id="joinMerchant">
+	UPDATE shop
+	SET merchant_id = #{merchantId}
+	WHERE
+		id = #{shopId}
+	AND deleted = FALSE
+  </update>
+  
+  <update id="quitMerchant">
+	UPDATE shop
+	SET merchant_id = null
+	WHERE
+		id = #{shopId}
+	AND deleted = FALSE
+  </update>
+  
+</mapper>

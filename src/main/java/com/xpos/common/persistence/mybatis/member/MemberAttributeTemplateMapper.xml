@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.member.MemberAttributeTemplateMapper" >
+  
+  <resultMap id="DetailMap" type="com.xpos.common.entity.member.MemberAttributeTemplate">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="isEnabled" column="enabled"/>
+    <result property="businessId" column="businessId"/>
+    <result property="businessType" column="businessType"/>
+    <collection property="memberAttributeList" column="id" select="com.xpos.common.persistence.mybatis.member.MemberAttributeMapper.selectByTemplateId" />
+  </resultMap>
+  
+  <select id="selectById" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		MemberTemplate
+	WHERE
+		id = #{id} and deleted = false
+  </select>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xpos.common.entity.member.MemberAttributeTemplate">
+	INSERT INTO MemberTemplate (
+		name,
+		businessId,
+		businessType,
+		enabled
+	)
+	VALUES
+		(
+			#{name},
+			#{businessId},
+			#{businessType},
+			#{isEnabled}
+		)
+  </insert>
+  
+  <select id="selectTemplateListByBusiness" resultMap="DetailMap">
+	SELECT
+		*
+	FROM
+		MemberTemplate
+	WHERE
+		businessId = #{businessId} and businessType = #{businessType} and deleted = false
+  </select>
+</mapper>

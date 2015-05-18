@@ -1,0 +1,70 @@
+.r_wrap{
+width: 800px;
+}
+.actnew_wrap{
+width: 638px;
+margin: 62px auto 0;
+}
+.actnew_nav{
+background: url(img/activity_new3.png) no-repeat 0 0;
+display: block;
+width: 638px;
+height: 54px;
+}
+.tip{
+margin: 36px 0;
+}
+.tip p{
+padding-bottom: 16px;
+font-size: 15px;
+color: #666;
+}
+.tip em{
+margin: 0 4px;
+}
+.msg_text{
+color: #666;
+width: 620px;
+height: 120px;
+padding: 10px;
+resize:none;
+border: 1px solid #ccc;
+font-size: 15px;
+}
+.cpn_btn_wrap{
+text-align: center;
+overflow: hidden;
+margin-top: 32px;
+}
+.send_ok{
+width: 177px;
+height: 41px;
+display: inline-block;
+background: url(img/send_ok.png) no-repeat 0 0;
+border: none;
+cursor: pointer;
+}
+.back_btn, .close_btn{
+background: url(img/back_btn.png) no-repeat 0 0;
+width: 100px;
+height: 41px;
+display: inline-block;
+border: none;
+cursor: pointer;
+margin-right: 22px;
+}
+.close_btn{
+background: url(img/act_back_btn.png) no-repeat 0 0;
+}
+.send_btn{
+background: url(img/save_and_send.png) no-repeat 0 0;
+width: 177px;
+height: 41px;
+display: inline-block;
+border: none;
+cursor: pointer;
+margin-right: 22px;
+}
+.send_btn:hover, .send_ok:hover, .back_btn:hover, .close_btn:hover{
+opacity: 0.8;
+}

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.AccountDAO">
+	<resultMap type="com.xkeshi.pojo.po.Account" id="BaseResultMap">
+		<id column="id" property="id"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="is_init_password" property="isInitPassword"/>
+		<result column="businessId" property="businessId"/>
+		<result column="businessType" property="businessType"/>
+		<result column="deleted" property="deleted"/>
+		
+	</resultMap>
+	<sql id="Account_Column_List">
+		id,username,password,is_init_password,businessId,businessType,deleted
+	</sql>
+	<select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select 
+			<include refid="Account_Column_List"/>
+		from 
+			account a
+		where 
+			a.username = #{username}
+			
+			order by createDate desc
+			
+			limit 0,1
+	</select>
+	
+	<update id="updateAccount" >
+		update 
+			account a
+		set 
+			<if test="account.username !=null and account.username != ''">
+				a.username= #{account.username},
+			</if>
+			
+			<if test="account.businessId != null  ">
+				a.businessId=#{account.businessId},
+			</if>
+			<if test="account.businessType != null and account.businessType != '' ">
+				a.businessType=#{account.businessType},
+			</if>
+			<if test="account.isInitPassword != null ">
+				a.is_init_password=#{account.isInitPassword},
+			</if>
+			<if test="account.password !=null and account.password != ''">
+				a.password=#{account.password}
+			</if>
+		where
+			a.id = #{account.id}
+	</update>
+	
+	<select id="getAccountById" resultMap="BaseResultMap">
+		select 
+			<include refid="Account_Column_List"/>
+		from 
+			account a
+		where 
+			a.businessId=#{merchantId}
+	</select>
+</mapper>

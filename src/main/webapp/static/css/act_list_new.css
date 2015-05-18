@@ -1,0 +1,17 @@
+.tb_main tr .id{
+width: 60px;
+}
+.tb_main tr .time{
+width: 160px;
+}
+.pb_item label{
+color: #666667;
+font-size: 12px;
+margin-left: 8px;
+}
+.pfck{
+vertical-align: -2px;
+}
+.pb_item #ck2{
+margin-left: 12px;
+}

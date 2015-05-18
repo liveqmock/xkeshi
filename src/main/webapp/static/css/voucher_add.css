@@ -1,0 +1,31 @@
+ .tb_main em{
+color: #ff5454;
+font-size: 13px;
+margin-right: 13px;
+}
+.td_val input, .td_val select, .td_val textarea{
+border: 1px solid #c0c0c0;
+border-radius: 3px;
+width: 265px;
+padding: 9px;
+padding-top:10px; 
+}
+.tb_main .td_key{
+	line-height: 35px;
+}
+.lb_cb,.lb_cb_on{
+	background-position: 0 50%;
+}
+.btn_bottom{
+	width: 100%;
+	text-align: center;
+	padding-top:50px;
+}
+.pb_btn{
+	width: 300px;
+	font-size: 14px;
+	height: 40px;
+}
+.tb_main .td_val{
+	line-height: 35px;
+}

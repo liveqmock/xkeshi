@@ -1,0 +1,151 @@
+.back_a{
+background: url(img/back.png) no-repeat scroll 6px 8px #EEEFEF;
+border: 1px solid #CCCCCC;
+border-radius: 3px 3px 3px 3px;
+display: inline-block;
+height: 26px;
+width: 28px;
+}
+.head_r{
+float: right;
+display: block;
+}
+.set_limit_btn{
+width: 113px;
+height: 27px;
+background: url(img/set_limit_btn.png) no-repeat 0 0;
+display: inline-block;
+margin-right: 6px;
+}
+.set_limit_btn:hover{
+background: url(img/set_limit_btn_hover.png) no-repeat 0 0;
+}
+.act_main{
+padding: 20px;
+border: 1px solid #ccc;
+border-width: 1px 1px 0;
+margin: 24px 24px 0;
+}
+.act_cont{
+height: 100px;
+}
+.act_remark{
+font-size: 12px;
+}
+.act_tb{
+border: 1px solid #ccc;
+width: 752px;
+margin: 24px;
+}
+.tr_bg{
+background: #fbfbfb;
+}
+.act_tb tr td{
+border: 1px solid #ccc;
+padding: 20px;
+font-size: 12px;
+width: 33.333%;
+}
+.act_data_tb{
+margin-top: 32px;
+}
+.act_data_tb em{
+font-size: 16px;
+color: #63a004;
+font-weight: bold;
+}
+.phone{
+width: 100px;
+}
+.name{
+width: 80px;
+}
+.utb .tr .count{
+color: #63a004;
+font-weight: bold;
+}
+.utb .th .count{
+color: #666;
+}
+.pop_act_edit{
+width: 400px;
+margin-left: -236px;
+color: #666;
+}
+.pop_main{
+width: 380px;
+font-size: 12px;
+color: #666;
+}
+.input_p{
+padding-bottom: 4px;
+}
+.input_title{
+width: 60px;
+display: inline-block;
+margin-right: 12px;
+vertical-align: top;
+}
+.pop_main textarea{
+width: 242px;
+height: 56px;
+resize:none;
+border: 1px solid #D7D7D7;
+padding: 2px 4px;
+border-radius: 3px;
+}
+.act_edit_rd, .act_edit_cb{
+vertical-align: -2px;
+margin-right: 4px;
+}
+.act_edit_lb{
+margin-right: 12px;
+}
+.pop_main .tcal{
+height: 20px;
+background-color: #fff;
+}
+.num_input, .txt_input{
+border: 1px solid #D7D7D7;
+padding: 2px 4px;
+width: 120px;
+height: 20px;
+border-radius: 3px;
+}
+.num_input{
+width: 80px;
+}
+.long_input{
+width:242px;
+}
+.pop_save_btn, .pop_save_btn:hover{
+background: url(img/sc_ok_btn.png) no-repeat 0 0;
+width: 117px;
+height: 41px;
+}
+.add_btn_wrap{
+text-align: center;
+margin-top: 32px;
+}
+.check_form1,.check_form3{
+display: none;
+}
+.pop_set_limit{
+width: 400px;
+margin-left: -236px;
+}
+.input_title{
+width: 72px;
+margin-right: 24px;
+}
+.pop_save_btn{
+width: 117px;
+height: 41px;
+background: url(img/set_limit_save_btn.png) no-repeat 0 0;
+}
+.pop_save_btn:hover{
+background: url(img/set_limit_save_btn.png) no-repeat 0 0;
+}
+.add_btn_wrap{
+margin-left: -3px;
+}

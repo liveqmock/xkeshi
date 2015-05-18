@@ -1,0 +1,102 @@
+.opt_main {
+	float: right;
+	margin-right: 10px;
+}
+
+.tb_main tr .td_cb {
+	width: 20px;
+}
+
+.tb_main tr td {
+	padding-top: 12px;
+	padding-right: 11px;
+	padding-bottom: 12px;
+}
+
+.t_list {
+	width: 85px;
+}
+
+.t_sum {
+	width: 45px;
+}
+
+.price {
+	width: 50px;
+}
+
+.tb_main tr .t_name {
+	width: 130px;
+}
+
+.tb_main tr td .b_a:first-child {
+	margin-right: 12px;
+}
+
+.page_wrap {
+	margin-bottom: 66px;
+}
+
+.pb_item select:last-child {
+	margin-left: 0;
+	width: 210px;
+}
+
+.storage_input {
+	border: 1px solid #d9d9d9;
+	border-radius: 3px;
+	padding: 3px 8px;
+	width: 80px;
+}
+
+.btn_wrap {
+	text-align: center;
+	margin: 30px 0 120px;
+}
+
+.sub_btn {
+	width: 300px;
+	height: 40px;
+	font-size: 14px;
+}
+
+.pop_change,
+.pop_error {
+	width: 420px;
+	margin-left: -225px;
+	left: 50%;
+	top: 50%;
+	position: fixed;
+	z-index: 3;
+	overflow: auto;
+}
+
+.black_cover {
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+.pb_tb {
+	border: none;
+	border: 1px solid #ccc;
+	border-width: 1px 0;
+}
+
+.pb_tb .tr td {
+	border-top: 1px dashed #ddd;
+}
+
+.change_btn {
+	width: 146px;
+	margin-top: 0;
+}
+
+.pb_btn_wrap {
+	text-align: center;
+	padding-top: 16px;
+}
+
+.tb_main tr td.sum1 {
+	width: 55px;
+}

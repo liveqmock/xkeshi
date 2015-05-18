@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xpos.common.persistence.mybatis.physicalCoupon.PhysicalCouponShopMapper" >
+  
+  <resultMap id="BasicMap" type="com.xpos.common.entity.physicalCoupon.PhysicalCouponShop" >
+    <id property="id" column="id"/>
+    <association property="physicalCoupon" column="physical_coupon_id" select="com.xpos.common.persistence.mybatis.physicalCoupon.PhysicalCouponMapper.selectById" /> 
+    <association property="shop" column="shop_id" select="com.xpos.common.persistence.mybatis.ShopMapper.selectByPrimaryKey" /> 
+  </resultMap>
+  
+	 <insert id="insert"> 
+	 	INSERT INTO physical_coupon_shop (physical_coupon_id,shop_id)
+	 	VALUES
+	 	<foreach collection="shopIds" separator="," index="index" item="shopId">
+	 	 	(#{physicalCouponId} , #{shopId})
+	 	</foreach>
+	 </insert>
+	 
+	<delete id="delete">
+		DELETE from physical_coupon_shop where physical_coupon_id = #{physicalCouponId} 
+	</delete>
+  	
+  	<select id="findShopListByPhysicalCouponId" resultMap="BasicMap">
+		select * from physical_coupon_shop where physical_coupon_id = #{id} and status = 1
+  	</select>
+
+</mapper>

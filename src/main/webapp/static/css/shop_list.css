@@ -1,0 +1,25 @@
+.tb_title{
+	font-weight: normal;
+	background: url(img/tit_bg.png) repeat;
+}
+.div_top{
+	padding-left: 28px;
+}
+.check_li_c{
+	margin-left:50px; 
+	margin-top: 4px;
+	margin-right: 4px;
+	vertical-align: top;
+}
+.show_t{
+	color: #006da0;
+}
+.tb_main{
+	width: 894px;
+	float: left;
+	padding: 20px 0;
+	border-top: none;
+}
+.tb_title a{
+	margin-top: -22px;
+}

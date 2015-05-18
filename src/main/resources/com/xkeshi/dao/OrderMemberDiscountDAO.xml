@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xkeshi.dao.OrderMemberDiscountDAO">
+    <resultMap id="result" type="com.xkeshi.pojo.po.OrderMemberDiscount">
+        <id property="id" column="id"/>
+        <result property="comment" column="comment"/>
+        <result property="status" column="status"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="member_type_id" property="memberTypeId"/>
+        <result column="business_type" property="businessType"/>
+        <result column="discount" property="discount"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+    <delete id="clearMemberDiscountByOrderNumber">
+        DELETE from order_member_discount
+        WHERE order_number = #{orderNumber}
+    </delete>
+
+    <!-- 官方订单会员折扣 -->
+	<select id="getOrderUseMemberDiscountByOperatorSessionCode" resultType="com.xkeshi.pojo.vo.shift.MemberDiscountVO">
+		SELECT
+			IFNULL (SUM(COALESCE(t.amount , 0.00)),0.00) totalAmount
+		FROM
+			order_member_discount t
+		LEFT OUTER JOIN Orders o ON t.order_number = o.orderNumber
+		WHERE 
+			o.operator_session_code = #{operatorSessionCode} 
+			AND o.status = 'SUCCESS'
+			GROUP BY o.operator_session_code
+	</select>
+    <select id="getMemberDiscountByOrderNumber" resultType="java.math.BigDecimal">
+        SELECT
+            IFNULL(
+                (
+                    SELECT
+                        t.discount
+                    FROM
+                        order_member_discount t
+                    WHERE
+                        t.order_number = #{orderNumber}
+                    AND t.`status` = 1
+                    LIMIT 1
+                ),
+                1
+            )
+    </select>
+
+</mapper>
